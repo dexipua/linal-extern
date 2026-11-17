@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лабораторія лінійної алгебри</title>
+<meta name="description" content="Візуалізатор перетворень площини і пісочниця елементарних перетворень рядків">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=3">
+</head><body>
+<header class="top"><div class="wrap wide"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html" aria-current="page">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<main><div class="wrap wide">
+<p class="eyebrow">Інтерактив</p>
+<h1>Лабораторія</h1>
+<p class="mut">Два інструменти, щоб «побачити» лінійну алгебру: як матриця 2×2 деформує площину і як працюють елементарні перетворення рядків.</p>
+
+<h2 id="viz">Перетворення площини</h2>
+<p class="mut">Змінюйте елементи матриці або оберіть готове перетворення. Червона і зелена стрілки — це стовпці матриці (образи e₁ і e₂), заливка — образ одиничного квадрата, його площа дорівнює |det|. Літера «F» показує, чи змінюється орієнтація.</p>
+<div class="tool viz">
+  <div><canvas id="cv" width="520" height="520" aria-label="Площина з образом літери F під дією матриці"></canvas>
+    <div class="legend"><span><i style="background:var(--l3)"></i>Ae₁</span><span><i style="background:var(--l1)"></i>Ae₂</span><span><i style="background:var(--hi)"></i>образ «F»</span><span><i style="background:var(--mut)"></i>оригінал</span></div></div>
+  <div>
+    <div class="vin"><b>A =</b><span class="M" style="grid-template-columns:repeat(2,auto)"><i><input id="ma" aria-label="a11"></i><i><input id="mb" aria-label="a12"></i><i><input id="mc" aria-label="a21"></i><i><input id="md" aria-label="a22"></i></span></div>
+    <div class="pre">
+      <button type="button" data-pre="id">I</button><button type="button" data-pre="r90">поворот 90°</button>
+      <button type="button" data-pre="sx">сим. Ox</button><button type="button" data-pre="sy">сим. Oy</button><button type="button" data-pre="sxy">сим. y = x</button>
+      <button type="button" data-pre="st">розтяг</button><button type="button" data-pre="sh">зсув</button><button type="button" data-pre="pr">проєкція</button>
+      <button type="button" data-pre="rnd">випадкова</button>
+    </div>
+    <label for="ang" class="mut" style="font-size:.88rem">Поворот на кут: <b id="angv">0°</b></label>
+    <input type="range" id="ang" min="-180" max="180" step="15" value="0">
+    <div class="row" style="margin-top:8px"><button class="btn sm" type="button" id="play">Анімувати з I</button></div>
+    <div id="vinfo" aria-live="polite"></div>
+  </div>
+</div>
+
+<h2 id="rows-sec">Пісочниця Гаусса</h2>
+<p class="mut">Ви обираєте перетворення, а пісочниця акуратно рахує дроби й записує кожен крок у нотації, як на тесті. Вона не розв'язує за вас, а лише позбавляє арифметичних помилок, поки ви тренуєте стратегію. Індикатор показує, чи вже ступінчастий вигляд.</p>
+<div class="tool">
+  <div class="cfg">
+    <label>Рядків <select id="rows"><option>2</option><option>3</option><option>4</option></select></label>
+    <label>Стовпців <select id="cols"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></label>
+    <label><input type="checkbox" id="aug"> розширена матриця [A | b]</label>
+    <span class="pill" id="rstate">—</span>
+  </div>
+  <div class="pre"><span class="mut" style="font-size:.85rem;align-self:center">Приклади:</span>
+    <button type="button" data-ex="s3">СЛАР 1.2</button><button type="button" data-ex="inc">несумісна 1.4</button><button type="button" data-ex="inf">безліч 1.5</button><button type="button" data-ex="inv">[A | I] із 3.12</button><button type="button" data-ex="d4">det 4×4 із 3.4</button></div>
+  <div id="rg"></div>
+  <div class="ops">
+    <label>Дія <select id="op"><option value="add">Rᵢ → Rᵢ + k·Rⱼ</option><option value="swap">Rᵢ ↔ Rⱼ</option><option value="scale">Rᵢ → k·Rᵢ</option></select></label>
+    <label>рядок i <select id="ri"></select></label>
+    <label><span id="jlab">рядок j</span> <select id="rj"></select></label>
+    <label>k <input id="rk" value="-2" autocomplete="off"></label>
+    <button class="btn" type="button" id="rapply">Виконати</button>
+    <button class="btn ghost" type="button" id="rundo">Скасувати</button>
+  </div>
+  <div id="rmsg" aria-live="polite"></div>
+  <b style="font-size:.9rem">Журнал кроків</b>
+  <ol id="rlog"></ol>
+</div>
+<p class="mut" style="font-size:.88rem">Порада для det: обмін рядків змінює знак, множення рядка на k множить det на k. Записуйте ці множники, поки зводите до трикутного вигляду.</p>
+
+</div></main>
+<footer><div class="wrap wide">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
+<script src="assets/app.js?v=3"></script><script src="assets/frac.js?v=3"></script><script src="assets/lab.js?v=3"></script>
+</body></html>

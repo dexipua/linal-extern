@@ -7,6 +7,7 @@
 
   /* matrices: "a b; c d", "¦" = augmented bar, "p/q" = fraction */
   $$('.M').forEach(function (e) {
+    if (e.children.length) return; /* already structured (inputs, generated markup) */
     var rows = e.textContent.split(';').map(function (r) { return r.trim().split(/\s+/); });
     var n = Math.max.apply(null, rows.map(function (r) { return r.length; }));
     e.style.gridTemplateColumns = 'repeat(' + n + ',auto)';

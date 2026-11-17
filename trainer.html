@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тренажер з лінійної алгебри</title>
+<meta name="description" content="Нескінченні випадкові задачі з автоперевіркою і картки з теорії">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=3">
+</head><body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html" aria-current="page">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<main><div class="wrap">
+<p class="eyebrow">Нескінченна практика</p>
+<h1>Тренажер</h1>
+<p class="mut">Випадкові задачі з автоматичною перевіркою: щоразу нові числа. Розв'язуйте на папері, вводьте відповідь і тисніть Enter. Дроби пишіть як 7/3, від'ємні — зі знаком мінус.</p>
+
+<section class="tool" id="drill" aria-label="Тренажер">
+  <div class="filt ch" id="topics" role="group" aria-label="Теми тренажера"></div>
+  <div class="q" id="q"></div>
+  <div class="ans" id="inputs"></div>
+  <div class="fb" id="fb" aria-live="polite"></div>
+  <div class="row">
+    <button class="btn" type="button" id="btn-check">Перевірити</button>
+    <button class="btn ghost" type="button" id="btn-sol">Розв'язок</button>
+    <button class="btn ghost" type="button" id="btn-next">Наступна →</button>
+  </div>
+  <div class="sol" id="sol" hidden></div>
+  <div class="tstat" id="tstat"></div>
+</section>
+<p class="mut" style="font-size:.88rem">Натиснете «Розв'язок» до правильної відповіді — серія обнулиться. Статистика зберігається в цьому браузері.</p>
+
+<h2>Картки з теорії</h2>
+<p class="mut">Подумайте над відповіддю, натисніть на картку, щоб перевернути, і чесно оцініть себе. Картки з «Ще раз» повертаються в кінець колоди.</p>
+<div class="flash">
+  <div class="card3d" id="card" tabindex="0" role="button" aria-label="Перевернути картку">
+    <div class="face front"><div><small>Питання</small><span id="fq"></span></div></div>
+    <div class="face back"><div><small>Відповідь</small><span id="fa"></span></div></div>
+  </div>
+</div>
+<div class="row">
+  <button class="btn" type="button" id="f-know">Знаю</button>
+  <button class="btn ghost" type="button" id="f-again">Ще раз</button>
+  <button class="btn ghost" type="button" id="f-shuffle">Перемішати</button>
+  <span class="mut">Залишилось: <b id="fleft">0</b></span>
+</div>
+
+</div></main>
+<footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
+<script src="assets/app.js?v=3"></script><script src="assets/frac.js?v=3"></script><script src="assets/trainer.js?v=3"></script>
+</body></html>
