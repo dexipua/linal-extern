@@ -260,3 +260,15 @@ input[type=range]{width:100%;accent-color:var(--acc)}
 .ok-t{color:var(--okfg);font-weight:600}.no-t{color:var(--bad);font-weight:600}
 #ftopics button:disabled{opacity:.45;cursor:default}
 #fend h3{margin-top:0}
+.thist{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:12px;font-size:.85rem}
+.thist .hb{font:600 .78rem var(--fb);min-width:28px;height:26px;padding:0 6px;border-radius:7px;border:1px solid var(--line);background:var(--bg);color:var(--mut);cursor:pointer;font-variant-numeric:tabular-nums}
+.thist .hb.ok{border-color:var(--l1);color:var(--okfg);background:var(--ok)}
+.thist .hb.bad{border-color:var(--bad);color:var(--bad)}
+.thist .hb.sol{border-color:var(--l2);color:var(--l2)}
+.thist .hb.cur{outline:2px solid var(--acc);outline-offset:1px}
+.btn:disabled{opacity:.45;cursor:default}
+.card3d.sw-r{animation:swr .26s ease-out}.card3d.sw-l{animation:swl .26s ease-out}
+@keyframes swr{from{transform:translateX(24px) rotate(1.5deg);opacity:.6}to{transform:none;opacity:1}}
+@keyframes swl{from{transform:translateX(-24px) rotate(-1.5deg);opacity:.6}to{transform:none;opacity:1}}
+.linkbtn{font:inherit;background:none;border:0;padding:0;color:var(--acc2);text-decoration:underline;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.card3d.sw-r,.card3d.sw-l{animation:none}}

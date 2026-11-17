@@ -126,10 +126,25 @@
     statEl.innerHTML = '<span>Серія <b>' + streak + '</b></span><span>Рекорд <b>' + st.best + '</b></span><span>Правильно з першої спроби <b>' + ok + ' / ' + all + '</b></span>' +
       (st.exam ? '<span>Найкращий міні-тест <b>' + st.exam + ' / 10</b></span>' : '');
   }
-  function next() {
-    var act = keys.filter(function (k) { return on[k]; });
-    curKey = act[ri(0, act.length - 1)]; cur = GEN[curKey].make(); tried = false;
-    qEl.innerHTML = '<span class="eyebrow">' + (exam ? 'Задача ' + (exam.i + 1) + ' з 10 · ' : '') + GEN[curKey].name + '</span><div>' + cur.q + '</div>';
+  var hist = [], pos = -1, histEl = document.getElementById('thist'), bPrev = document.getElementById('btn-prev');
+  function newTask() {
+    var act = keys.filter(function (k) { return on[k]; }), k = act[ri(0, act.length - 1)];
+    var item = { key: k, cur: GEN[k].make(), vals: {}, status: 'new', tried: false, fbT: '', fbC: 'fb', sol: false };
+    if (exam) { render(item); return; }
+    hist.push(item);
+    if (hist.length > 50) hist.shift();
+    pos = hist.length - 1; render(item);
+  }
+  function next() { newTask(); }
+  function saveCur() {
+    var it = hist[pos]; if (!it || exam) return;
+    [].forEach.call(inEl.querySelectorAll('input'), function (x) { it.vals[x.id] = x.value; });
+    it.tried = tried; it.fbT = fb.textContent; it.fbC = fb.className; it.sol = !solEl.hidden;
+  }
+  function render(it) {
+    curKey = it.key; cur = it.cur; tried = it.tried;
+    var num = exam ? 'Задача ' + (exam.i + 1) + ' з 10 · ' : 'Задача ' + (pos + 1) + (pos < hist.length - 1 ? ' (з історії)' : '') + ' · ';
+    qEl.innerHTML = '<span class="eyebrow">' + num + GEN[curKey].name + '</span><div>' + cur.q + '</div>';
     var A = cur.ans, html;
     if (cur.labels) {
       html = cur.labels.map(function (l, i) { return '<label class="ans1">' + l + ' = <input id="a0_' + i + '" autocomplete="off"></label>'; }).join('');
@@ -139,9 +154,33 @@
       html = '<span class="M ansM" style="grid-template-columns:repeat(' + A[0].length + ',auto)">' +
         A.map(function (r, i) { return r.map(function (_, j) { return '<i><input id="a' + i + '_' + j + '" aria-label="рядок ' + (i + 1) + ', стовпець ' + (j + 1) + '" autocomplete="off"></i>'; }).join(''); }).join('') + '</span>';
     }
-    inEl.innerHTML = html; fb.textContent = ''; fb.className = 'fb'; solEl.hidden = true; solEl.innerHTML = cur.sol;
-    var f = inEl.querySelector('input'); if (f) f.focus({ preventScroll: true });
+    inEl.innerHTML = html; solEl.innerHTML = cur.sol;
+    [].forEach.call(inEl.querySelectorAll('input'), function (x) { if (it.vals[x.id] != null) x.value = it.vals[x.id]; });
+    if (it.status === 'ok' || it.status === 'bad') grade(true);
+    fb.textContent = it.fbT || ''; fb.className = it.fbC || 'fb'; solEl.hidden = !it.sol;
+    drawHist();
+    var f = inEl.querySelector('input'); if (f && it.status !== 'ok') f.focus({ preventScroll: true });
   }
+  function drawHist() {
+    if (!histEl) return;
+    bPrev.disabled = !!exam || pos <= 0;
+    histEl.hidden = !!exam || hist.length < 2;
+    var from = Math.max(0, hist.length - 20);
+    histEl.innerHTML = '<span class="mut">Історія:</span>' + hist.slice(from).map(function (h, i) {
+      var idx = from + i, lab = { ok: 'правильно', bad: 'з помилкою', sol: 'відкрито розв\'язок', 'new': 'без відповіді' }[h.status];
+      return '<button type="button" class="hb ' + h.status + (idx === pos ? ' cur' : '') + '" data-i="' + idx + '" title="' + GEN[h.key].name + ': ' + lab + '" aria-label="Задача ' + (idx + 1) + ', ' + lab + '">' + (idx + 1) + '</button>';
+    }).join('');
+  }
+  if (histEl) histEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b || exam) return;
+    saveCur(); pos = +b.dataset.i; render(hist[pos]);
+  });
+  function goNext() {
+    if (exam) { examAnswer(true); return; }
+    saveCur();
+    if (pos < hist.length - 1) { pos++; render(hist[pos]); } else newTask();
+  }
+  function goPrev() { if (exam || pos <= 0) return; saveCur(); pos--; render(hist[pos]); }
   function grade(mark) {
     var A = cur.ans, ok = true, bad = false;
     A.forEach(function (r, i) {
@@ -166,12 +205,13 @@
       fb.textContent = tried ? 'Тепер правильно. Enter — наступна.' : 'Правильно! Enter — наступна.'; fb.className = 'fb yes';
     } else { streak = 0; fb.textContent = 'Є помилка: неправильні клітинки підсвічено. Спробуйте ще раз або подивіться розв\'язок.'; fb.className = 'fb no'; }
     tried = true; save(); stats();
+    var it = hist[pos]; if (it) { if (it.status !== 'ok') it.status = g.ok ? 'ok' : (it.status === 'sol' ? 'sol' : 'bad'); saveCur(); drawHist(); }
   }
 
   /* ---------- mini-test ---------- */
   function fmtT(s) { var m = Math.floor(s / 60), x = s % 60; return (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x; }
   function startExam() {
-    exam = { i: 0, res: [], left: 900 };
+    saveCur(); exam = { i: 0, res: [], left: 900 };
     box.classList.add('exam'); exRes.hidden = true; bSol.hidden = true; bNext.textContent = 'Пропустити →'; bCheck.textContent = 'Відповісти';
     bExam.textContent = 'Завершити міні-тест';
     exBar.hidden = false; tick();
@@ -199,103 +239,141 @@
       (res.length < 10 ? '<li class="n"><b>Час вийшов</b> до задачі ' + (res.length + 1) + '.</li>' : '') + '</ol>';
     exRes.hidden = false; exam = null; box.classList.remove('exam'); exBar.hidden = true;
     bSol.hidden = false; bNext.textContent = 'Наступна →'; bCheck.textContent = 'Перевірити'; bExam.textContent = 'Міні-тест: 10 задач за 15 хв';
-    stats(); next();
+    stats(); newTask();
     exRes.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   bExam.addEventListener('click', function () { if (exam) finishExam(); else startExam(); });
 
   bCheck.addEventListener('click', check);
-  bNext.addEventListener('click', function () { if (exam) examAnswer(true); else next(); });
-  bSol.addEventListener('click', function () { solEl.hidden = !solEl.hidden; if (!tried) { tried = true; streak = 0; stats(); } });
+  bNext.addEventListener('click', goNext);
+  bPrev.addEventListener('click', goPrev);
+  bSol.addEventListener('click', function () {
+    solEl.hidden = !solEl.hidden; if (!tried) { tried = true; streak = 0; stats(); }
+    var it = hist[pos]; if (it && !exam) { if (it.status === 'new') it.status = 'sol'; saveCur(); drawHist(); }
+  });
   inEl.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter') return; e.preventDefault();
-    if (!exam && fb.classList.contains('yes')) next(); else check();
+    if (!exam && fb.classList.contains('yes')) goNext(); else check();
   });
-  stats(); next();
+  stats(); newTask();
 
   /* ---------- flashcards ---------- */
-  var CARDS = window.CARDS || [], TOP = window.CARD_TOPICS || {}, UKEY = 'linal-cards-unknown';
+  var CARDS = window.CARDS || [], TOP = window.CARD_TOPICS || {}, UKEY = 'linal-cards-unknown', SKEY = 'linal-cards-session';
   CARDS.forEach(function (c, i) { c.id = i; });
-  var unk = {}; try { unk = JSON.parse(localStorage.getItem(UKEY) || '{}') || {}; } catch (e) { unk = {}; }
-  function saveUnk() { try { localStorage.setItem(UKEY, JSON.stringify(unk)); } catch (e) {} }
-  var deck = [], round = [], knownN = 0, noIds = [], ftop = 'all',
-    fc = document.getElementById('card'), fq = document.getElementById('fq'), fa = document.getElementById('fa'), fe = document.getElementById('fe'),
+  function lsGet(k, d) { try { return JSON.parse(localStorage.getItem(k) || 'null') || d; } catch (e) { return d; } }
+  function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var unk = lsGet(UKEY, {});
+  var S = { top: 'all', round: [], deck: [], known: 0, no: [], log: [], mix: true };
+  var fc = document.getElementById('card'), fq = document.getElementById('fq'), fa = document.getElementById('fa'), fe = document.getElementById('fe'),
     fleft = document.getElementById('fleft'), fprog = document.getElementById('fprog'), fend = document.getElementById('fend'),
-    bShow = document.getElementById('f-show'), bKnow = document.getElementById('f-know'), bNo = document.getElementById('f-no'),
-    ftopics = document.getElementById('ftopics'), flash = fc.parentElement, frow = document.getElementById('frow');
+    bShow = document.getElementById('f-show'), bKnow = document.getElementById('f-know'), bNo = document.getElementById('f-no'), bBack = document.getElementById('f-back'),
+    ftopics = document.getElementById('ftopics'), flash = fc.parentElement, frow = document.getElementById('frow'), fmix = document.getElementById('f-mix'), fres = document.getElementById('fresume');
+  function byId(id) { return CARDS[id]; }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = ri(0, i), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function persist() { lsSet(SKEY, S); lsSet(UKEY, unk); }
   function unkCount() { return Object.keys(unk).length; }
   function renderChips() {
     var tb = [['all', 'Усі', CARDS.length]].concat(Object.keys(TOP).map(function (k) { return [k, TOP[k], CARDS.filter(function (c) { return c.t === k; }).length]; }));
     tb.push(['unk', 'Мої «не знаю»', unkCount()]);
     ftopics.innerHTML = tb.map(function (t) {
-      return '<button type="button" id="ft-' + t[0] + '" data-t="' + t[0] + '" aria-pressed="' + (t[0] === ftop) + '"' + (t[0] === 'unk' && !t[2] ? ' disabled' : '') + '>' + t[1] + ' <span class="mut">' + t[2] + '</span></button>';
+      return '<button type="button" id="ft-' + t[0] + '" data-t="' + t[0] + '" aria-pressed="' + (t[0] === S.top) + '"' + (t[0] === 'unk' && !t[2] ? ' disabled' : '') + '>' + t[1] + ' <span class="mut">' + t[2] + '</span></button>';
     }).join('');
   }
   ftopics.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b || b.disabled) return;
-    ftop = b.dataset.t; startRound(pool());
+    S.top = b.dataset.t; startRound(pool());
   });
-  function pool() {
-    return CARDS.filter(function (c) { return ftop === 'all' || (ftop === 'unk' ? unk[c.id] : c.t === ftop); });
-  }
-  function startRound(cards) {
-    if (!cards.length && ftop === 'unk') { ftop = 'all'; cards = pool(); }
-    round = cards.slice(); deck = shuffle(cards.slice()); knownN = 0; noIds = [];
-    fend.hidden = true; flash.hidden = false; frow.hidden = false; renderChips(); showCard();
+  function pool() { return CARDS.filter(function (c) { return S.top === 'all' || (S.top === 'unk' ? unk[c.id] : c.t === S.top); }).map(function (c) { return c.id; }); }
+  function startRound(ids) {
+    if (!ids.length && S.top === 'unk') { S.top = 'all'; ids = pool(); }
+    S.round = ids.slice(); S.deck = S.mix ? shuffle(ids.slice()) : ids.slice(); S.known = 0; S.no = []; S.log = [];
+    fres.hidden = true; view();
   }
   function setRevealed(on) { fc.classList.toggle('flip', on); bShow.hidden = on; bKnow.hidden = !on; bNo.hidden = !on; }
-  function progress() {
-    var done = round.length - deck.length;
-    fprog.style.width = (100 * done / Math.max(1, round.length)) + '%';
-    fleft.innerHTML = 'Картка ' + Math.min(done + 1, round.length) + ' з ' + round.length + ' · <span class="ok-t">знаю ' + knownN + '</span> · <span class="no-t">не знаю ' + noIds.length + '</span>';
-  }
-  function showCard() {
-    progress();
-    if (!deck.length) { finish(); return; }
-    var c = deck[0];
+  function view() {
+    renderChips(); persist();
+    var done = S.round.length - S.deck.length;
+    fprog.style.width = (100 * done / Math.max(1, S.round.length)) + '%';
+    fleft.innerHTML = 'Картка ' + Math.min(done + 1, S.round.length) + ' з ' + S.round.length + ' · <span class="ok-t">знаю ' + S.known + '</span> · <span class="no-t">не знаю ' + S.no.length + '</span>';
+    bBack.disabled = !S.log.length;
+    if (!S.deck.length) { finish(); return; }
+    fend.hidden = true; flash.hidden = false; frow.hidden = false;
+    var c = byId(S.deck[0]);
     fq.innerHTML = '<small>' + TOP[c.t] + (unk[c.id] ? ' · ви позначали «не знаю»' : '') + '</small>' + c.q; fa.innerHTML = c.a; fe.innerHTML = c.e || '';
     setRevealed(false);
   }
   function finish() {
     flash.hidden = true; frow.hidden = true; fend.hidden = false;
-    var n = noIds.length, total = round.length;
-    fend.innerHTML = '<h3>Колоду пройдено</h3><p>Знаю <b class="ok-t">' + knownN + '</b> з ' + total + ', не знаю <b class="no-t">' + n + '</b>.' +
+    var n = S.no.length, total = S.round.length;
+    fend.innerHTML = '<h3>Колоду пройдено</h3><p>Знаю <b class="ok-t">' + S.known + '</b> з ' + total + ', не знаю <b class="no-t">' + n + '</b>.' +
       (n ? '' : ' Чудово, усі картки цього набору засвоєно!') + '</p><div class="row">' +
       (n ? '<button class="btn" type="button" id="f-redo-no">Пройти ті, що не знаю (' + n + ')</button>' : '') +
       '<button class="btn' + (n ? ' ghost' : '') + '" type="button" id="f-redo-all">Пройти всі картки набору (' + pool().length + ')</button>' +
+      '<button class="btn ghost" type="button" id="f-end-back">← Назад до останньої картки</button>' +
       (n ? '<button class="btn ghost" type="button" id="f-show-no">Показати їх списком</button>' : '') + '</div><div id="f-nolist"></div>';
     var redoNo = document.getElementById('f-redo-no');
-    if (redoNo) redoNo.addEventListener('click', function () { var ids = noIds.slice(); startRound(CARDS.filter(function (c) { return ids.indexOf(c.id) >= 0; })); });
+    if (redoNo) redoNo.addEventListener('click', function () { startRound(S.no.slice()); });
     document.getElementById('f-redo-all').addEventListener('click', function () { startRound(pool()); });
+    document.getElementById('f-end-back').addEventListener('click', back);
     var sl = document.getElementById('f-show-no');
     if (sl) sl.addEventListener('click', function () {
-      document.getElementById('f-nolist').innerHTML = '<dl class="flist">' + CARDS.filter(function (c) { return noIds.indexOf(c.id) >= 0; }).map(function (c) {
+      document.getElementById('f-nolist').innerHTML = '<dl class="flist">' + S.no.map(byId).map(function (c) {
         return '<dt>' + c.q + '</dt><dd><b>' + c.a + '</b>' + (c.e ? '<br><span class="mut">' + c.e + '</span>' : '') + '</dd>';
       }).join('') + '</dl>';
       sl.hidden = true;
     });
-    renderChips();
   }
-  function reveal() { if (deck.length) setRevealed(true); }
-  function know() {
-    if (!deck.length || !fc.classList.contains('flip')) return;
-    var c = deck.shift(); knownN++; if (unk[c.id]) { delete unk[c.id]; saveUnk(); } showCard();
+  function reveal() { if (S.deck.length) setRevealed(true); }
+  function mark(knows) {
+    if (!S.deck.length || !fc.classList.contains('flip')) return;
+    var id = S.deck.shift(), was = !!unk[id];
+    S.log.push({ id: id, k: knows, was: was });
+    if (knows) { S.known++; delete unk[id]; } else { S.no.push(id); unk[id] = 1; }
+    swipeOut(knows ? 1 : -1); view();
   }
-  function dunno() {
-    if (!deck.length || !fc.classList.contains('flip')) return;
-    var c = deck.shift(); noIds.push(c.id); unk[c.id] = 1; saveUnk(); showCard();
+  function back() {
+    var l = S.log.pop(); if (!l) return;
+    S.deck.unshift(l.id);
+    if (l.k) S.known--; else S.no.splice(S.no.lastIndexOf(l.id), 1);
+    if (l.was) unk[l.id] = 1; else delete unk[l.id];
+    view(); setRevealed(true);
   }
-  fc.addEventListener('click', function () { if (!deck.length) return; if (fc.classList.contains('flip')) setRevealed(false); else reveal(); });
-  bShow.addEventListener('click', reveal); bKnow.addEventListener('click', know); bNo.addEventListener('click', dunno);
+  function swipeOut(dir) {
+    fc.classList.remove('sw-l', 'sw-r'); void fc.offsetWidth;
+    fc.classList.add(dir > 0 ? 'sw-r' : 'sw-l');
+    setTimeout(function () { fc.classList.remove('sw-l', 'sw-r'); }, 260);
+  }
+  fc.addEventListener('click', function () { if (!S.deck.length || fc._swiped) return; if (fc.classList.contains('flip')) setRevealed(false); else reveal(); });
+  /* swipe: right = знаю, left = не знаю (after the answer is shown) */
+  var sx = null, sy = null;
+  fc.addEventListener('touchstart', function (e) { var t = e.touches[0]; sx = t.clientX; sy = t.clientY; fc._swiped = false; }, { passive: true });
+  fc.addEventListener('touchend', function (e) {
+    if (sx == null) return; var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && fc.classList.contains('flip')) { fc._swiped = true; mark(dx > 0); setTimeout(function () { fc._swiped = false; }, 350); }
+  });
+  bShow.addEventListener('click', reveal);
+  bKnow.addEventListener('click', function () { mark(true); });
+  bNo.addEventListener('click', function () { mark(false); });
+  bBack.addEventListener('click', back);
   document.getElementById('f-shuffle').addEventListener('click', function () { startRound(pool()); });
+  fmix.addEventListener('change', function () { S.mix = fmix.checked; startRound(pool()); });
   document.addEventListener('keydown', function (e) {
     var tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
-    var r = fc.getBoundingClientRect(); if (flash.hidden || r.bottom < 0 || r.top > innerHeight) return;
-    if (e.key === ' ') { e.preventDefault(); if (fc.classList.contains('flip')) setRevealed(false); else reveal(); }
-    else if (e.key === '1') know(); else if (e.key === '2') dunno();
+    var r = (flash.hidden ? fend : fc).getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    if (e.key === ' ' && !flash.hidden) { e.preventDefault(); if (fc.classList.contains('flip')) setRevealed(false); else reveal(); }
+    else if (e.key === '1' || e.key === 'ArrowRight') { if (!flash.hidden) { e.preventDefault(); mark(true); } }
+    else if (e.key === '2') mark(false);
+    else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { if (S.log.length) { e.preventDefault(); back(); } }
   });
-  startRound(pool());
+  /* resume the previous session if there is one */
+  var saved = lsGet(SKEY, null);
+  if (saved && saved.round && saved.round.length && saved.deck && saved.deck.every(function (id) { return CARDS[id]; })) {
+    S = saved; S.log = S.log || []; if (S.mix == null) S.mix = true;
+    fmix.checked = S.mix;
+    var done0 = S.round.length - S.deck.length;
+    if (done0 > 0 && S.deck.length) { fres.hidden = false; fres.innerHTML = 'Продовжуємо з того місця, де ви зупинились: картка ' + (done0 + 1) + ' з ' + S.round.length + '. <button type="button" class="linkbtn" id="f-restart">Почати заново</button>'; document.getElementById('f-restart').addEventListener('click', function () { startRound(pool()); }); }
+    view();
+  } else { fmix.checked = true; startRound(pool()); }
 
   /* full list */
   var list = document.getElementById('flist');

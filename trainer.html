@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=9">
+<link rel="stylesheet" href="assets/style.css?v=10">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head><body>
 <header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html" aria-current="page">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
@@ -23,19 +23,23 @@
   <div class="ans" id="inputs"></div>
   <div class="fb" id="fb" aria-live="polite"></div>
   <div class="row">
+    <button class="btn ghost" type="button" id="btn-prev" aria-label="Попередня задача">← Назад</button>
     <button class="btn" type="button" id="btn-check">Перевірити</button>
     <button class="btn ghost" type="button" id="btn-sol">Розв'язок</button>
     <button class="btn ghost" type="button" id="btn-next">Наступна →</button>
   </div>
   <div class="sol" id="sol" hidden></div>
+  <div class="thist" id="thist" hidden></div>
   <div class="tstat" id="tstat"></div>
 </section>
 <section class="tool exres" id="exres" hidden aria-live="polite"></section>
 <p class="mut" style="font-size:.88rem">Якщо відкрити «Розв'язок» до правильної відповіді, серія обнулиться. Enter перевіряє відповідь, а після правильної — відкриває наступну задачу. Статистика зберігається в цьому браузері.</p>
 
 <h2 id="cards">Картки з теорії</h2>
-<p class="mut">Прочитайте питання, сформулюйте відповідь подумки й натисніть «Показати відповідь». Потім оцініть себе: «Знаю» або «Не знаю». Наприкінці колоди можна пройти лише ті картки, які ви не знали, або всі знову. Картки «не знаю» запам'ятовуються: до них можна повернутися будь-коли через фільтр «Мої «не знаю»». Клавіші: пробіл — перевернути, 1 — знаю, 2 — не знаю.</p>
+<p class="mut">Прочитайте питання, сформулюйте відповідь подумки й натисніть «Показати відповідь». Потім оцініть себе: «Знаю» або «Не знаю». Наприкінці колоди можна пройти лише ті картки, які ви не знали, або всі знову. Картки «не знаю» запам'ятовуються: до них можна повернутися будь-коли через фільтр «Мої «не знаю»». Помилилися з оцінкою? «← Назад» повертає попередню картку і скасовує оцінку. Сесія зберігається: можна закрити сторінку й продовжити пізніше. Клавіші: пробіл — перевернути, 1 або → — знаю, 2 — не знаю, ← — назад. На телефоні після відкриття відповіді можна свайпнути вправо («знаю») або вліво («не знаю»).</p>
 <div class="filt ch" id="ftopics" role="group" aria-label="Теми карток"></div>
+<div class="row" style="margin-top:8px"><label class="chkl"><input type="checkbox" id="f-mix" checked> перемішувати картки</label></div>
+<p class="note" id="fresume" hidden></p>
 <div class="meter" style="margin:10px 0 4px"><b id="fprog"></b></div>
 <p class="mut" style="font-size:.88rem;margin:0" id="fleft"></p>
 <div class="flash">
@@ -45,6 +49,7 @@
   </div>
 </div>
 <div class="row" id="frow">
+  <button class="btn ghost" type="button" id="f-back" aria-label="Повернутися до попередньої картки">← Назад</button>
   <button class="btn" type="button" id="f-show">Показати відповідь</button>
   <button class="btn" type="button" id="f-know" hidden>Знаю</button>
   <button class="btn ghost no" type="button" id="f-no" hidden>Не знаю</button>
@@ -56,5 +61,5 @@
 
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=9"></script><script src="assets/frac.js?v=9"></script><script src="assets/cards.js?v=9"></script><script src="assets/trainer.js?v=9"></script>
+<script src="assets/app.js?v=10"></script><script src="assets/frac.js?v=10"></script><script src="assets/cards.js?v=10"></script><script src="assets/trainer.js?v=10"></script>
 </body></html>
