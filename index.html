@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лінал · екстерн</title>
+<meta name="description" content="Підготовка до закриття курсу лінійної алгебри: конспект, задачі, пробні контрольні, шпаргалка">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html" aria-current="page">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<main><div class="wrap">
+<section class="hero">
+  <div>
+    <p class="eyebrow">Linear algebra basics · KSE · екстерн</p>
+    <h1>Закрийте лінійну алгебру впевнено</h1>
+    <p class="lead">Конспект, 76 задач з відповідями, три пробні контрольні з таймером і шпаргалка на А4. Усе за чотирма темами силабуса в тому порядку, в якому їх перевіряють на тестах.</p>
+    <div class="row"><a class="btn" href="material.html">Почати з конспекту</a><a class="btn ghost" href="problems.html">Одразу до задач</a></div>
+  </div>
+  <div class="hero-fig" aria-label="Приклад: обернена матриця методом Жордана–Гаусса">
+    <span class="M">2 1 ¦ 1 0; 5 3 ¦ 0 1</span>
+    <span class="arrow">↓ елементарні перетворення рядків ↓</span>
+    <span class="M">1 0 ¦ 3 -1; 0 1 ¦ -5 2</span>
+    <span class="arrow">[A | I] → [I | A⁻¹]</span>
+  </div>
+</section>
+
+<div class="stats" aria-label="Ваш прогрес">
+  <div class="stat"><b id="st-done">0 / 76</b><span>розв'язано задач</span></div>
+  <div class="stat"><b id="st-t1">—</b><span>пробна контрольна 1</span></div>
+  <div class="stat"><b id="st-t2">—</b><span>пробна контрольна 2</span></div>
+  <div class="stat"><b id="st-t3">—</b><span>пробна контрольна 3</span></div>
+</div>
+<p class="mut" style="font-size:.88rem">Прогрес зберігається лише в цьому браузері.</p>
+
+<h2>Маршрут підготовки</h2>
+<p class="mut">Порядок той самий, що в силабусі: кожна наступна тема спирається на попередню. Для кожного кроку: прочитайте блок конспекту, відповідайте на чекпоінти, потім розв'язуйте задачі.</p>
+<ol class="route">
+  <li><h3>СЛАР і метод Жордана–Гаусса</h3>
+    <p>Тижні 1–2 курсу · ● базова тема · ≈ 60 хв теорії + задачі. Кількість розв'язків, параметри, моделювання.</p>
+    <div><div class="meter" data-meter="1" data-total="19"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="1"></span></div>
+    <div class="row"><a href="material.html#b1">Конспект</a><a href="problems.html#b1">Задачі</a></div></li>
+  <li><h3>Вектори й матриці</h3>
+    <p>Тижні 2–4 · ◆ основна · ≈ 50 хв. Лінійна залежність, підпростори, множення, степені матриць.</p>
+    <div><div class="meter" data-meter="2" data-total="20"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="2"></span></div>
+    <div class="row"><a href="material.html#b2">Конспект</a><a href="problems.html#b2">Задачі</a></div></li>
+  <li><h3>Визначники й обернена матриця</h3>
+    <p>Тижні 4–6 · ▲ складна · ≈ 70 хв. det до 4×4, властивості, A⁻¹ через [A | I], матричні рівняння.</p>
+    <div><div class="meter" data-meter="3" data-total="22"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="3"></span></div>
+    <div class="row"><a href="material.html#b3">Конспект</a><a href="problems.html#b3">Задачі</a></div></li>
+  <li><h3>Геометричні перетворення площини</h3>
+    <p>Тижні 6–7 · ● базова · ≈ 30 хв. Повороти, симетрії, композиції, площа і det.</p>
+    <div><div class="meter" data-meter="4" data-total="15"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="4"></span></div>
+    <div class="row"><a href="material.html#b4">Конспект</a><a href="problems.html#b4">Задачі</a></div></li>
+  <li><h3>Пробні контрольні</h3>
+    <p>3 тести по 60 хв і 20 балів, з таймером і самооцінюванням. Пишіть повний хід, як на справжньому тесті.</p>
+    <div class="row"><a href="tests.html">До контрольних</a></div></li>
+  <li><h3>Аркуш А4</h3>
+    <p>На тест можна взяти один односторонній аркуш А4. Візьміть шпаргалку за основу і перепишіть від руки: це ще й повторення.</p>
+    <div class="row"><a href="cheatsheet.html">Відкрити шпаргалку</a></div></li>
+</ol>
+
+<h2>План на три дні</h2>
+<div class="grid2">
+  <div class="card"><p class="eyebrow">День 1</p><h3 style="margin-top:4px">СЛАР</h3><p>Блок 1 конспекту → задачі 1.1–1.18 → пробна контрольна 1.</p></div>
+  <div class="card"><p class="eyebrow">День 2</p><h3 style="margin-top:4px">Матриці та обернена</h3><p>Блок 2 → задачі блоку 2 → з блоку 3 задачі на A⁻¹ (3.11–3.21) → контрольна 2.</p></div>
+  <div class="card"><p class="eyebrow">День 3</p><h3 style="margin-top:4px">det і геометрія</h3><p>Визначники (3.1–3.10) → блок 4 → контрольна 3 → фінальна версія аркуша А4.</p></div>
+</div>
+<p class="mut">Мало часу? Почніть із задач рівня ◆: це рівень тестів. Фільтр є на сторінці задач.</p>
+
+<h2>Як оцінюють курс</h2>
+<div class="sc"><table>
+<tr><th>Компонент</th><th>Кількість</th><th>Бали</th></tr>
+<tr><td>Квізи</td><td>4 × 8</td><td>32</td></tr>
+<tr><td>Домашні завдання</td><td>3 × 5</td><td>15</td></tr>
+<tr><td>Тести (тижні 3, 5, 7)</td><td>3 × 20</td><td>60</td></tr>
+<tr><td><b>Разом</b></td><td></td><td><b>107, але підсумок обмежено 100</b></td></tr>
+</table></div>
+<div class="warn"><b>Екстерн.</b> Таблиця взята із силабусу весни 2026. Склад робіт для екстерну може відрізнятися, тож уточніть у викладача, що саме і в якому форматі потрібно здати.</div>
+
+<h2>Тактика на тесті</h2>
+<div class="grid2">
+  <div class="card"><h3 style="margin-top:0">Бали за хід</h3><p>Записуйте кожне перетворення рядків (R₂ → R₂ − 2R₁) і формулу, яку застосували. Відповідь без обґрунтування може отримати знижену або нульову оцінку.</p></div>
+  <div class="card"><h3 style="margin-top:0">Перевіряйте</h3><p>СЛАР — підстановкою, обернену — добутком AA⁻¹ = I, визначник — двома способами.</p></div>
+  <div class="card"><h3 style="margin-top:0">Порядок</h3><p>Спершу задачі, в яких упевнені. Параметри й визначники 4×4 залишайте наостанок.</p></div>
+  <div class="card"><h3 style="margin-top:0">ШІ</h3><p>Політика курсу дозволяє ШІ для пояснень і додаткової практики, але не для розв'язання оцінюваних робіт.</p></div>
+</div>
+
+</div></main>
+<footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
+<script src="assets/app.js"></script>
+</body></html>
