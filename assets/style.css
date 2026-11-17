@@ -256,3 +256,7 @@ input[type=range]{width:100%;accent-color:var(--acc)}
 .p.flash-hl{outline:3px solid var(--hi);outline-offset:2px;transition:outline-color .3s}
 #bk-code{width:100%;font:.85rem var(--fm);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);resize:vertical}
 .btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.no{border-color:var(--bad);color:var(--bad)}
+.ok-t{color:var(--okfg);font-weight:600}.no-t{color:var(--bad);font-weight:600}
+#ftopics button:disabled{opacity:.45;cursor:default}
+#fend h3{margin-top:0}
