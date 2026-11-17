@@ -119,6 +119,7 @@
     document.getElementById('play').addEventListener('click', play);
     window.addEventListener('resize', size);
     if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+    window.addEventListener('linal-theme', draw);
     size(); setA([2, -1, 1, 3], false);
   }
 

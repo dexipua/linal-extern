@@ -6,7 +6,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=6">
+<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head><body>
 <header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html" aria-current="page">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
 <main><div class="wrap">
@@ -14,7 +15,9 @@
 <h1>Тренажер</h1>
 <p class="mut">Випадкові задачі з автоматичною перевіркою: щоразу нові числа. Розв'язуйте на папері, вводьте відповідь і тисніть Enter. Дроби пишіть як 7/3, від'ємні — зі знаком мінус.</p>
 
+<div class="row" style="margin:6px 0 2px"><button class="btn" type="button" id="btn-exam">Міні-тест: 10 задач за 15 хв</button><span class="mut" style="font-size:.9rem">Без підказок, результат і розбір помилок наприкінці.</span></div>
 <section class="tool" id="drill" aria-label="Тренажер">
+  <div class="exbar" id="exbar" hidden></div>
   <div class="filt ch" id="topics" role="group" aria-label="Теми тренажера"></div>
   <div class="q" id="q"></div>
   <div class="ans" id="inputs"></div>
@@ -27,24 +30,30 @@
   <div class="sol" id="sol" hidden></div>
   <div class="tstat" id="tstat"></div>
 </section>
-<p class="mut" style="font-size:.88rem">Натиснете «Розв'язок» до правильної відповіді — серія обнулиться. Статистика зберігається в цьому браузері.</p>
+<section class="tool exres" id="exres" hidden aria-live="polite"></section>
+<p class="mut" style="font-size:.88rem">Якщо відкрити «Розв'язок» до правильної відповіді, серія обнулиться. Enter перевіряє відповідь, а після правильної — відкриває наступну задачу. Статистика зберігається в цьому браузері.</p>
 
-<h2>Картки з теорії</h2>
-<p class="mut">Подумайте над відповіддю, натисніть на картку, щоб перевернути, і чесно оцініть себе. Картки з «Ще раз» повертаються в кінець колоди.</p>
+<h2 id="cards">Картки з теорії</h2>
+<p class="mut">Прочитайте питання, сформулюйте відповідь подумки й натисніть «Показати відповідь». Потім чесно оцініть себе: «Знаю» прибирає картку, «Ще раз» повертає її в кінець колоди. Клавіші: пробіл — перевернути, 1 — знаю, 2 — ще раз.</p>
+<div class="filt ch" id="ftopics" role="group" aria-label="Теми карток"></div>
+<div class="meter" style="margin:10px 0 4px"><b id="fprog"></b></div>
+<p class="mut" style="font-size:.88rem;margin:0" id="fleft"></p>
 <div class="flash">
   <div class="card3d" id="card" tabindex="0" role="button" aria-label="Перевернути картку">
-    <div class="face front"><div><small>Питання</small><span id="fq"></span></div></div>
-    <div class="face back"><div><small>Відповідь</small><span id="fa"></span></div></div>
+    <div class="face front"><div><span id="fq"></span><span class="hint">натисніть, щоб побачити відповідь</span></div></div>
+    <div class="face back"><div><small>Відповідь</small><span id="fa" class="fa"></span><span id="fe" class="fe"></span></div></div>
   </div>
 </div>
 <div class="row">
-  <button class="btn" type="button" id="f-know">Знаю</button>
-  <button class="btn ghost" type="button" id="f-again">Ще раз</button>
+  <button class="btn" type="button" id="f-show">Показати відповідь</button>
+  <button class="btn" type="button" id="f-know" hidden>Знаю</button>
+  <button class="btn ghost" type="button" id="f-again" hidden>Ще раз</button>
   <button class="btn ghost" type="button" id="f-shuffle">Перемішати</button>
-  <span class="mut">Залишилось: <b id="fleft">0</b></span>
 </div>
+
+<details class="chk" style="margin-top:22px"><summary>Усі картки з відповідями списком</summary><div id="flist" class="flist"></div></details>
 
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=3"></script><script src="assets/frac.js?v=3"></script><script src="assets/trainer.js?v=3"></script>
+<script src="assets/app.js?v=6"></script><script src="assets/frac.js?v=6"></script><script src="assets/cards.js?v=6"></script><script src="assets/trainer.js?v=6"></script>
 </body></html>

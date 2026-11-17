@@ -107,8 +107,10 @@
   /* ---------- trainer UI ---------- */
   var box = document.getElementById('drill'); if (!box) return;
   var chips = document.getElementById('topics'), qEl = document.getElementById('q'), inEl = document.getElementById('inputs'),
-    fb = document.getElementById('fb'), solEl = document.getElementById('sol'), statEl = document.getElementById('tstat');
-  var keys = Object.keys(GEN), on = {}, cur = null, curKey = null, streak = 0, tried = false;
+    fb = document.getElementById('fb'), solEl = document.getElementById('sol'), statEl = document.getElementById('tstat'),
+    bCheck = document.getElementById('btn-check'), bSol = document.getElementById('btn-sol'), bNext = document.getElementById('btn-next'),
+    exBar = document.getElementById('exbar'), exRes = document.getElementById('exres'), bExam = document.getElementById('btn-exam');
+  var keys = Object.keys(GEN), on = {}, cur = null, curKey = null, streak = 0, tried = false, exam = null;
   keys.forEach(function (k) {
     on[k] = true;
     var b = document.createElement('button'); b.type = 'button'; b.id = 'tp-' + k; b.textContent = GEN[k].name; b.setAttribute('aria-pressed', 'true');
@@ -121,17 +123,18 @@
   });
   function stats() {
     var ok = 0, all = 0; keys.forEach(function (k) { var t = st.t[k]; if (t) { ok += t.ok; all += t.all; } });
-    statEl.innerHTML = '<span>Серія <b>' + streak + '</b></span><span>Рекорд <b>' + st.best + '</b></span><span>Правильно з першої спроби <b>' + ok + ' / ' + all + '</b></span>';
+    statEl.innerHTML = '<span>Серія <b>' + streak + '</b></span><span>Рекорд <b>' + st.best + '</b></span><span>Правильно з першої спроби <b>' + ok + ' / ' + all + '</b></span>' +
+      (st.exam ? '<span>Найкращий міні-тест <b>' + st.exam + ' / 10</b></span>' : '');
   }
   function next() {
     var act = keys.filter(function (k) { return on[k]; });
     curKey = act[ri(0, act.length - 1)]; cur = GEN[curKey].make(); tried = false;
-    qEl.innerHTML = '<span class="eyebrow">' + GEN[curKey].name + '</span><div>' + cur.q + '</div>';
+    qEl.innerHTML = '<span class="eyebrow">' + (exam ? 'Задача ' + (exam.i + 1) + ' з 10 · ' : '') + GEN[curKey].name + '</span><div>' + cur.q + '</div>';
     var A = cur.ans, html;
     if (cur.labels) {
-      html = cur.labels.map(function (l, i) { return '<label class="ans1">' + l + ' = <input id="a0_' + i + '" inputmode="text" autocomplete="off"></label>'; }).join('');
+      html = cur.labels.map(function (l, i) { return '<label class="ans1">' + l + ' = <input id="a0_' + i + '" autocomplete="off"></label>'; }).join('');
     } else if (A.length === 1 && A[0].length === 1) {
-      html = '<label class="ans1">Відповідь <input id="a0_0" inputmode="text" autocomplete="off"></label>';
+      html = '<label class="ans1">Відповідь <input id="a0_0" autocomplete="off"></label>';
     } else {
       html = '<span class="M ansM" style="grid-template-columns:repeat(' + A[0].length + ',auto)">' +
         A.map(function (r, i) { return r.map(function (_, j) { return '<i><input id="a' + i + '_' + j + '" aria-label="рядок ' + (i + 1) + ', стовпець ' + (j + 1) + '" autocomplete="off"></i>'; }).join(''); }).join('') + '</span>';
@@ -139,79 +142,126 @@
     inEl.innerHTML = html; fb.textContent = ''; fb.className = 'fb'; solEl.hidden = true; solEl.innerHTML = cur.sol;
     var f = inEl.querySelector('input'); if (f) f.focus({ preventScroll: true });
   }
-  function check() {
-    if (!cur) return;
+  function grade(mark) {
     var A = cur.ans, ok = true, bad = false;
     A.forEach(function (r, i) {
       r.forEach(function (v, j) {
         var inp = document.getElementById('a' + i + '_' + j), x = F.parse(inp.value);
-        if (!x) { bad = true; inp.classList.add('err'); return; }
-        var good = x.eq(v); inp.classList.toggle('err', !good); inp.classList.toggle('okk', good); if (!good) ok = false;
+        if (!x) { bad = true; ok = false; if (mark) inp.classList.add('err'); return; }
+        var good = x.eq(v); if (!good) ok = false;
+        if (mark) { inp.classList.toggle('err', !good); inp.classList.toggle('okk', good); }
       });
     });
-    if (bad) { fb.textContent = 'Заповніть усі поля числами: 3, −2, 7/3 або 0,5.'; fb.className = 'fb no'; return; }
+    return { ok: ok, bad: bad };
+  }
+  function check() {
+    if (!cur) return;
+    if (exam) { examAnswer(); return; }
+    var g = grade(true);
+    if (g.bad) { fb.textContent = 'Заповніть усі поля числами: 3, −2, 7/3 або 0,5.'; fb.className = 'fb no'; return; }
     var t = st.t[curKey] = st.t[curKey] || { ok: 0, all: 0 };
-    if (!tried) { t.all++; if (ok) t.ok++; }
-    if (ok) {
+    if (!tried) { t.all++; if (g.ok) t.ok++; }
+    if (g.ok) {
       if (!tried) { streak++; if (streak > st.best) st.best = streak; }
-      fb.textContent = tried ? 'Тепер правильно.' : 'Правильно!'; fb.className = 'fb yes';
+      fb.textContent = tried ? 'Тепер правильно. Enter — наступна.' : 'Правильно! Enter — наступна.'; fb.className = 'fb yes';
     } else { streak = 0; fb.textContent = 'Є помилка: неправильні клітинки підсвічено. Спробуйте ще раз або подивіться розв\'язок.'; fb.className = 'fb no'; }
     tried = true; save(); stats();
   }
-  document.getElementById('btn-check').addEventListener('click', check);
-  document.getElementById('btn-next').addEventListener('click', next);
-  document.getElementById('btn-sol').addEventListener('click', function () { solEl.hidden = !solEl.hidden; if (!tried) { tried = true; streak = 0; stats(); } });
-  inEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); check(); } });
+
+  /* ---------- mini-test ---------- */
+  function fmtT(s) { var m = Math.floor(s / 60), x = s % 60; return (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x; }
+  function startExam() {
+    exam = { i: 0, res: [], left: 900 };
+    box.classList.add('exam'); exRes.hidden = true; bSol.hidden = true; bNext.textContent = 'Пропустити →'; bCheck.textContent = 'Відповісти';
+    bExam.textContent = 'Завершити міні-тест';
+    exBar.hidden = false; tick();
+    exam.iv = setInterval(function () { exam.left--; tick(); if (exam.left <= 0) finishExam(); }, 1000);
+    next();
+  }
+  function tick() {
+    exBar.innerHTML = '<span>Міні-тест</span><span>Задача <b>' + Math.min(exam.i + 1, 10) + ' / 10</b></span><span>Залишилось <b class="' + (exam.left <= 120 ? 'low' : '') + '">' + fmtT(exam.left) + '</b></span>' +
+      '<span class="dots">' + exam.res.map(function (r) { return '<i class="' + (r.ok ? 'y' : 'n') + '"></i>'; }).join('') + '</span>';
+  }
+  function examAnswer(skip) {
+    var g = skip ? { ok: false } : grade(false);
+    exam.res.push({ q: cur.q, sol: cur.sol, ok: g.ok, name: GEN[curKey].name, skip: !!skip });
+    exam.i++;
+    if (exam.i >= 10) finishExam(); else { tick(); next(); }
+  }
+  function finishExam() {
+    if (!exam) return;
+    clearInterval(exam.iv);
+    var res = exam.res, score = res.filter(function (r) { return r.ok; }).length, used = 900 - exam.left;
+    if (score > (st.exam || 0)) st.exam = score; save();
+    var verdict = score >= 9 ? 'Відмінно: ви готові до тесту.' : score >= 7 ? 'Добре. Перегляньте помилки нижче.' : score >= 5 ? 'Непогано, але варто ще потренуватися на темах з помилками.' : 'Поверніться до конспекту й задач цих тем, а потім спробуйте ще раз.';
+    exRes.innerHTML = '<h3>Результат: ' + score + ' / 10 · час ' + fmtT(used) + '</h3><p>' + verdict + '</p><ol>' +
+      res.map(function (r) { return '<li class="' + (r.ok ? 'y' : 'n') + '"><b>' + (r.ok ? '✓' : r.skip ? '— пропущено' : '✗') + '</b> <span class="mut">' + r.name + '</span><div>' + r.q + '</div>' + (r.ok ? '' : '<div class="sol">' + r.sol + '</div>') + '</li>'; }).join('') +
+      (res.length < 10 ? '<li class="n"><b>Час вийшов</b> до задачі ' + (res.length + 1) + '.</li>' : '') + '</ol>';
+    exRes.hidden = false; exam = null; box.classList.remove('exam'); exBar.hidden = true;
+    bSol.hidden = false; bNext.textContent = 'Наступна →'; bCheck.textContent = 'Перевірити'; bExam.textContent = 'Міні-тест: 10 задач за 15 хв';
+    stats(); next();
+    exRes.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  bExam.addEventListener('click', function () { if (exam) finishExam(); else startExam(); });
+
+  bCheck.addEventListener('click', check);
+  bNext.addEventListener('click', function () { if (exam) examAnswer(true); else next(); });
+  bSol.addEventListener('click', function () { solEl.hidden = !solEl.hidden; if (!tried) { tried = true; streak = 0; stats(); } });
+  inEl.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return; e.preventDefault();
+    if (!exam && fb.classList.contains('yes')) next(); else check();
+  });
   stats(); next();
 
   /* ---------- flashcards ---------- */
-  var CARDS = [
-    ['Коли СЛАР несумісна?', 'Коли після зведення з\'являється рядок 0 … 0 | c, c ≠ 0.'],
-    ['Скільки вільних змінних у сумісної системи з n невідомими і рангом r?', 'n − r.'],
-    ['Коли однорідна квадратна система має нетривіальні розв\'язки?', 'Коли det A = 0 (ранг &lt; n).'],
-    ['Правило Крамера', 'xⱼ = Δⱼ / Δ, де Δⱼ — det A з j-м стовпцем, заміненим на b. Працює лише при Δ ≠ 0.'],
-    ['Які елементарні перетворення рядків дозволені?', 'Обмін рядків; множення рядка на число ≠ 0; додавання до рядка кратного іншого.'],
-    ['Розмір добутку (m×n)(n×p)', 'm×p. Внутрішні розміри мають збігатися.'],
-    ['(AB)ᵀ = ?', 'BᵀAᵀ.'],
-    ['(AB)⁻¹ = ?', 'B⁻¹A⁻¹.'],
-    ['(A + B)² = ?', 'A² + AB + BA + B², а не A² + 2AB + B².'],
-    ['Як записати Ax через стовпці A?', 'x₁a₁ + x₂a₂ + … + xₙaₙ.'],
-    ['Що робить DA для діагональної D?', 'Масштабує рядки A. AD масштабує стовпці.'],
-    ['Три умови підпростору', '0 ∈ W; a + b ∈ W; λa ∈ W.'],
-    ['Як швидко перевірити лінійну залежність n векторів у ℝⁿ?', 'det матриці з них = 0 ⇔ залежні.'],
-    ['Симетрична / кососиметрична матриця', 'S = Sᵀ; K = −Kᵀ (на діагоналі нулі).'],
-    ['det 2×2', 'ad − bc.'],
-    ['det(kA) для A n×n', 'kⁿ·det A.'],
-    ['det(AB)', 'det A · det B.'],
-    ['Як впливає обмін двох рядків на det?', 'Змінює знак.'],
-    ['Як впливає додавання до рядка кратного іншого на det?', 'Ніяк.'],
-    ['det трикутної матриці', 'Добуток діагональних елементів.'],
-    ['Геометричний зміст |det A| для 2×2', 'У скільки разів змінюються площі. det &lt; 0 — орієнтація змінюється.'],
-    ['Обернена до [[a, b], [c, d]]', '(1/(ad − bc))·[[d, −b], [−c, a]].'],
-    ['Як знайти A⁻¹ методом Жордана–Гаусса?', '[A | I] → [I | A⁻¹]. Нульовий рядок зліва означає, що A вироджена.'],
-    ['AX = B ⇒ X = ?', 'A⁻¹B (обернена зліва).'],
-    ['XA = B ⇒ X = ?', 'BA⁻¹ (обернена справа).'],
-    ['Критерій невиродженості', 'det ≠ 0 ⇔ A⁻¹ існує ⇔ rank = n ⇔ стовпці незалежні ⇔ Ax = 0 має лише x = 0.'],
-    ['Що є стовпцями матриці перетворення?', 'Образи базисних векторів e₁, e₂.'],
-    ['Матриця повороту на φ', '[[cos φ, −sin φ], [sin φ, cos φ]], det = 1.'],
-    ['Матриця «спочатку A, потім B»', 'B·A.'],
-    ['R(φ)⁻¹ = ?', 'R(−φ) = R(φ)ᵀ.'],
-    ['Симетрія відносно y = x', '[[0, 1], [1, 0]], det = −1.'],
-    ['Чому проєкція не має оберненої?', 'det = 0: різні точки мають однаковий образ.'],
-    ['cos і sin 30°, 45°, 60°', '30°: √3/2, 1/2; 45°: √2/2, √2/2; 60°: 1/2, √3/2.']
-  ];
-  var deck, fc = document.getElementById('card'), fq = document.getElementById('fq'), fa = document.getElementById('fa'), fleft = document.getElementById('fleft');
+  var CARDS = window.CARDS || [], TOP = window.CARD_TOPICS || {};
+  var deck = [], known = 0, again = 0, ftop = 'all', fc = document.getElementById('card'), fq = document.getElementById('fq'), fa = document.getElementById('fa'),
+    fe = document.getElementById('fe'), fleft = document.getElementById('fleft'), fprog = document.getElementById('fprog'),
+    bShow = document.getElementById('f-show'), bKnow = document.getElementById('f-know'), bAgain = document.getElementById('f-again'), ftopics = document.getElementById('ftopics');
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = ri(0, i), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-  function deal() { deck = shuffle(CARDS.slice()); showCard(); }
-  function showCard() {
-    fc.classList.remove('flip');
-    if (!deck.length) { fq.innerHTML = 'Колоду пройдено!'; fa.innerHTML = 'Натисніть «Перемішати», щоб почати знову.'; fleft.textContent = '0'; return; }
-    fq.innerHTML = deck[0][0]; fa.innerHTML = deck[0][1]; fleft.textContent = deck.length;
+  var tb = [['all', 'Усі']].concat(Object.keys(TOP).map(function (k) { return [k, TOP[k]]; }));
+  ftopics.innerHTML = tb.map(function (t) { return '<button type="button" id="ft-' + t[0] + '" data-t="' + t[0] + '" aria-pressed="' + (t[0] === 'all') + '">' + t[1] + ' <span class="mut">' + (t[0] === 'all' ? CARDS.length : CARDS.filter(function (c) { return c.t === t[0]; }).length) + '</span></button>'; }).join('');
+  [].forEach.call(ftopics.querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () {
+      ftop = b.dataset.t; [].forEach.call(ftopics.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); deal();
+    });
+  });
+  function pool() { return CARDS.filter(function (c) { return ftop === 'all' || c.t === ftop; }); }
+  function deal() { deck = shuffle(pool().slice()); known = 0; again = 0; showCard(); }
+  function setRevealed(on) {
+    fc.classList.toggle('flip', on); bShow.hidden = on; bKnow.hidden = !on; bAgain.hidden = !on;
   }
-  fc.addEventListener('click', function () { if (deck.length) fc.classList.toggle('flip'); });
-  fc.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); fc.click(); } });
-  document.getElementById('f-know').addEventListener('click', function () { if (deck.length) { deck.shift(); showCard(); } });
-  document.getElementById('f-again').addEventListener('click', function () { if (deck.length) { deck.push(deck.shift()); showCard(); } });
+  function showCard() {
+    var total = pool().length;
+    fprog.style.width = (100 * known / Math.max(1, total)) + '%';
+    fleft.textContent = 'Вивчено ' + known + ' з ' + total + (again ? ' · повторів: ' + again : '');
+    if (!deck.length) {
+      fq.innerHTML = 'Колоду пройдено!'; fa.innerHTML = 'Ви відповіли на всі ' + total + ' карток.'; fe.textContent = 'Натисніть «Перемішати», щоб пройти ще раз.';
+      setRevealed(false); bShow.hidden = true; return;
+    }
+    var c = deck[0];
+    fq.innerHTML = '<small>' + TOP[c.t] + '</small>' + c.q; fa.innerHTML = c.a; fe.innerHTML = c.e || '';
+    setRevealed(false);
+  }
+  function reveal() { if (deck.length) setRevealed(true); }
+  function know() { if (deck.length && fc.classList.contains('flip')) { deck.shift(); known++; showCard(); } }
+  function repeat() { if (deck.length && fc.classList.contains('flip')) { deck.push(deck.shift()); again++; showCard(); } }
+  fc.addEventListener('click', function () { if (!deck.length) return; if (fc.classList.contains('flip')) setRevealed(false); else reveal(); });
+  bShow.addEventListener('click', reveal); bKnow.addEventListener('click', know); bAgain.addEventListener('click', repeat);
   document.getElementById('f-shuffle').addEventListener('click', deal);
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase(); if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+    var r = fc.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    if (e.key === ' ') { e.preventDefault(); if (fc.classList.contains('flip')) setRevealed(false); else reveal(); }
+    else if (e.key === '1') know(); else if (e.key === '2') repeat();
+  });
   deal();
+
+  /* full list */
+  var list = document.getElementById('flist');
+  if (list) list.innerHTML = Object.keys(TOP).map(function (k) {
+    return '<h3>' + TOP[k] + '</h3><dl>' + CARDS.filter(function (c) { return c.t === k; }).map(function (c) {
+      return '<dt>' + c.q + '</dt><dd><b>' + c.a + '</b>' + (c.e ? '<br><span class="mut">' + c.e + '</span>' : '') + '</dd>';
+    }).join('') + '</dl>';
+  }).join('');
 })();
