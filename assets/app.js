@@ -339,6 +339,24 @@
     var tsc = load(KEY_T), anyTest = Object.keys(tsc).length;
     if (!anyTest && Object.keys(doneVis).length >= 20) rec.push('Ви вже розв\'язали ' + Object.keys(doneVis).length + ' задач, час для пробної контрольної. <a href="tests.html">Почати</a>');
     if (!tr.exam) rec.push('Спробуйте міні-тест: 10 задач за 15 хвилин. <a href="trainer.html">Почати</a>');
+    /* accuracy by trainer topic */
+    var bars = document.getElementById('acc-bars');
+    if (bars) {
+      var rows = Object.keys(tr.t || {}).map(function (k) { var t = tr.t[k]; return { k: k, all: t.all, ok: t.ok }; }).filter(function (x) { return x.all > 0; })
+        .sort(function (a, b) { return a.ok / a.all - b.ok / b.all; });
+      bars.innerHTML = rows.length ? rows.map(function (x) {
+        var pc = Math.round(100 * x.ok / x.all), cls = pc >= 80 ? 'good' : pc >= 60 ? 'mid' : 'low';
+        return '<div class="bar-row"><span class="bl">' + (NAMES[x.k] || x.k) + '</span><span class="bt"><i class="' + cls + '" style="width:' + pc + '%"></i></span><span class="bv">' + pc + ' % <span class="mut">(' + x.ok + '/' + x.all + ')</span></span></div>';
+      }).join('') : '<p class="mut">Тут з\'явиться точність за кожною темою, щойно ви розв\'яжете кілька задач у <a href="trainer.html">тренажері</a>.</p>';
+    }
+    /* last 28 days */
+    var heat = document.getElementById('heat');
+    if (heat) {
+      var cells = '', act = 0;
+      for (var hd = -27; hd <= 0; hd++) { var on1 = !!set[today(hd)]; if (on1) act++; cells += '<i class="' + (on1 ? 'on' : '') + (hd === 0 ? ' today' : '') + '" title="' + today(hd) + (on1 ? ': займались' : '') + '"></i>'; }
+      heat.innerHTML = cells;
+      document.getElementById('heat-sum').textContent = 'Днів із заняттями: ' + act + ' з 28. Квадратик сьогодні обведено.';
+    }
     document.getElementById('d-rec').innerHTML = rec.slice(0, 4).map(function (r) { return '<li>' + r + '</li>'; }).join('');
   }
 

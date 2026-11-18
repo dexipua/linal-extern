@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=17">
+<link rel="stylesheet" href="assets/style.css?v=18">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -20,7 +20,13 @@
 <h1>Тренажер</h1>
 <p class="mut">Випадкові задачі з автоматичною перевіркою: щоразу нові числа. Розв'язуйте на папері, вводьте відповідь і тисніть Enter. Дроби пишіть як 7/3, від'ємні — зі знаком мінус.</p>
 
-<div class="row" style="margin:6px 0 2px"><button class="btn" type="button" id="btn-exam">Міні-тест: 10 задач за 15 хв</button><span class="mut" style="font-size:.9rem">Без підказок, результат і розбір помилок наприкінці.</span></div>
+<div class="row" style="margin:6px 0 2px"><button class="btn" type="button" id="btn-exam">Міні-тест: 10 задач за 15 хв</button><span class="mut" style="font-size:.9rem">Без підказок, результат і розбір помилок наприкінці. Теми — ті, що вибрані нижче.</span></div>
+<div class="presets" role="group" aria-label="Міні-тест у форматі контрольної">
+  <span class="mut">Або як справжня контрольна:</span>
+  <button type="button" class="btn sm ghost" data-preset="t1">Контрольна 1 · СЛАР</button>
+  <button type="button" class="btn sm ghost" data-preset="t2">Контрольна 2 · матриці й обернена</button>
+  <button type="button" class="btn sm ghost" data-preset="t3">Контрольна 3 · det і геометрія</button>
+</div>
 <section class="tool" id="drill" aria-label="Тренажер">
   <div class="exbar" id="exbar" hidden></div>
   <div class="filt ch" id="topics" role="group" aria-label="Теми тренажера"></div>
@@ -66,5 +72,5 @@
 
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=17"></script><script src="assets/search.js?v=17"></script><script src="assets/frac.js?v=17"></script><script src="assets/cards.js?v=17"></script><script src="assets/trainer.js?v=17"></script>
+<script src="assets/app.js?v=18"></script><script src="assets/search.js?v=18"></script><script src="assets/frac.js?v=18"></script><script src="assets/cards.js?v=18"></script><script src="assets/trainer.js?v=18"></script>
 </body></html>

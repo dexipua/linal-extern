@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=17">
+<link rel="stylesheet" href="assets/style.css?v=18">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -21,7 +21,11 @@
 <p class="mut">Два інструменти, щоб «побачити» лінійну алгебру: як матриця 2×2 деформує площину і як працюють елементарні перетворення рядків.</p>
 
 <h2 id="viz">Перетворення площини</h2>
-<p class="mut">Змінюйте елементи матриці або оберіть готове перетворення. Червона і зелена стрілки — це стовпці матриці (образи e₁ і e₂), заливка — образ одиничного квадрата, його площа дорівнює |det|. Літера «F» показує, чи змінюється орієнтація.</p>
+<p class="mut">Змінюйте елементи матриці, оберіть готове перетворення або просто <b>перетягуйте кінці стрілок</b> мишею чи пальцем. Червона і зелена стрілки — це стовпці матриці (образи e₁ і e₂), заливка — образ одиничного квадрата, його площа дорівнює |det|. Літера «F» показує, чи змінюється орієнтація.</p>
+<div class="game" id="game">
+  <div class="row"><button class="btn" type="button" id="g-start">Гра: вгадай матрицю</button><span class="mut" id="g-score" style="font-size:.9rem"></span></div>
+  <p id="g-msg" aria-live="polite" hidden></p>
+</div>
 <div class="tool viz">
   <div><canvas id="cv" width="520" height="520" aria-label="Площина з образом літери F під дією матриці"></canvas>
     <div class="legend"><span><i style="background:var(--l3)"></i>Ae₁</span><span><i style="background:var(--l1)"></i>Ae₂</span><span><i style="background:var(--hi)"></i>образ «F»</span><span><i style="background:var(--mut)"></i>оригінал</span></div></div>
@@ -59,8 +63,10 @@
     <label>k <input id="rk" value="-2" autocomplete="off"></label>
     <button class="btn" type="button" id="rapply">Виконати</button>
     <button class="btn ghost" type="button" id="rundo">Скасувати</button>
+    <button class="btn ghost" type="button" id="rhint">Підказка</button>
   </div>
   <div id="rmsg" aria-live="polite"></div>
+  <p class="hintmsg" id="rhintmsg" aria-live="polite"></p>
   <b style="font-size:.9rem">Журнал кроків</b>
   <ol id="rlog"></ol>
 </div>
@@ -68,5 +74,5 @@
 
 </div></main>
 <footer><div class="wrap wide">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=17"></script><script src="assets/search.js?v=17"></script><script src="assets/frac.js?v=17"></script><script src="assets/lab.js?v=17"></script>
+<script src="assets/app.js?v=18"></script><script src="assets/search.js?v=18"></script><script src="assets/frac.js?v=18"></script><script src="assets/lab.js?v=18"></script>
 </body></html>

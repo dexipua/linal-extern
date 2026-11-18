@@ -16,6 +16,16 @@
       return r.map(function (x, j) { return (bar && j === r.length - 1 ? '<i class="s"></i>' : '') + '<i>' + cell(x) + '</i>'; }).join('');
     }).join('') + '</span>';
   }
+  /* step-by-step renderings built on the shared engine in frac.js */
+  function gaussSol(aug, nLeft) {
+    var r = F.rref(aug, nLeft);
+    return F.stepsHTML(aug, r.steps, nLeft);
+  }
+  function detSol(A) {
+    var r = F.detSteps(A), diag = r.M.map(function (row, i) { return row[i]; });
+    return 'Додаємо до рядків кратні верхніх (det не змінюється), обмін рядків змінює знак:' + F.stepsHTML(A, r.steps) +
+      'det = ' + (r.sign < 0 ? '−(' : '') + diag.map(function (x) { return x.d === 1 && x.n >= 0 ? x.toString() : '(' + x + ')'; }).join('·') + (r.sign < 0 ? ')' : '') + ' = <b>' + r.det + '</b>';
+  }
   function V(v) { return '(' + v.map(cell).join(', ') + ')'; }
   function sgn(x) { return x < 0 ? ' − ' + (-x) : ' + ' + x; }
   function lin(coefs, vars) {
@@ -48,14 +58,16 @@
       var m = [a[0][2] * a[1][1] * a[2][0], a[0][1] * a[1][0] * a[2][2], a[0][0] * a[1][2] * a[2][1]];
       var d = p[0] + p[1] + p[2] - m[0] - m[1] - m[2];
       return { q: 'Обчисліть визначник ' + M(A), ans: [[new F(d)]],
-        sol: 'Саррюс: (' + p.map(cell).join(' + ') + ') − (' + m.map(cell).join(' + ') + ') = ' + (p[0] + p[1] + p[2]) + ' − (' + (m[0] + m[1] + m[2]) + ') = <b>' + d + '</b>' };
+        sol: 'Саррюс: (' + p.map(cell).join(' + ') + ') − (' + m.map(cell).join(' + ') + ') = ' + (p[0] + p[1] + p[2]) + ' − (' + (m[0] + m[1] + m[2]) + ') = <b>' + d + '</b>' +
+          '<details class="more"><summary>Інший спосіб: зведення до трикутного вигляду</summary>' + detSol(A) + '</details>' };
     } },
     inv2: { name: 'обернена 2×2', make: function () {
       var A, d;
       do { A = mat(2, 2, -5, 5); d = A[0][0] * A[1][1] - A[0][1] * A[1][0]; } while ([1, -1, 2, -2].indexOf(d) < 0);
       var I = [[new F(A[1][1], d), new F(-A[0][1], d)], [new F(-A[1][0], d), new F(A[0][0], d)]];
       return { q: 'Знайдіть обернену до ' + M(A) + '. Дроби пишіть як 3/2.', ans: I,
-        sol: 'det = ' + d + '; A⁻¹ = (1/' + cell(d) + ')·' + M([[A[1][1], -A[0][1]], [-A[1][0], A[0][0]]]) + ' = ' + M(I) };
+        sol: 'Формула 2×2: det = ' + d + '; A⁻¹ = (1/' + cell(d) + ')·' + M([[A[1][1], -A[0][1]], [-A[1][0], A[0][0]]]) + ' = ' + M(I) +
+          '<details class="more"><summary>Те саме методом Жордана–Гаусса [A | I] → [I | A⁻¹]</summary>' + gaussSol(A.map(function (r, i) { return r.concat(i ? [0, 1] : [1, 0]); }), 2) + '</details>' };
     } },
     sle2: { name: 'СЛАР 2×2', make: function () {
       var A, d, x = [ri(-5, 5), ri(-5, 5)];
@@ -64,7 +76,8 @@
       var dx = b[0] * A[1][1] - A[0][1] * b[1], dy = A[0][0] * b[1] - b[0] * A[1][0];
       return { q: 'Розв\'яжіть: <span class="sys">' + A.map(function (r, i) { return lin(r, ['x', 'y']) + ' = ' + cell(b[i]); }).join('<br>') + '</span>',
         ans: [[new F(x[0]), new F(x[1])]], labels: ['x', 'y'],
-        sol: 'Крамер: Δ = ' + d + ', Δₓ = ' + dx + ', Δ_y = ' + dy + ' ⇒ x = ' + x[0] + ', y = ' + x[1] };
+        sol: 'Крамер: Δ = ' + d + ', Δₓ = ' + dx + ', Δ_y = ' + dy + ' ⇒ x = ' + x[0] + ', y = ' + x[1] +
+          '<details class="more"><summary>Те саме методом Гаусса</summary>' + gaussSol(A.map(function (r, i) { return r.concat([b[i]]); }), 2) + '</details>' };
     } },
     sle3: { name: 'СЛАР 3×3', make: function () {
       var A, d, x = [ri(-3, 3), ri(-3, 3), ri(-3, 3)];
@@ -72,7 +85,8 @@
       var b = A.map(function (r) { return r[0] * x[0] + r[1] * x[1] + r[2] * x[2]; });
       var aug = A.map(function (r, i) { return r.concat([b[i]]); });
       return { q: 'Розв\'яжіть методом Гаусса: ' + M(aug, true), ans: [[new F(x[0]), new F(x[1]), new F(x[2])]], labels: ['x', 'y', 'z'],
-        sol: 'det A = ' + d + ' ≠ 0, розв\'язок єдиний: (' + x.join(', ') + '). Перевірте підстановкою в кожне рівняння.' };
+        sol: 'det A = ' + d + ' ≠ 0, тож розв\'язок єдиний. Жордан–Гаусс крок за кроком:' + gaussSol(aug, 3) +
+          'Відповідь: <b>(' + x.join(', ') + ')</b>. Перевірте підстановкою в кожне рівняння.' };
     } },
     mul: { name: 'добуток матриць', make: function () {
       var shapes = [[2, 2, 2], [2, 3, 2], [3, 2, 2], [2, 2, 1], [2, 3, 1]], s = shapes[ri(0, shapes.length - 1)];
@@ -109,8 +123,7 @@
       var A = F.matmul(L, U).map(function (r) { return r.map(function (x) { return x.n; }); });
       var d = U[0][0] * U[1][1] * U[2][2] * U[3][3];
       return { q: 'Обчисліть визначник ' + M(A) + ' (зручно звести до трикутного вигляду).', ans: [[new F(d)]],
-        sol: 'Віднімаючи від нижніх рядків кратні верхніх (det не змінюється), отримаємо трикутну матрицю з діагоналлю ' +
-          [U[0][0], U[1][1], U[2][2], U[3][3]].map(cell).join(', ') + '. det = добуток діагоналі = <b>' + d + '</b>.' };
+        sol: detSol(A) };
     } },
     param: { name: 'параметр', make: function () {
       var a = [1, -1, 2, -2, 3][ri(0, 4)], b = nz(-6, 6), c = nz(-6, 6), k = new F(b * c, a), kind = ri(0, 1), q;
@@ -275,6 +288,21 @@
     exRes.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   bExam.addEventListener('click', function () { if (exam) finishExam(); else startExam(); });
+  /* mini-test presets that mirror the three course tests */
+  var PRESETS = {
+    t1: ['sle2', 'sle3', 'param'],
+    t2: ['mul', 'inv2', 'mateq', 'prop'],
+    t3: ['det2', 'det3', 'det4', 'prop', 'area', 'geom', 'comp']
+  };
+  [].forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
+    b.addEventListener('click', function () {
+      if (exam) finishExam();
+      var want = PRESETS[b.dataset.preset];
+      keys.forEach(function (k) { on[k] = want.indexOf(k) >= 0; var c = document.getElementById('tp-' + k); if (c) c.setAttribute('aria-pressed', on[k] ? 'true' : 'false'); });
+      startExam();
+      box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
   bCheck.addEventListener('click', check);
   bNext.addEventListener('click', goNext);

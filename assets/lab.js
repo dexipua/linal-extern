@@ -9,7 +9,7 @@
   if (cv) {
     var ctx = cv.getContext('2d'), ids = ['ma', 'mb', 'mc', 'md'], inp = ids.map(function (i) { return document.getElementById(i); });
     var ang = document.getElementById('ang'), angv = document.getElementById('angv'), info = document.getElementById('vinfo');
-    var A = [1, 0, 0, 1], shown = [1, 0, 0, 1], anim = null, R = 5;
+    var A = [1, 0, 0, 1], shown = [1, 0, 0, 1], anim = null, R = 5, target = null, checkGame = function () {};
     var SHAPE = [[0, 0], [0, 2], [1.2, 2], [1.2, 1.7], [0.35, 1.7], [0.35, 1.15], [1, 1.15], [1, 0.85], [0.35, 0.85], [0.35, 0], [0, 0]];
 
     function size() {
@@ -49,6 +49,11 @@
         pts.forEach(function (p, k) { var q = P(p[0], p[1]); k ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]); }); ctx.stroke(); ctx.setLineDash([]);
       }
       poly(SHAPE, mut, [5, 4], 1.5);
+      if (target) {
+        ctx.globalAlpha = .85;
+        poly(SHAPE.map(function (p) { return [target[0] * p[0] + target[1] * p[1], target[2] * p[0] + target[3] * p[1]]; }), css('--acc2'), [8, 6], 5);
+        ctx.globalAlpha = 1;
+      }
       poly(SHAPE.map(function (p) { return T(p[0], p[1]); }), hi, [], 3);
       /* basis images */
       function arrow(v, color, label) {
@@ -96,6 +101,7 @@
         '<div><span class="mut">орієнтація</span><b>' + (Math.abs(det) < eps ? '—' : det > 0 ? 'зберігається' : 'змінюється') + '</b></div>' +
         '<div class="wide-cell"><span class="mut">що це</span><b>' + kind + '</b></div>' +
         '<div class="wide-cell"><span class="mut">A⁻¹</span><b>' + inv + '</b></div>';
+      checkGame();
     }
     inp.forEach(function (e) {
       e.addEventListener('input', function () {
@@ -117,6 +123,56 @@
       });
     });
     document.getElementById('play').addEventListener('click', play);
+
+    /* drag the arrow tips: column 0 = Ae₁, column 1 = Ae₂ (snapped to 0.5) */
+    var drag = -1;
+    function toWorld(e) {
+      var r = cv.getBoundingClientRect(), w = r.width, s = w / (2 * R);
+      return [(e.clientX - r.left - w / 2) / s, (w / 2 - (e.clientY - r.top)) / s, s];
+    }
+    function nearTip(e) {
+      var p = toWorld(e), s = p[2], best = -1, bd = 22 / s;
+      [[shown[0], shown[2]], [shown[1], shown[3]]].forEach(function (t, k) { var d = Math.hypot(p[0] - t[0], p[1] - t[1]); if (d < bd) { bd = d; best = k; } });
+      return best;
+    }
+    cv.addEventListener('pointerdown', function (e) {
+      drag = nearTip(e); if (drag < 0) return;
+      cancelAnimationFrame(anim); cv.setPointerCapture(e.pointerId); e.preventDefault();
+    });
+    cv.addEventListener('pointermove', function (e) {
+      if (drag < 0) { cv.style.cursor = nearTip(e) >= 0 ? 'grab' : 'default'; return; }
+      cv.style.cursor = 'grabbing';
+      var p = toWorld(e), x = Math.max(-R, Math.min(R, Math.round(p[0] * 2) / 2)), y = Math.max(-R, Math.min(R, Math.round(p[1] * 2) / 2));
+      var v = A.slice(); if (drag === 0) { v[0] = x; v[2] = y; } else { v[1] = x; v[3] = y; }
+      if (v.some(function (q, i) { return q !== A[i]; })) setA(v, false);
+    });
+    ['pointerup', 'pointercancel'].forEach(function (t) { cv.addEventListener(t, function () { drag = -1; cv.style.cursor = 'default'; }); });
+
+    /* game: match the dashed target "F" */
+    var gBtn = document.getElementById('g-start'), gMsg = document.getElementById('g-msg'), gScore = document.getElementById('g-score'), won = 0, solved = false;
+    try { won = +(localStorage.getItem('linal-lab-won') || 0); } catch (e) {}
+    function score() { gScore.textContent = won ? 'Вгадано матриць: ' + won : ''; }
+    function newTarget() {
+      var POOL = [[0, -1, 1, 0], [-1, 0, 0, -1], [0, 1, -1, 0], [1, 0, 0, -1], [-1, 0, 0, 1], [0, 1, 1, 0], [0, -1, -1, 0], [2, 0, 0, 1], [1, 1, 0, 1], [1, 0, 1, 1]], t;
+      do {
+        t = Math.random() < .45 ? POOL[Math.floor(Math.random() * POOL.length)].slice() : [0, 0, 0, 0].map(function () { return Math.floor(Math.random() * 5) - 2; });
+      } while (t[0] * t[3] - t[1] * t[2] === 0 || (t[0] === A[0] && t[1] === A[1] && t[2] === A[2] && t[3] === A[3]));
+      return t;
+    }
+    checkGame = function () {
+      if (!target || solved) return;
+      if (A.every(function (x, i) { return Math.abs(x - target[i]) < 1e-9; })) {
+        solved = true; won++; try { localStorage.setItem('linal-lab-won', won); } catch (e) {}
+        gMsg.className = 'ok-t'; gMsg.innerHTML = 'Збіг! Шукана матриця ' + F.mHTML([[target[0], target[1]], [target[2], target[3]]]) + ', det = ' + (target[0] * target[3] - target[1] * target[2]) + '. Натисніть «Наступна ціль».';
+        gBtn.textContent = 'Наступна ціль'; score();
+      }
+    };
+    gBtn.addEventListener('click', function () {
+      solved = false; target = newTarget(); gMsg.hidden = false; gMsg.className = 'mut';
+      gMsg.innerHTML = 'Підберіть матрицю так, щоб помаранчева «F» лягла точно на синю пунктирну. Підказка: подивіться, куди потрапили кути «F», і перетягніть кінці стрілок Ae₁ та Ae₂.';
+      gBtn.textContent = 'Інша ціль'; setA([1, 0, 0, 1], false);
+    });
+    score();
     window.addEventListener('resize', size);
     if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
     window.addEventListener('linal-theme', draw);
@@ -198,6 +254,18 @@
     var li = document.createElement('li'); li.textContent = txt; logEl.appendChild(li);
   }
   document.getElementById('rapply').addEventListener('click', apply);
+  var hintB = document.getElementById('rhint');
+  if (hintB) hintB.addEventListener('click', function () {
+    msg.textContent = '';
+    if (!read()) { msg.textContent = 'Спершу виправте клітинки з помилками.'; return; }
+    var cols = Mx[0].length, nLeft = augC.checked ? cols - 1 : Math.min(cols, Mx.length);
+    var o = F.nextOp(Mx, nLeft), hintEl = document.getElementById('rhintmsg');
+    if (!o) { hintEl.textContent = 'Ліва частина вже у зведеному ступінчастому вигляді. Прочитайте відповідь.'; return; }
+    opS.value = o.op; syncOp(); iS.value = o.i;
+    if (o.op === 'swap' || o.op === 'add') jS.value = o.j;
+    if (o.k) kI.value = o.k.toString().replace('−', '-');
+    hintEl.innerHTML = 'Підказка: <b>' + F.opText(o) + '</b>. ' + ({ swap: 'Ставимо зручний ведучий елемент (краще ±1) нагору.', scale: 'Робимо ведучий елемент рівним 1.', add: 'Занулюємо елемент у стовпці ведучого.' })[o.op] + ' Дію вже вибрано, натисніть «Виконати».';
+  });
   document.getElementById('rundo').addEventListener('click', function () {
     if (!hist.length) return; Mx = hist.pop(); write(); status(); if (logEl.lastChild) logEl.removeChild(logEl.lastChild);
   });

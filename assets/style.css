@@ -398,3 +398,29 @@ html[data-mode="normal"] .ext{display:none!important}
 @media (max-width:430px){.brand .bx{display:none}}
 html[data-mode="super"] .p[data-x] .ph .n::after{content:"поза силабусом";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
 html[data-mode="super"] h2[data-x]::after{content:" · поза силабусом";font:600 .8rem var(--fb);color:var(--hi)}
+
+/* ===================== max pass ===================== */
+.steps{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;margin:8px 0;overflow-x:auto;max-width:100%}
+.steps .M{margin:.1em 0;font-size:.92rem}
+.st-op{display:inline-flex;align-items:center;gap:4px;font:600 .74rem var(--fm);color:var(--hi);text-align:center;line-height:1.35}
+.st-op em{font:italic 400 .7rem var(--fb);color:var(--mut)}
+.st-op b{font-size:1.1rem;color:var(--mut)}
+details.more{margin-top:8px}
+details.more summary{cursor:pointer;font-weight:600;color:var(--acc2);font-size:.9rem}
+.presets{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;margin:8px 0 4px;font-size:.9rem}
+.game{background:var(--hi-soft);border-radius:var(--r);padding:10px 14px;margin:10px 0}
+.game p{margin:8px 0 0}
+.hintmsg{min-height:1.2em;margin:4px 0;font-size:.92rem;color:var(--fg)}
+.hintmsg b{font-family:var(--fm);color:var(--acc)}
+.bars{display:grid;gap:7px}
+.bar-row{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) auto;gap:8px;align-items:center;font-size:.88rem}
+.bar-row .bl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-row .bt{height:9px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar-row .bt i{display:block;height:100%;border-radius:5px}
+.bar-row .bt i.good{background:var(--l1)}.bar-row .bt i.mid{background:var(--l2)}.bar-row .bt i.low{background:var(--l3)}
+.bar-row .bv{font-variant-numeric:tabular-nums;white-space:nowrap}
+.heat{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;max-width:420px}
+.heat i{aspect-ratio:1;border-radius:4px;background:var(--line);max-width:100%}
+.heat i.on{background:var(--l1)}
+.heat i.today{outline:2px solid var(--acc);outline-offset:1px}
+@media (max-width:760px){.bar-row{grid-template-columns:minmax(0,7.5em) minmax(0,1fr) auto}}
