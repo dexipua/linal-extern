@@ -3,7 +3,7 @@
   'use strict';
   var tw = document.querySelector('.top .wrap'); if (!tw) return;
   var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'search-btn'; btn.id = 'search-btn';
-  btn.innerHTML = '<span aria-hidden="true">⌕</span> Пошук <kbd>Ctrl K</kbd>'; btn.setAttribute('aria-label', 'Пошук по сайту (Ctrl+K)');
+  btn.innerHTML = '<span aria-hidden="true">⌕</span><span class="sl"> Пошук <kbd>Ctrl K</kbd></span>'; btn.setAttribute('aria-label', 'Пошук по сайту (Ctrl+K)');
   var theme = document.getElementById('theme-btn'); tw.insertBefore(btn, theme || null);
 
   var dlg = document.createElement('div'); dlg.className = 'sdlg'; dlg.hidden = true; dlg.setAttribute('role', 'dialog'); dlg.setAttribute('aria-modal', 'true'); dlg.setAttribute('aria-label', 'Пошук по сайту');
@@ -54,7 +54,7 @@
   }
   function loadCards() {
     if (window.CARDS) return Promise.resolve();
-    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=11'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
+    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=16'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
   }
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function snippet(body, words) {

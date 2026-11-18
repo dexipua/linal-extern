@@ -224,6 +224,31 @@
     });
   }
 
+  /* ---------- mobile menu ---------- */
+  if (top && tw) {
+    var mb = document.createElement('button'); mb.type = 'button'; mb.className = 'menu-btn'; mb.id = 'menu-btn';
+    mb.setAttribute('aria-expanded', 'false'); mb.setAttribute('aria-label', 'Меню розділів');
+    tw.appendChild(mb);
+    mb.innerHTML = '<span aria-hidden="true">☰</span>'; var mbIcon = mb.firstChild;
+    var setMenu = function (on) { top.classList.toggle('open', on); mb.setAttribute('aria-expanded', on ? 'true' : 'false'); mbIcon.textContent = on ? '✕' : '☰'; };
+    setMenu(false);
+    mb.addEventListener('click', function () { setMenu(!top.classList.contains('open')); });
+    top.querySelector('nav').addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+    document.addEventListener('click', function (e) { if (top.classList.contains('open') && !top.contains(e.target)) setMenu(false); });
+    setTop();
+  }
+
+  /* ---------- conspect: table of contents for phones and tablets ---------- */
+  var toc0 = document.querySelector('.toc'), art = document.querySelector('.layout > article');
+  if (toc0 && art) {
+    var md = document.createElement('details'); md.className = 'mtoc';
+    md.innerHTML = '<summary>Зміст конспекту</summary><nav aria-label="Зміст (мобільний)">' + toc0.innerHTML + '</nav>';
+    var h1 = art.querySelector('h1');
+    if (h1 && h1.nextElementSibling) art.insertBefore(md, h1.nextElementSibling); else art.insertBefore(md, art.firstChild);
+    md.addEventListener('click', function (e) { if (e.target.closest('a')) md.open = false; });
+  }
+
   /* ---------- activity days (for the streak) ---------- */
   function today(off) { var d = new Date(); d.setDate(d.getDate() + (off || 0)); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
   function markActive() {
@@ -239,7 +264,7 @@
   var READ = load('linal-read');
   $$('[data-read]').forEach(function (cb) {
     var b = cb.dataset.read; cb.checked = !!READ[b];
-    function sync() { $$('.toc a[href="#' + b + '"]').forEach(function (a) { a.classList.toggle('rd', cb.checked); }); }
+    function sync() { $$('.toc a[href="#' + b + '"], .mtoc a[href="#' + b + '"]').forEach(function (a) { a.classList.toggle('rd', cb.checked); }); }
     cb.addEventListener('change', function () { if (cb.checked) READ[b] = 1; else delete READ[b]; save('linal-read', READ); sync(); markActive(); });
     sync();
   });
@@ -292,6 +317,16 @@
     if (!tr.exam) rec.push('Спробуйте міні-тест: 10 задач за 15 хвилин. <a href="trainer.html">Почати</a>');
     document.getElementById('d-rec').innerHTML = rec.slice(0, 4).map(function (r) { return '<li>' + r + '</li>'; }).join('');
   }
+
+  /* ---------- offline / installable app ---------- */
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+  var installBtn = document.getElementById('install-btn'), deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; if (installBtn) installBtn.hidden = false; });
+  if (installBtn) installBtn.addEventListener('click', function () {
+    if (!deferred) return; deferred.prompt(); deferred.userChoice.then(function () { deferred = null; installBtn.hidden = true; });
+  });
 
   /* print button (cheatsheet) */
   $$('[data-act="print"]').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });

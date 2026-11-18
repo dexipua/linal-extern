@@ -1,0 +1,21 @@
+{
+  "name": "Лінал · екстерн",
+  "short_name": "Лінал",
+  "description": "Підготовка до курсу лінійної алгебри: конспект, задачі, тренажер, контрольні",
+  "lang": "uk",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#10131a",
+  "theme_color": "#23407a",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Тренажер", "url": "./trainer.html" },
+    { "name": "Задачі", "url": "./problems.html" },
+    { "name": "Картки з теорії", "url": "./trainer.html#cards" }
+  ]
+}
