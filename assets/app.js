@@ -217,6 +217,41 @@
       var o = {}; try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k.indexOf('linal-') === 0 && k !== 'linal-theme') o[k] = localStorage.getItem(k); } } catch (e) {}
       return o;
     }
+    /* Only known keys with the expected shape are accepted, so a code pasted from someone else
+       cannot smuggle markup or scripts into the pages that later display these values. */
+    function sanitizeBackup(o) {
+      if (!o || typeof o !== 'object' || Array.isArray(o)) return null;
+      var out = {}, int = function (v, max) { v = Math.floor(Number(v)); return isFinite(v) && v >= 0 && v <= max ? v : null; };
+      function flags(raw, re) {
+        var v; try { v = JSON.parse(raw); } catch (e) { return null; }
+        if (!v || typeof v !== 'object' || Array.isArray(v)) return null;
+        var r = {}; Object.keys(v).forEach(function (k) { if (re.test(k) && v[k]) r[k] = 1; }); return JSON.stringify(r);
+      }
+      if (typeof o['linal-done'] === 'string') { var a1 = flags(o['linal-done'], /^[1-5]\.\d{1,2}$/); if (a1) out['linal-done'] = a1; }
+      if (typeof o['linal-read'] === 'string') { var a2 = flags(o['linal-read'], /^b[1-5]$/); if (a2) out['linal-read'] = a2; }
+      if (typeof o['linal-cards-unknown'] === 'string') { var a3 = flags(o['linal-cards-unknown'], /^\d{1,3}$/); if (a3) out['linal-cards-unknown'] = a3; }
+      if (typeof o['linal-tests'] === 'string') {
+        try { var t = JSON.parse(o['linal-tests']), rt = {};
+          Object.keys(t || {}).forEach(function (k) { var v = int(t[k], 5); if (/^s[1-4]_[1-5]$/.test(k) && v !== null) rt[k] = v; });
+          out['linal-tests'] = JSON.stringify(rt); } catch (e) {}
+      }
+      if (typeof o['linal-trainer'] === 'string') {
+        try { var tr0 = JSON.parse(o['linal-trainer']) || {}, rt2 = { t: {}, best: int(tr0.best, 100000) || 0 };
+          if (int(tr0.exam, 10)) rt2.exam = int(tr0.exam, 10);
+          Object.keys(tr0.t || {}).forEach(function (k) {
+            var e = tr0.t[k] || {}, ok = int(e.ok, 1e6), all = int(e.all, 1e6);
+            if (/^[a-z0-9]{2,8}$/.test(k) && ok !== null && all !== null && ok <= all) rt2.t[k] = { ok: ok, all: all };
+          });
+          out['linal-trainer'] = JSON.stringify(rt2); } catch (e) {}
+      }
+      if (typeof o['linal-days'] === 'string') {
+        try { var dd = JSON.parse(o['linal-days']); if (Array.isArray(dd)) out['linal-days'] = JSON.stringify(dd.filter(function (x) { return typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x); }).slice(-400)); } catch (e) {}
+      }
+      if (typeof o['linal-exam'] === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(o['linal-exam'])) out['linal-exam'] = o['linal-exam'];
+      if (['normal', 'super', 'deep'].indexOf(o['linal-mode']) >= 0) out['linal-mode'] = o['linal-mode'];
+      if (int(o['linal-lab-won'], 1e6) !== null) out['linal-lab-won'] = String(int(o['linal-lab-won'], 1e6));
+      return Object.keys(out).length ? out : null;
+    }
     function enc(o) { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }
     function dec(s) { return JSON.parse(decodeURIComponent(escape(atob(s.trim())))); }
     document.getElementById('bk-export').addEventListener('click', function () {
@@ -228,7 +263,9 @@
     document.getElementById('bk-import').addEventListener('click', function () {
       try {
         var o = dec(out.value), n = 0;
-        Object.keys(o).forEach(function (k) { if (k.indexOf('linal-') === 0) { localStorage.setItem(k, o[k]); n++; } });
+        var clean = sanitizeBackup(o);
+        if (!clean) throw new Error('bad code');
+        Object.keys(clean).forEach(function (k) { localStorage.setItem(k, clean[k]); n++; });
         msgB.textContent = 'Прогрес відновлено. Оновлюю сторінку…'; setTimeout(function () { location.reload(); }, 900);
       } catch (e) { msgB.textContent = 'Не вдалося прочитати код. Перевірте, що вставили його повністю.'; }
     });
@@ -327,7 +364,7 @@
     /* recommendations */
     var rec = [], tr = load('linal-trainer'), unkC = load('linal-cards-unknown');
     var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння', eig: 'власні значення', rank: 'ранг', proj: 'проєкція' };
-    var weak = Object.keys(tr.t || {}).map(function (k) { var t = tr.t[k]; return { k: k, all: t.all, acc: t.all ? t.ok / t.all : 1 }; })
+    var weak = Object.keys(tr.t || {}).filter(function (k) { return NAMES[k]; }).map(function (k) { var t = tr.t[k], al = +t.all || 0, ok0 = +t.ok || 0; return { k: k, all: al, acc: al ? ok0 / al : 1 }; })
       .filter(function (x) { return x.all >= 3 && x.acc < .7; }).sort(function (a, b) { return a.acc - b.acc; });
     weak.slice(0, 2).forEach(function (w) { rec.push('Тренажер «' + (NAMES[w.k] || w.k) + '»: лише ' + Math.round(w.acc * 100) + ' % правильних. <a href="trainer.html">Потренуватися</a>'); });
     var nUnk = Object.keys(unkC).length;
@@ -346,7 +383,7 @@
     /* accuracy by trainer topic */
     var bars = document.getElementById('acc-bars');
     if (bars) {
-      var rows = Object.keys(tr.t || {}).map(function (k) { var t = tr.t[k]; return { k: k, all: t.all, ok: t.ok }; }).filter(function (x) { return x.all > 0; })
+      var rows = Object.keys(tr.t || {}).filter(function (k) { return NAMES[k]; }).map(function (k) { var t = tr.t[k]; return { k: k, all: Math.max(0, +t.all || 0), ok: Math.min(Math.max(0, +t.ok || 0), Math.max(0, +t.all || 0)) }; }).filter(function (x) { return x.all > 0; })
         .sort(function (a, b) { return a.ok / a.all - b.ok / b.all; });
       bars.innerHTML = rows.length ? rows.map(function (x) {
         var pc = Math.round(100 * x.ok / x.all), cls = pc >= 80 ? 'good' : pc >= 60 ? 'mid' : 'low';

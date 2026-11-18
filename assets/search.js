@@ -57,7 +57,7 @@
   }
   function loadCards() {
     if (window.CARDS) return Promise.resolve();
-    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=20'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
+    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=21'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
   }
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function snippet(body, words) {

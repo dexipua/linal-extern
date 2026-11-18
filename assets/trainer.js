@@ -4,7 +4,8 @@
   var KEY = 'linal-trainer';
   function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
-  var st = load(); st.t = st.t || {}; st.best = st.best || 0;
+  var st = load(); st.t = st.t && typeof st.t === 'object' ? st.t : {}; st.best = Math.max(0, Math.floor(+st.best || 0)); if (st.exam != null) st.exam = Math.max(0, Math.min(10, Math.floor(+st.exam || 0)));
+  Object.keys(st.t).forEach(function (k) { var e = st.t[k] || {}; st.t[k] = { ok: Math.max(0, Math.floor(+e.ok || 0)), all: Math.max(0, Math.floor(+e.all || 0)) }; });
 
   function ri(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
   function nz(a, b) { var v; do { v = ri(a, b); } while (v === 0); return v; }
@@ -453,7 +454,9 @@
   /* resume the previous session if there is one */
   var saved = lsGet(SKEY, null);
   if (saved && saved.round && saved.round.length && saved.deck && saved.deck.every(function (id) { return CARDS_ALL[id] && CARDS.indexOf(CARDS_ALL[id]) >= 0; })) {
-    S = saved; S.log = S.log || []; if (S.mix == null) S.mix = true;
+    var ids = function (a) { return Array.isArray(a) ? a.filter(function (id) { return typeof id === 'number' && CARDS_ALL[id]; }) : []; };
+    S = { top: typeof saved.top === 'string' && (saved.top === 'all' || saved.top === 'unk' || TOP[saved.top]) ? saved.top : 'all', round: ids(saved.round), deck: ids(saved.deck),
+      known: Math.max(0, Math.floor(+saved.known || 0)), no: ids(saved.no), log: Array.isArray(saved.log) ? saved.log.filter(function (l) { return l && typeof l.id === 'number' && CARDS_ALL[l.id]; }) : [], mix: saved.mix !== false };
     fmix.checked = S.mix;
     var done0 = S.round.length - S.deck.length;
     if (done0 > 0 && S.deck.length) { fres.hidden = false; fres.innerHTML = 'Продовжуємо з того місця, де ви зупинились: картка ' + (done0 + 1) + ' з ' + S.round.length + '. <button type="button" class="linkbtn" id="f-restart">Почати заново</button>'; document.getElementById('f-restart').addEventListener('click', function () { startRound(pool()); }); }
