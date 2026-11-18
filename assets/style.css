@@ -374,3 +374,27 @@ body.noscroll{overflow:hidden}
   .ph label input{width:20px;height:20px}
 }
 @media (min-width:1400px){.wrap{max-width:900px}.wide{max-width:1240px}body{font-size:17px}}
+
+/* ===================== study modes ===================== */
+html[data-mode="normal"] [data-x]{display:none!important}
+html[data-mode="normal"] .ext{display:none!important}
+.mode-btn{display:inline-flex;align-items:center;gap:6px;font:700 .8rem var(--fb);height:32px;padding:0 10px;border-radius:999px;cursor:pointer;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.mode-btn .md{width:8px;height:8px;border-radius:50%;background:var(--l1)}
+.mode-btn.super .md{background:var(--hi)}
+.mode-btn:hover{border-color:var(--acc)}
+.mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 6px}
+@media (max-width:620px){.mode-grid{grid-template-columns:1fr}}
+.mode-card{display:flex;flex-direction:column;gap:4px;text-align:left;font:inherit;color:var(--fg);background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;min-width:0}
+.mode-card b{font:800 1.15rem var(--fd);color:var(--acc)}
+.mode-card>span:not(.eyebrow){font-size:.92rem;color:var(--mut)}
+.mode-card .pick,.mode-card .now{font-weight:600;font-size:.86rem;margin-top:6px}
+.mode-card .pick{color:var(--acc2)}
+.mode-card .now{display:none;color:var(--okfg)}
+.mode-card[aria-pressed="true"]{border-color:var(--acc);background:var(--acc-soft)}
+.mode-card[aria-pressed="true"] .pick{display:none}
+.mode-card[aria-pressed="true"] .now{display:block}
+.mode-card:hover{border-color:var(--acc2)}
+@media (max-width:760px){.mode-btn{height:36px;padding:0 9px;font-size:.75rem}}
+@media (max-width:430px){.brand .bx{display:none}}
+html[data-mode="super"] .p[data-x] .ph .n::after{content:"поза силабусом";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
+html[data-mode="super"] h2[data-x]::after{content:" · поза силабусом";font:600 .8rem var(--fb);color:var(--hi)}

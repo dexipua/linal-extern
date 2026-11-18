@@ -6,21 +6,21 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=16">
-<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css?v=17">
+<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#23407a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Лінал">
 </head><body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html" aria-current="page">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал<span class="bx"> · екстерн</span></a><nav aria-label="Розділи"><a href="index.html" aria-current="page">Головна</a><a href="material.html">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
 <main><div class="wrap">
 <section class="hero">
   <div>
     <p class="eyebrow">Linear algebra basics · KSE · екстерн</p>
     <h1>Закрийте лінійну алгебру впевнено</h1>
-    <p class="lead">Конспект, 121 задача з відповідями, тренажер із нескінченними задачами, інтерактивна лабораторія, три пробні контрольні з таймером і шпаргалка на А4. Усе за чотирма темами силабуса.</p>
+    <p class="lead">Конспект, <span class="n-total">121 задача</span> з відповідями, тренажер із нескінченними задачами, інтерактивна лабораторія, три пробні контрольні з таймером і шпаргалка на А4. Усе за чотирма темами силабуса.</p>
     <div class="row"><a class="btn" href="material.html">Почати з конспекту</a><a class="btn ghost" href="problems.html">Одразу до задач</a></div>
   </div>
   <div class="hero-fig" aria-label="Приклад: обернена матриця методом Жордана–Гаусса">
@@ -38,6 +38,24 @@
   <div class="stat"><b id="st-t3">—</b><span>пробна контрольна 3</span></div>
 </div>
 <p class="mut" style="font-size:.88rem">Прогрес зберігається лише в цьому браузері.</p>
+
+
+<section class="modes" aria-labelledby="modes-h">
+  <h2 id="modes-h">Режим підготовки</h2>
+  <div class="mode-grid">
+    <button type="button" class="mode-card" data-setmode="normal" id="mode-normal">
+      <span class="eyebrow">Звичайний</span><b>За силабусом</b>
+      <span>Тільки те, що є в силабусі курсу: СЛАР і Жордан–Гаусс, вектори й операції з матрицями, визначник і обернена матриця, СЛАР через обернену, повороти й симетрії площини. 112 задач, без «додаткових» тем.</span>
+      <span class="pick">Обрати цей режим</span><span class="now">Зараз увімкнено</span>
+    </button>
+    <button type="button" class="mode-card" data-setmode="super" id="mode-super">
+      <span class="eyebrow">Супер</span><b>Усе й більше</b>
+      <span>Усе із силабусу плюс додаткові теми з ваших файлів: поле Zₚ, групи й перестановки, LU-розклад, приєднана матриця, Вандермонд, визначник n×n, доведення. 121 задача.</span>
+      <span class="pick">Обрати цей режим</span><span class="now">Зараз увімкнено</span>
+    </button>
+  </div>
+  <p class="mut" style="font-size:.88rem">Режим можна змінити будь-коли тут або кнопкою в шапці. Прогрес спільний для обох режимів.</p>
+</section>
 
 <div class="dash" id="dash">
   <div class="dcard"><p class="eyebrow">До тесту</p><div class="dbig" id="d-exam"></div><label class="mut dl">Дата: <input type="date" id="exam-date"></label></div>
@@ -119,5 +137,5 @@
 
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=16"></script><script src="assets/search.js?v=16"></script>
+<script src="assets/app.js?v=17"></script><script src="assets/search.js?v=17"></script>
 </body></html>

@@ -6,19 +6,19 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=16">
-<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css?v=17">
+<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#23407a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Лінал">
 </head><body>
-<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html" aria-current="page">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал<span class="bx"> · екстерн</span></a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html" aria-current="page">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
 <main><div class="wrap">
 <p class="eyebrow">Тренування</p>
 <h1>Задачі</h1>
-<p class="mut">121 задача за чотирма темами силабуса. Розв'яжіть на папері з повним ходом, потім розкрийте «Відповідь» і позначте задачу. Прогрес зберігається у вашому браузері й показується на головній.</p>
+<p class="mut"><span class="n-total">121 задача</span> за чотирма темами силабуса. Розв'яжіть на папері з повним ходом, потім розкрийте «Відповідь» і позначте задачу. Прогрес зберігається у вашому браузері й показується на головній.</p>
 <div class="bar">
   <div class="filt" role="group" aria-label="Рівень складності">
     <button type="button" id="f0" data-f="0" aria-pressed="true">Усі</button>
@@ -113,7 +113,7 @@
 <div>Мережа доріг з одностороннім рухом (авто/год). На перехрестя A в'їжджає 500 авто, з нього виїжджають потоки x₁ і x₄. B: в'їжджає x₁, виїжджають x₂ і 200. C: в'їжджають x₂ і x₃, виїжджає 300. D: в'їжджає x₄, виїжджає x₃. На кожному перехресті «скільки в'їхало = скільки виїхало». Знайдіть усі можливі потоки. Яке найменше та найбільше значення x₄, якщо всі потоки невід'ємні?</div>
 <details><summary>Відповідь</summary><div>x₁ + x₄ = 500, x₁ − x₂ = 200, x₂ + x₃ = 300, x₃ − x₄ = 0.<br>x₁ = 500 − t, x₂ = 300 − t, x₃ = t, x₄ = t. З x₂ ≥ 0 маємо 0 ≤ x₄ ≤ 300.</div></details></article>
 
-<article class="p" id="p1-19" data-l="3"><div class="ph"><span class="n">1.19</span><span class="pts">додатково</span></div>
+<article class="p" id="p1-19" data-x="1" data-l="3"><div class="ph"><span class="n">1.19</span><span class="pts">додатково</span></div>
 <div>Розв'яжіть у полі Z₅: <span class="sys">x + 2y = 4<br>3x + 4y = 1</span></div>
 <details><summary>Відповідь</summary><div>R₂ − 3R₁: −2y = −11, тобто 3y ≡ 4 (mod 5). 3⁻¹ = 2 у Z₅, тож y = 8 ≡ 3; x = 4 − 6 ≡ 3. Відповідь: x = 3, y = 3.</div></details></article>
 
@@ -288,11 +288,11 @@
 <div>Покажіть на прикладі 3×3 і поясніть, чому добуток двох верхньотрикутних матриць верхньотрикутний.</div>
 <details><summary>Відповідь</summary><div>(AB)ᵢⱼ = Σₖ aᵢₖbₖⱼ. При i &gt; j у кожному доданку або k &lt; i (тоді aᵢₖ = 0), або k ≥ i &gt; j (тоді bₖⱼ = 0). Тож нижче діагоналі нулі, а на діагоналі aᵢᵢbᵢᵢ.</div></details></article>
 
-<article class="p" id="p2-30" data-l="3"><div class="ph"><span class="n">2.30</span></div>
+<article class="p" id="p2-30" data-x="1" data-l="3"><div class="ph"><span class="n">2.30</span></div>
 <div>Знайдіть усі матриці 2×2, для яких A² = O. Наведіть ненульовий приклад.</div>
 <details><summary>Відповідь</summary><div>A = <span class="M">a b; c -a</span> з a² + bc = 0, наприклад <span class="M">0 1; 0 0</span> або <span class="M">2 4; -1 -2</span>.</div></details></article>
 
-<article class="p" id="p2-31" data-l="3"><div class="ph"><span class="n">2.31</span></div>
+<article class="p" id="p2-31" data-x="1" data-l="3"><div class="ph"><span class="n">2.31</span></div>
 <div>Нехай A — фіксована матриця n×n. Доведіть, що множина всіх X, для яких AX = XA, є підпростором Mat(n, ℝ).</div>
 <details><summary>Відповідь</summary><div>O належить множині. Якщо AX = XA і AY = YA, то A(X + Y) = AX + AY = XA + YA = (X + Y)A, і A(λX) = λAX = (λX)A.</div></details></article>
 
@@ -387,7 +387,7 @@
 <div>Розв'яжіть AXB = I: A = <span class="M">1 2; 0 1</span>, B = <span class="M">2 1; 1 1</span>.</div>
 <details><summary>Відповідь</summary><div>X = A⁻¹B⁻¹ = <span class="M">1 -2; 0 1</span>·<span class="M">1 -1; -1 2</span> = <span class="M">3 -5; -1 2</span>.</div></details></article>
 
-<article class="p" id="p3-22" data-l="3"><div class="ph"><span class="n">3.22</span><span class="pts">додатково</span></div>
+<article class="p" id="p3-22" data-x="1" data-l="3"><div class="ph"><span class="n">3.22</span><span class="pts">додатково</span></div>
 <div>Обчисліть визначник Вандермонда <span class="M">1 1 1; 2 3 5; 4 9 25</span> двома способами: напряму і за формулою ∏(xᵢ − xⱼ).</div>
 <details><summary>Відповідь</summary><div>(3 − 2)(5 − 2)(5 − 3) = 6.</div></details></article>
 
@@ -421,7 +421,7 @@
 <div>Знайдіть A⁻¹ для A = <span class="M">1 0 2; 2 -1 3; 4 1 8</span>.</div>
 <details><summary>Відповідь</summary><div>det = 1, A⁻¹ = <span class="M">-11 2 2; -4 0 1; 6 -1 -1</span>.</div></details></article>
 
-<article class="p" id="p3-30" data-l="2"><div class="ph"><span class="n">3.30</span></div>
+<article class="p" id="p3-30" data-x="1" data-l="2"><div class="ph"><span class="n">3.30</span></div>
 <div>Знайдіть A⁻¹ через приєднану матрицю (adj A = транспонована матриця алгебраїчних доповнень): A = <span class="M">2 0 1; 1 1 0; 0 1 1</span>.</div>
 <details><summary>Відповідь</summary><div>det = 3, adj A = <span class="M">1 1 -1; -1 2 1; 1 -2 2</span>, A⁻¹ = ⅓·adj A.</div></details></article>
 
@@ -433,11 +433,11 @@
 <div>Розв'яжіть AX = X + B, де A = <span class="M">3 1; 1 2</span>, B = <span class="M">1 2; 0 1</span>.</div>
 <details><summary>Відповідь</summary><div>(A − I)X = B. A − I = <span class="M">2 1; 1 1</span>, (A − I)⁻¹ = <span class="M">1 -1; -1 2</span>, X = <span class="M">1 1; -1 0</span>. Не пишіть «A − 1»: віднімають I.</div></details></article>
 
-<article class="p" id="p3-33" data-l="3"><div class="ph"><span class="n">3.33</span></div>
+<article class="p" id="p3-33" data-x="1" data-l="3"><div class="ph"><span class="n">3.33</span></div>
 <div>Обчисліть det матриці n×n з двійками на діагоналі й одиницями поза нею для n = 2, 3, 4. Вгадайте й доведіть загальну формулу.</div>
 <details><summary>Відповідь</summary><div>3, 4, 5, тобто n + 1. Доведення: додайте всі стовпці до першого (там стане n + 1), винесіть, відніміть перший рядок від решти, отримаєте трикутну з одиницями.</div></details></article>
 
-<article class="p" id="p3-34" data-l="3"><div class="ph"><span class="n">3.34</span></div>
+<article class="p" id="p3-34" data-x="1" data-l="3"><div class="ph"><span class="n">3.34</span></div>
 <div>Нехай A³ = O. Доведіть, що I − A оборотна і (I − A)⁻¹ = I + A + A².</div>
 <details><summary>Відповідь</summary><div>(I − A)(I + A + A²) = I + A + A² − A − A² − A³ = I − A³ = I.</div></details></article>
 
@@ -499,7 +499,7 @@
 <div>Знайдіть образ прямої y = x + 1 під симетрією відносно Ox.</div>
 <details><summary>Відповідь</summary><div>(t, t + 1) → (t, −t − 1), тобто y = −x − 1.</div></details></article>
 
-<article class="p" id="p4-15" data-l="3"><div class="ph"><span class="n">4.15</span><span class="pts">додатково</span></div>
+<article class="p" id="p4-15" data-x="1" data-l="3"><div class="ph"><span class="n">4.15</span><span class="pts">додатково</span></div>
 <div>Запишіть матрицю симетрії відносно прямої y = √3·x і знайдіть образ точки (2, 0).</div>
 <details><summary>Відповідь</summary><div>θ = 60°: <span class="M">cos120° sin120°; sin120° −cos120°</span> = <span class="M">-1/2 √3/2; √3/2 1/2</span>. (2, 0) → (−1, √3); довжина зберігається.</div></details></article>
 
@@ -544,7 +544,7 @@
 <div>Знайдіть образ прямої y = 2x під поворотом на 90°.</div>
 <details><summary>Відповідь</summary><div>(t, 2t) → (−2t, t), тобто y = −x/2: перпендикулярна пряма, як і має бути.</div></details></article>
 
-<article class="p" id="p4-26" data-l="3"><div class="ph"><span class="n">4.26</span></div>
+<article class="p" id="p4-26" data-x="1" data-l="3"><div class="ph"><span class="n">4.26</span></div>
 <div>Доведіть: якщо S — матриця будь-якої симетрії відносно прямої через 0, то S² = I. Для якого найменшого n маємо R(72°)ⁿ = I?</div>
 <details><summary>Відповідь</summary><div>Двічі відобразити — повернутися на місце (або перевірте добуток <span class="M">cos2θ sin2θ; sin2θ −cos2θ</span>² = I). R(72°)ⁿ = R(72n°) = I ⇔ 72n кратне 360, тобто n = 5.</div></details></article>
 
@@ -552,5 +552,5 @@
 <div class="next"><span>Готові перевірити себе в умовах тесту?</span><a href="tests.html">Пробні контрольні →</a></div>
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=16"></script><script src="assets/search.js?v=16"></script>
+<script src="assets/app.js?v=17"></script><script src="assets/search.js?v=17"></script>
 </body></html>

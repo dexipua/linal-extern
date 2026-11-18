@@ -32,8 +32,22 @@
 
   /* ---------- problems ---------- */
   var LV = { 1: ['lv1', '● базова'], 2: ['lv2', '◆ основна'], 3: ['lv3', '▲ складна'] };
+  /* ---------- study mode: 'normal' = syllabus only, 'super' = everything ---------- */
+  var MODE = document.documentElement.getAttribute('data-mode') === 'normal' ? 'normal' : 'super', NORMAL = MODE === 'normal';
+  var EXTRA_P = ['1.19', '2.30', '2.31', '3.22', '3.30', '3.33', '3.34', '4.15', '4.26'];
+  window.LINAL_MODE = MODE;
+  function setMode(m) { try { localStorage.setItem('linal-mode', m); } catch (e) {} location.reload(); }
+  $$('[data-setmode]').forEach(function (b) {
+    b.setAttribute('aria-pressed', b.dataset.setmode === MODE ? 'true' : 'false');
+    b.addEventListener('click', function () { if (b.dataset.setmode !== MODE) setMode(b.dataset.setmode); });
+  });
+  $$('.n-total').forEach(function (e) { e.textContent = NORMAL ? (121 - EXTRA_P.length) + ' задач' : '121 задача'; });
   var done = load(KEY_P);
-  var ps = $$('.problems .p');
+  var doneVis = {}; Object.keys(done).forEach(function (k) { if (!(NORMAL && EXTRA_P.indexOf(k) >= 0)) doneVis[k] = 1; });
+  if (NORMAL) $$('[data-meter]').forEach(function (m) {
+    m.dataset.total = +m.dataset.total - EXTRA_P.filter(function (k) { return k.split('.')[0] === m.dataset.meter; }).length;
+  });
+  var ps = $$('.problems .p').filter(function (p) { return !(NORMAL && p.hasAttribute('data-x')); });
   if (ps.length) {
     ps.forEach(function (p) {
       var h = p.querySelector('.ph'), n = h.querySelector('.n'), num = n.textContent, l = p.dataset.l;
@@ -145,7 +159,7 @@
     var all = 0, got = 0;
     meters.forEach(function (m) {
       var b = m.dataset.meter, tot = +m.dataset.total;
-      var d = Object.keys(done).filter(function (k) { return k.split('.')[0] === b; }).length;
+      var d = Object.keys(doneVis).filter(function (k) { return k.split('.')[0] === b; }).length;
       all += tot; got += d;
       m.querySelector('b').style.width = (100 * d / tot) + '%';
       var lab = document.querySelector('[data-mlabel="' + b + '"]');
@@ -224,6 +238,16 @@
     });
   }
 
+  /* ---------- mode chip in the header ---------- */
+  if (tw) {
+    var mc = document.createElement('button'); mc.type = 'button'; mc.className = 'mode-btn ' + MODE; mc.id = 'mode-btn';
+    mc.innerHTML = NORMAL ? '<span class="md"></span>Силабус' : '<span class="md"></span>Супер';
+    mc.title = NORMAL ? 'Режим «За силабусом»: лише матеріал курсу. Натисніть, щоб увімкнути «Супер».' : 'Режим «Супер»: усе, разом з додатковими темами. Натисніть, щоб перейти до «За силабусом».';
+    mc.setAttribute('aria-label', mc.title);
+    mc.addEventListener('click', function () { setMode(NORMAL ? 'super' : 'normal'); });
+    var sb = document.getElementById('search-btn'); tw.insertBefore(mc, sb || document.getElementById('theme-btn') || null);
+  }
+
   /* ---------- mobile menu ---------- */
   if (top && tw) {
     var mb = document.createElement('button'); mb.type = 'button'; mb.className = 'menu-btn'; mb.id = 'menu-btn';
@@ -287,7 +311,7 @@
       exIn.value = v;
       if (!v) { ex.innerHTML = '<span class="mut">Вкажіть дату тесту чи екзамену, і тут з\'явиться відлік та денна норма.</span>'; return; }
       var ms = new Date(v + 'T00:00:00') - new Date(today() + 'T00:00:00'), n = Math.round(ms / 864e5);
-      var left = totalP - Object.keys(done).length;
+      var left = totalP - Object.keys(doneVis).length;
       if (n < 0) { ex.innerHTML = '<b>Дата минула</b><span>Вкажіть нову дату.</span>'; return; }
       if (n === 0) { ex.innerHTML = '<b>Сьогодні</b><span>Успіху! Перегляньте шпаргалку й картки «не знаю».</span>'; return; }
       ex.innerHTML = '<b>' + n + '</b><span>' + (n === 1 ? 'день' : n >= 2 && n <= 4 ? 'дні' : 'днів') + ' до тесту</span>' +
@@ -305,7 +329,7 @@
     var nUnk = Object.keys(unkC).length;
     if (nUnk) rec.push('Картки «не знаю»: ' + nUnk + '. <a href="trainer.html#cards">Повторити</a>');
     var blocks = $$('[data-meter]').map(function (m) {
-      var b = m.dataset.meter, d = Object.keys(done).filter(function (k) { return k.split('.')[0] === b; }).length;
+      var b = m.dataset.meter, d = Object.keys(doneVis).filter(function (k) { return k.split('.')[0] === b; }).length;
       return { b: b, share: d / +m.dataset.total, name: m.closest('li').querySelector('h3').textContent };
     }).sort(function (a, b) { return a.share - b.share; });
     var R = load('linal-read');
@@ -313,7 +337,7 @@
     if (unread.length) rec.push('Конспект: блок «' + unread[0].name + '» ще не позначено як прочитаний. <a href="material.html#b' + unread[0].b + '">Читати</a>');
     if (blocks[0].share < 1) rec.push('Найменше розв\'язано в темі «' + blocks[0].name + '» (' + Math.round(blocks[0].share * 100) + ' %). <a href="problems.html#b' + blocks[0].b + '">До задач</a>');
     var tsc = load(KEY_T), anyTest = Object.keys(tsc).length;
-    if (!anyTest && Object.keys(done).length >= 20) rec.push('Ви вже розв\'язали ' + Object.keys(done).length + ' задач, час для пробної контрольної. <a href="tests.html">Почати</a>');
+    if (!anyTest && Object.keys(doneVis).length >= 20) rec.push('Ви вже розв\'язали ' + Object.keys(doneVis).length + ' задач, час для пробної контрольної. <a href="tests.html">Почати</a>');
     if (!tr.exam) rec.push('Спробуйте міні-тест: 10 задач за 15 хвилин. <a href="trainer.html">Почати</a>');
     document.getElementById('d-rec').innerHTML = rec.slice(0, 4).map(function (r) { return '<li>' + r + '</li>'; }).join('');
   }

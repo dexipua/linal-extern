@@ -292,6 +292,7 @@
   /* ---------- flashcards ---------- */
   var CARDS = window.CARDS || [], TOP = window.CARD_TOPICS || {}, UKEY = 'linal-cards-unknown', SKEY = 'linal-cards-session';
   CARDS.forEach(function (c, i) { c.id = i; });
+  var CARDS_ALL = CARDS; if (document.documentElement.getAttribute('data-mode') === 'normal') CARDS = CARDS.filter(function (c) { return !c.x; });
   function lsGet(k, d) { try { return JSON.parse(localStorage.getItem(k) || 'null') || d; } catch (e) { return d; } }
   function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var unk = lsGet(UKEY, {});
@@ -300,10 +301,10 @@
     fleft = document.getElementById('fleft'), fprog = document.getElementById('fprog'), fend = document.getElementById('fend'),
     bShow = document.getElementById('f-show'), bKnow = document.getElementById('f-know'), bNo = document.getElementById('f-no'), bBack = document.getElementById('f-back'),
     ftopics = document.getElementById('ftopics'), flash = fc.parentElement, frow = document.getElementById('frow'), fmix = document.getElementById('f-mix'), fres = document.getElementById('fresume');
-  function byId(id) { return CARDS[id]; }
+  function byId(id) { return CARDS_ALL[id]; }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = ri(0, i), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   function persist() { lsSet(SKEY, S); lsSet(UKEY, unk); }
-  function unkCount() { return Object.keys(unk).length; }
+  function unkCount() { return CARDS.filter(function (c) { return unk[c.id]; }).length; }
   function renderChips() {
     var tb = [['all', 'Усі', CARDS.length]].concat(Object.keys(TOP).map(function (k) { return [k, TOP[k], CARDS.filter(function (c) { return c.t === k; }).length]; }));
     tb.push(['unk', 'Мої «не знаю»', unkCount()]);
@@ -399,7 +400,7 @@
   });
   /* resume the previous session if there is one */
   var saved = lsGet(SKEY, null);
-  if (saved && saved.round && saved.round.length && saved.deck && saved.deck.every(function (id) { return CARDS[id]; })) {
+  if (saved && saved.round && saved.round.length && saved.deck && saved.deck.every(function (id) { return CARDS_ALL[id] && CARDS.indexOf(CARDS_ALL[id]) >= 0; })) {
     S = saved; S.log = S.log || []; if (S.mix == null) S.mix = true;
     fmix.checked = S.mix;
     var done0 = S.round.length - S.deck.length;

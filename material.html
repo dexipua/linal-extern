@@ -6,17 +6,17 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=16">
-<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css?v=17">
+<script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#23407a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Лінал">
 </head><body>
-<header class="top"><div class="wrap wide"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html" aria-current="page">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
+<header class="top"><div class="wrap wide"><a class="brand" href="index.html"><i>Ax</i>Лінал<span class="bx"> · екстерн</span></a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html" aria-current="page">Конспект</a><a href="problems.html">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
 <main><div class="wrap wide">
-<div class="layout"><nav class="toc" aria-label="Зміст"><a class="" href="#b1">Блок 1. СЛАР і метод Жордана–Гаусса</a><a class="sub" href="#s1">Дві картини однієї системи</a><a class="sub" href="#s2">Алгоритм</a><a class="sub" href="#s3">Скільки розв’язків (ранг r = число ненульових рядків)</a><a class="sub" href="#s4">Системи з параметром</a><a class="sub" href="#s5">Моделювання (типові задачі на тестах)</a><a class="" href="#b2">Блок 2. Вектори й матриці</a><a class="sub" href="#s6">Вектори, лінійна комбінація, залежність</a><a class="sub" href="#s7">Підпростір</a><a class="sub" href="#s8">Типи матриць</a><a class="sub" href="#s9">Множення: розуміння</a><a class="sub" href="#s10">Властивості</a><a class="sub" href="#s11">Степені та многочлени від матриці</a><a class="" href="#b3">Блок 3. Визначники й обернена матриця</a><a class="sub" href="#s12">Обчислення</a><a class="sub" href="#s13">Властивості</a><a class="sub" href="#s14">Що означає det</a><a class="sub" href="#s15">Обернена матриця: три способи</a><a class="sub" href="#s16">Розв’язання через обернену</a><a class="" href="#b4">Блок 4. Геометричні перетворення площини</a><a class="" href="#ex">Додатково з ваших файлів (за бажанням)</a></nav><article>
+<div class="layout"><nav class="toc" aria-label="Зміст"><a class="" href="#b1">Блок 1. СЛАР і метод Жордана–Гаусса</a><a class="sub" href="#s1">Дві картини однієї системи</a><a class="sub" href="#s2">Алгоритм</a><a class="sub" href="#s3">Скільки розв’язків (ранг r = число ненульових рядків)</a><a class="sub" href="#s4">Системи з параметром</a><a class="sub" href="#s5">Моделювання (типові задачі на тестах)</a><a class="" href="#b2">Блок 2. Вектори й матриці</a><a class="sub" href="#s6">Вектори, лінійна комбінація, залежність</a><a class="sub" href="#s7">Підпростір</a><a class="sub" href="#s8">Типи матриць</a><a class="sub" href="#s9">Множення: розуміння</a><a class="sub" href="#s10">Властивості</a><a class="sub" href="#s11">Степені та многочлени від матриці</a><a class="" href="#b3">Блок 3. Визначники й обернена матриця</a><a class="sub" href="#s12">Обчислення</a><a class="sub" href="#s13">Властивості</a><a class="sub" href="#s14">Що означає det</a><a class="sub" href="#s15">Обернена матриця: три способи</a><a class="sub" href="#s16">Розв’язання через обернену</a><a class="" href="#b4">Блок 4. Геометричні перетворення площини</a><a class="" href="#ex" data-x="1">Додатково з ваших файлів (за бажанням)</a></nav><article>
 <p class="eyebrow">Теорія</p>
 <h1>Конспект</h1>
 <p class="mut">Чотири теми силабуса в порядку курсу: СЛАР → матриці → визначники й обернена → геометрія. Абзаци з позначкою «Додатково» не обов'язкові для тестів.</p>
@@ -97,7 +97,7 @@
 <h3 id="s15">Обернена матриця: три способи</h3>
 <ol><li><b>2×2:</b> <span class="M">a b; c d</span><sup>−1</sup> = (1/(ad−bc))·<span class="M">d -b; -c a</span>.</li>
 <li><b>Жордан–Гаус:</b> [A | I] → [I | A⁻¹]. Основний спосіб для 3×3 і більше. Якщо зліва виник нульовий рядок, A вироджена.</li>
-<li><b>Через приєднану:</b> A⁻¹ = (1/det A)·adj A, де adj A — транспонована матриця алгебраїчних доповнень. Корисно для теорії.</li></ol>
+<li data-x="1"><b>Через приєднану:</b> A⁻¹ = (1/det A)·adj A, де adj A — транспонована матриця алгебраїчних доповнень. Корисно для теорії.</li></ol>
 <p><b>Властивості:</b> (AB)⁻¹ = B⁻¹A⁻¹ (порядок змінюється!); (Aᵀ)⁻¹ = (A⁻¹)ᵀ; (A⁻¹)⁻¹ = A; обернена єдина. <b>Перевірка:</b> AA⁻¹ = I.</p>
 <h3 id="s16">Розв’язання через обернену</h3>
 <p>Ax = b ⇒ <b>x = A⁻¹b</b>. Матричні рівняння: AX = B ⇒ X = A⁻¹B (A⁻¹ зліва); XA = B ⇒ X = BA⁻¹ (A⁻¹ справа). Порядок множників критичний.</p>
@@ -128,8 +128,8 @@
 3) Чому проєкція не має оберненої? <i>Різні точки (x,y) і (x,y′) мають один образ; det = 0.</i></p></details>
 
 <div class="next"><label class="chkl"><input type="checkbox" data-read="b4" id="rd-b4"> Блок 4 прочитано</label><span>Закріпіть його задачами.</span><a href="problems.html#b4">Задачі до блоку 4 →</a></div>
-<h2 id="ex">Додатково з ваших файлів (за бажанням)</h2>
-<ul><li><b>Поле Zₚ:</b> арифметика за модулем p; Zₚ — поле ⇔ p просте. Системи над Zₚ розв’язуються тим самим Гаусом, але ділення — це множення на обернений за модулем (напр., у Z₅: 2⁻¹ = 3, бо 2·3 = 6 ≡ 1).</li>
+<h2 id="ex" data-x="1">Додатково з ваших файлів (за бажанням)</h2>
+<ul data-x="1"><li><b>Поле Zₚ:</b> арифметика за модулем p; Zₚ — поле ⇔ p просте. Системи над Zₚ розв’язуються тим самим Гаусом, але ділення — це множення на обернений за модулем (напр., у Z₅: 2⁻¹ = 3, бо 2·3 = 6 ≡ 1).</li>
 <li><b>Групи, кільця, поля:</b> група — асоціативна операція, нейтральний елемент, обернені; Mat(n, F) — некомутативне кільце з одиницею; GL(n, F) — група за множенням.</li>
 <li><b>Перестановки:</b> |Sₙ| = n!; парність за інверсіями / транспозиціями; det = Σ (−1)<sup>I(σ)</sup>a₁σ₁…aₙσₙ — комбінаторне означення визначника.</li>
 <li><b>LU-розклад:</b> A = LU (L — нижньотрикутна з одиницями на діагоналі, U — ступінчата); Ax = b розв’язується як Ly = b, потім Ux = y.</li>
@@ -139,5 +139,5 @@
 </article></div>
 </div></main>
 <footer><div class="wrap wide">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=16"></script><script src="assets/search.js?v=16"></script>
+<script src="assets/app.js?v=17"></script><script src="assets/search.js?v=17"></script>
 </body></html>
