@@ -6,7 +6,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=10">
+<link rel="stylesheet" href="assets/style.css?v=14">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head><body>
 <header class="top"><div class="wrap"><a class="brand" href="index.html"><i>Ax</i>Лінал · екстерн</a><nav aria-label="Розділи"><a href="index.html">Головна</a><a href="material.html">Конспект</a><a href="problems.html" aria-current="page">Задачі</a><a href="trainer.html">Тренажер</a><a href="lab.html">Лабораторія</a><a href="tests.html">Контрольні</a><a href="cheatsheet.html">Шпаргалка</a></nav></div></header>
@@ -31,515 +31,515 @@
 <h2 id="b1">Блок 1. СЛАР і метод Жордана–Гаусса <span class="bp" data-b="1"></span></h2>
 
 <h3 class="grp">Розв'язання систем</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">1.1</span></div>
+<article class="p" id="p1-1" data-l="1"><div class="ph"><span class="n">1.1</span></div>
 <div>Розв'яжіть методом Гаусса: <span class="sys">3x + 2y = 7<br>x − y = −1</span></div>
 <details><summary>Відповідь</summary><div>x = 1, y = 2.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.2</span></div>
+<article class="p" id="p1-2" data-l="1"><div class="ph"><span class="n">1.2</span></div>
 <div>Запишіть розширену матрицю і розв'яжіть: <span class="sys">x + y + z = 6<br>2x − y + z = 3<br>x + 2y − z = 2</span></div>
 <details><summary>Відповідь</summary><div>x = 1, y = 2, z = 3. Перевірка підстановкою в усі три рівняння обов'язкова.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.3</span></div>
+<article class="p" id="p1-3" data-l="1"><div class="ph"><span class="n">1.3</span></div>
 <div>Розв'яжіть методом Жордана–Гаусса (доведіть ліву частину до одиничної): <span class="sys">2x − y + 3z = 14<br>x + y + z = 4<br>3x − 2y − z = 5</span></div>
 <details><summary>Відповідь</summary><div>x = 2, y = −1, z = 3. Підказка: почніть з обміну R₁ ↔ R₂, щоб ведучим елементом була 1.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.4</span></div>
+<article class="p" id="p1-4" data-l="2"><div class="ph"><span class="n">1.4</span></div>
 <div>Дослідіть систему і розв'яжіть її, якщо вона сумісна:
 <span class="M">1 2 -1 ¦ 1; 2 3 1 ¦ 4; 3 5 0 ¦ 6</span></div>
 <details><summary>Відповідь</summary><div>Після зведення: <span class="M">1 0 5 ¦ 0; 0 1 -3 ¦ 0; 0 0 0 ¦ 1</span>. Рядок 0 0 0 | 1 означає 0 = 1, тому система <b>несумісна</b>. (R₃ − R₁ − R₂ дає це одразу.)</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.5</span></div>
+<article class="p" id="p1-5" data-l="2"><div class="ph"><span class="n">1.5</span></div>
 <div>Знайдіть загальний розв'язок: <span class="sys">x − y + 2z = 3<br>2x − y + 5z = 8<br>x + 3z = 5</span></div>
 <details><summary>Відповідь</summary><div>Зведена форма: <span class="M">1 0 3 ¦ 5; 0 1 1 ¦ 2; 0 0 0 ¦ 0</span>, r = 2 &lt; 3, одна вільна змінна.<br>x = 5 − 3t, y = 2 − t, z = t, t ∈ ℝ.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.6</span></div>
+<article class="p" id="p1-6" data-l="2"><div class="ph"><span class="n">1.6</span></div>
 <div>Знайдіть загальний розв'язок системи з 4 невідомими:
 <span class="sys">x₁ + 2x₂ − x₄ = 1<br>2x₁ + 4x₂ + x₃ = 5<br>x₁ + 2x₂ + x₃ + x₄ = 4</span><br>Скільки вільних змінних? Наведіть один частинний розв'язок.</div>
 <details><summary>Відповідь</summary><div>Зведена форма: <span class="M">1 2 0 -1 ¦ 1; 0 0 1 2 ¦ 3; 0 0 0 0 ¦ 0</span>. r = 2, вільних змінних 4 − 2 = 2 (x₂ = s, x₄ = t).<br>x₁ = 1 − 2s + t, x₂ = s, x₃ = 3 − 2t, x₄ = t. Частинний (s = t = 0): (1, 0, 3, 0).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.7</span></div>
+<article class="p" id="p1-7" data-l="2"><div class="ph"><span class="n">1.7</span></div>
 <div>Однорідна система <span class="sys">x + 2y − z = 0<br>2x + 5y + z = 0<br>x + 3y + 2z = 0</span> Чи має вона нетривіальні розв'язки? Знайдіть їх усі.</div>
 <details><summary>Відповідь</summary><div>det = 0 (рядок 3 = рядок 2 − рядок 1), тож так. Зведена форма: x − 7z = 0, y + 3z = 0.<br>x = 7t, y = −3t, z = t.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.8</span></div>
+<article class="p" id="p1-8" data-l="1"><div class="ph"><span class="n">1.8</span></div>
 <div>Розв'яжіть правилом Крамера: <span class="sys">5x − 3y = 7<br>2x + 4y = 8</span></div>
 <details><summary>Відповідь</summary><div>Δ = 20 + 6 = 26, Δₓ = 28 + 24 = 52, Δ_y = 40 − 14 = 26. x = 2, y = 1.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.9</span></div>
+<article class="p" id="p1-9" data-l="3"><div class="ph"><span class="n">1.9</span></div>
 <div>Розв'яжіть правилом Крамера: <span class="sys">x + y + 2z = 9<br>2x + 4y − 3z = 1<br>3x + 6y − 5z = 0</span></div>
 <details><summary>Відповідь</summary><div>Δ = −1, Δₓ = −1, Δ_y = −2, Δ_z = −3. x = 1, y = 2, z = 3.</div></details></article>
 
 <h3 class="grp">Системи з параметром</h3>
-<article class="p" data-l="2"><div class="ph"><span class="n">1.10</span></div>
+<article class="p" id="p1-10" data-l="2"><div class="ph"><span class="n">1.10</span></div>
 <div>Дослідіть систему залежно від a: <span class="sys">ax + y = 1<br>x + ay = 1</span></div>
 <details><summary>Відповідь</summary><div>Δ = a² − 1.<br>a ≠ ±1: єдиний розв'язок x = y = 1/(a + 1).<br>a = 1: обидва рівняння x + y = 1, безліч розв'язків x = 1 − t, y = t.<br>a = −1: −x + y = 1 і x − y = 1, суперечність, розв'язків немає.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.11</span></div>
+<article class="p" id="p1-11" data-l="2"><div class="ph"><span class="n">1.11</span></div>
 <div>При яких k однорідна система з матрицею <span class="M">1 2 3; 2 k 6; -1 3 k</span> має нетривіальні розв'язки?</div>
 <details><summary>Відповідь</summary><div>det = (k − 4)(k + 3) = 0, тобто k = 4 або k = −3.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.12</span></div>
+<article class="p" id="p1-12" data-l="3"><div class="ph"><span class="n">1.12</span></div>
 <div>Дослідіть систему залежно від a і розв'яжіть у кожному випадку: <span class="sys">x + y + az = 1<br>x + ay + z = 1<br>ax + y + z = 1</span></div>
 <details><summary>Відповідь</summary><div>det = −(a − 1)²(a + 2).<br>a ≠ 1, a ≠ −2: єдиний розв'язок x = y = z = 1/(a + 2).<br>a = 1: усі рівняння x + y + z = 1, безліч розв'язків (2 вільні змінні): x = 1 − s − t, y = s, z = t.<br>a = −2: після зведення з'являється рядок 0 0 0 | 1, розв'язків немає (додайте всі три рівняння: 0 = 3).</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.13</span></div>
+<article class="p" id="p1-13" data-l="3"><div class="ph"><span class="n">1.13</span></div>
 <div>При яких a і b система <span class="sys">x + 2y = 3<br>2x + ay = b</span> (а) має єдиний розв'язок; (б) безліч; (в) жодного?</div>
 <details><summary>Відповідь</summary><div>R₂ − 2R₁: (a − 4)y = b − 6.<br>(а) a ≠ 4; тоді y = (b − 6)/(a − 4), x = 3 − 2y.<br>(б) a = 4, b = 6.<br>(в) a = 4, b ≠ 6.</div></details></article>
 
 <h3 class="grp">Стовпцева картина</h3>
-<article class="p" data-l="2"><div class="ph"><span class="n">1.14</span></div>
+<article class="p" id="p1-14" data-l="2"><div class="ph"><span class="n">1.14</span></div>
 <div>Чи є вектор b лінійною комбінацією a₁ = (1, 3, −1) і a₂ = (2, 1, 4)? Розгляньте (а) b = (4, 7, 2); (б) b = (4, 7, 3). Сформулюйте відповідь мовою СЛАР.</div>
 <details><summary>Відповідь</summary><div>(а) Так: b = 2a₁ + a₂ (система x·a₁ + y·a₂ = b сумісна, x = 2, y = 1).<br>(б) Ні: з перших двох координат x = 2, y = 1, але третя дає 2 ≠ 3, система несумісна.</div></details></article>
 
 <h3 class="grp">Моделювання</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">1.15</span></div>
+<article class="p" id="p1-15" data-l="1"><div class="ph"><span class="n">1.15</span></div>
 <div>У кав'ярні 2 капучино, 1 круасан і 3 сирники коштують 145 грн; 1 капучино, 3 круасани і 1 сирник — 95 грн; 3 капучино, 2 круасани і 2 сирники — 150 грн. Знайдіть ціну кожної позиції.</div>
 <details><summary>Відповідь</summary><div>Капучино 20 грн, круасан 15 грн, сирник 30 грн.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.16</span></div>
+<article class="p" id="p1-16" data-l="2"><div class="ph"><span class="n">1.16</span></div>
 <div>Інвестор розподілив 20 000 грн між трьома фондами з річною дохідністю 4 %, 6 % і 8 %. Річний дохід становить 1240 грн, а в третій фонд вкладено втричі менше, ніж у перші два разом. Скільки вкладено в кожен фонд?</div>
 <details><summary>Відповідь</summary><div>x + y + z = 20000; 0,04x + 0,06y + 0,08z = 1240; x + y = 3z.<br>3000 грн, 12 000 грн, 5000 грн. Перевірка: 120 + 720 + 400 = 1240.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.17</span></div>
+<article class="p" id="p1-17" data-l="1"><div class="ph"><span class="n">1.17</span></div>
 <div>Знайдіть параболу y = ax² + bx + c, що проходить через точки (−1, 6), (0, 1), (2, 3).</div>
 <details><summary>Відповідь</summary><div>a − b + c = 6, c = 1, 4a + 2b + c = 3 ⇒ y = 2x² − 3x + 1.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.18</span></div>
+<article class="p" id="p1-18" data-l="3"><div class="ph"><span class="n">1.18</span></div>
 <div>Мережа доріг з одностороннім рухом (авто/год). На перехрестя A в'їжджає 500 авто, з нього виїжджають потоки x₁ і x₄. B: в'їжджає x₁, виїжджають x₂ і 200. C: в'їжджають x₂ і x₃, виїжджає 300. D: в'їжджає x₄, виїжджає x₃. На кожному перехресті «скільки в'їхало = скільки виїхало». Знайдіть усі можливі потоки. Яке найменше та найбільше значення x₄, якщо всі потоки невід'ємні?</div>
 <details><summary>Відповідь</summary><div>x₁ + x₄ = 500, x₁ − x₂ = 200, x₂ + x₃ = 300, x₃ − x₄ = 0.<br>x₁ = 500 − t, x₂ = 300 − t, x₃ = t, x₄ = t. З x₂ ≥ 0 маємо 0 ≤ x₄ ≤ 300.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.19</span><span class="pts">додатково</span></div>
+<article class="p" id="p1-19" data-l="3"><div class="ph"><span class="n">1.19</span><span class="pts">додатково</span></div>
 <div>Розв'яжіть у полі Z₅: <span class="sys">x + 2y = 4<br>3x + 4y = 1</span></div>
 <details><summary>Відповідь</summary><div>R₂ − 3R₁: −2y = −11, тобто 3y ≡ 4 (mod 5). 3⁻¹ = 2 у Z₅, тож y = 8 ≡ 3; x = 4 − 6 ≡ 3. Відповідь: x = 3, y = 3.</div></details></article>
 
 
 <h3 class="grp">Ще практика: системи</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">1.20</span></div>
+<article class="p" id="p1-20" data-l="1"><div class="ph"><span class="n">1.20</span></div>
 <div>Розв'яжіть, спершу позбувшись дробів: <span class="sys">x/2 + y/3 = 4<br>x − y = 3</span></div>
 <details><summary>Відповідь</summary><div>3x + 2y = 24 і x − y = 3 ⇒ x = 6, y = 3.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.21</span></div>
+<article class="p" id="p1-21" data-l="1"><div class="ph"><span class="n">1.21</span></div>
 <div>Не розв'язуючи, визначте кількість розв'язків за зведеною розширеною матрицею (невідомі x, y, z):
 <ol class="sub" type="a"><li><span class="M">1 2 0 ¦ 3; 0 1 4 ¦ 1; 0 0 2 ¦ 5</span></li><li><span class="M">1 -1 3 ¦ 2; 0 0 1 ¦ 4; 0 0 0 ¦ 0</span></li><li><span class="M">1 0 2 ¦ 1; 0 1 1 ¦ 0; 0 0 0 ¦ 7</span></li></ol></div>
 <details><summary>Відповідь</summary><div>a) r = 3 = n, єдиний розв'язок; b) сумісна, r = 2 &lt; 3, безліч (одна вільна змінна, y); c) рядок 0 0 0 | 7, розв'язків немає.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.22</span></div>
+<article class="p" id="p1-22" data-l="2"><div class="ph"><span class="n">1.22</span></div>
 <div>Розв'яжіть систему з чотирма невідомими: <span class="sys">x + y + z + w = 10<br>x − y + z − w = −2<br>2x + y − z + w = 5<br>x + 2y + 3z − w = 10</span></div>
 <details><summary>Відповідь</summary><div>x = 1, y = 2, z = 3, w = 4. Підказка: R₁ + R₂ дає x + z = 4.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.23</span></div>
+<article class="p" id="p1-23" data-l="2"><div class="ph"><span class="n">1.23</span></div>
 <div>Для яких правих частин (b₁, b₂, b₃) сумісна система з матрицею <span class="M">1 2 1; 2 5 3; 1 3 2</span>?</div>
 <details><summary>Відповідь</summary><div>det = 0, а R₃ = R₂ − R₁. Отже, система сумісна ⇔ b₃ = b₂ − b₁. Геометрично: b має лежати в площині, натягнутій на стовпці.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.24</span></div>
+<article class="p" id="p1-24" data-l="2"><div class="ph"><span class="n">1.24</span></div>
 <div>Знайдіть усі розв'язки однорідної системи і запишіть їх як лінійну комбінацію двох векторів: <span class="sys">x₁ + x₂ − 2x₃ + x₄ = 0<br>2x₁ + 3x₂ − x₃ + 4x₄ = 0</span></div>
 <details><summary>Відповідь</summary><div>Зведена форма: x₁ − 5x₃ − x₄ = 0, x₂ + 3x₃ + 2x₄ = 0.<br>x = s·(5, −3, 1, 0) + t·(1, −2, 0, 1), s, t ∈ ℝ.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.25</span></div>
+<article class="p" id="p1-25" data-l="3"><div class="ph"><span class="n">1.25</span></div>
 <div>Дослідіть систему залежно від λ: <span class="sys">x + y + z = 1<br>x + 2y + λz = 2<br>x + 4y + λ²z = 4</span></div>
 <details><summary>Відповідь</summary><div>det = (λ − 1)(λ − 2).<br>λ ≠ 1, 2: єдиний розв'язок (0, 1, 0).<br>λ = 1: безліч, x = −t, y = 1, z = t.<br>λ = 2: безліч, x = 0, y = 1 − t, z = t.<br>Несумісних випадків немає: (0, 1, 0) завжди розв'язок.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">1.26</span></div>
+<article class="p" id="p1-26" data-l="1"><div class="ph"><span class="n">1.26</span></div>
 <div>Скільки грамів 10 % і 30 % розчинів треба змішати, щоб отримати 200 г 25 % розчину?</div>
 <details><summary>Відповідь</summary><div>x + y = 200, 0,1x + 0,3y = 50 ⇒ 50 г 10 % і 150 г 30 %.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.27</span></div>
+<article class="p" id="p1-27" data-l="2"><div class="ph"><span class="n">1.27</span></div>
 <div>Ринок двох товарів: попит Q₁ = 10 − 2P₁ + P₂, пропозиція Q₁ = −2 + 3P₁; попит Q₂ = 19 + P₁ − P₂, пропозиція Q₂ = −1 + 2P₂. Знайдіть рівноважні ціни й обсяги.</div>
 <details><summary>Відповідь</summary><div>5P₁ − P₂ = 12, −P₁ + 3P₂ = 20 ⇒ P₁ = 4, P₂ = 8; Q₁ = 10, Q₂ = 15.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.28</span></div>
+<article class="p" id="p1-28" data-l="2"><div class="ph"><span class="n">1.28</span></div>
 <div>Зрівняйте реакцію горіння пропану x C₃H₈ + y O₂ → z CO₂ + w H₂O, склавши однорідну систему (баланс C, H, O). Знайдіть найменші натуральні коефіцієнти.</div>
 <details><summary>Відповідь</summary><div>C: 3x = z; H: 8x = 2w; O: 2y = 2z + w. Розв'язок t·(1, 5, 3, 4): C₃H₈ + 5O₂ → 3CO₂ + 4H₂O.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">1.29</span></div>
+<article class="p" id="p1-29" data-l="2"><div class="ph"><span class="n">1.29</span></div>
 <div>Модель Леонтьєва: дві галузі, матриця прямих витрат A = <span class="M">0.2 0.3; 0.4 0.1</span>, кінцевий попит d = (60, 30). Знайдіть валовий випуск x із рівняння x = Ax + d.</div>
 <details><summary>Відповідь</summary><div>(I − A)x = d: 0,8x₁ − 0,3x₂ = 60, −0,4x₁ + 0,9x₂ = 30 ⇒ x = (105, 80).</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">1.30</span></div>
+<article class="p" id="p1-30" data-l="3"><div class="ph"><span class="n">1.30</span></div>
 <div>Знайдіть кубічний многочлен p(x) = ax³ + bx² + cx + d, для якого p(−1) = −4, p(0) = 1, p(1) = 2, p(2) = 5.</div>
 <details><summary>Відповідь</summary><div>p(x) = x³ − 2x² + 2x + 1.</div></details></article>
 
 <h2 id="b2">Блок 2. Вектори й матриці <span class="bp" data-b="2"></span></h2>
 
 <h3 class="grp">Вектори і простори</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">2.1</span></div>
+<article class="p" id="p2-1" data-l="1"><div class="ph"><span class="n">2.1</span></div>
 <div>Виразіть v = (4, 5, 1) через a₁ = (1, 2, −1) і a₂ = (2, 1, 3).</div>
 <details><summary>Відповідь</summary><div>v = 2a₁ + a₂.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.2</span></div>
+<article class="p" id="p2-2" data-l="2"><div class="ph"><span class="n">2.2</span></div>
 <div>При якому k вектори (1, 2, 3), (2, −1, 1), (k, 1, 4) лінійно залежні? Для цього k знайдіть явну залежність.</div>
 <details><summary>Відповідь</summary><div>det = 5(k − 3), тож k = 3. Тоді (3, 1, 4) = (1, 2, 3) + (2, −1, 1).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.3</span></div>
+<article class="p" id="p2-3" data-l="2"><div class="ph"><span class="n">2.3</span></div>
 <div>Які з множин є підпросторами? Обґрунтуйте кожну.
 <ol class="sub" type="a"><li>{(x, y, z) ∈ ℝ³ : x − 2y + z = 0}</li><li>{(x, y) : x + y = 1}</li><li>{(x, y) : x ≥ 0}</li><li>{(t, 2t, 3t) : t ∈ ℝ}</li><li>{(x, y) : x² = y²}</li><li>матриці 2×2 з det = 0</li><li>верхньотрикутні матриці 3×3</li></ol></div>
 <details><summary>Відповідь</summary><div>a) так; b) ні, нуля немає; c) ні, (1, 0)·(−1) = (−1, 0) ∉; d) так (пряма через 0); e) ні: (1, 1) + (1, −1) = (2, 0) ∉; f) ні: <span class="M">1 0; 0 0</span> + <span class="M">0 0; 0 1</span> = I, det I = 1; g) так.</div></details></article>
 
 <h3 class="grp">Операції</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">2.4</span></div>
+<article class="p" id="p2-4" data-l="1"><div class="ph"><span class="n">2.4</span></div>
 <div>A = <span class="M">1 -2; 3 0; 2 1</span>, B = <span class="M">2 1 0; -1 4 3</span>. Обчисліть 2A − 3Bᵀ.</div>
 <details><summary>Відповідь</summary><div><span class="M">-4 -1; 3 -12; 4 -7</span></div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.5</span></div>
+<article class="p" id="p2-5" data-l="1"><div class="ph"><span class="n">2.5</span></div>
 <div>A — 2×3, B — 3×3, C — 3×1, D — 1×2. Які добутки існують і якого розміру: AB, BA, AC, CD, DA, DC, BAᵀ, CᵀC, CCᵀ?</div>
 <details><summary>Відповідь</summary><div>AB: 2×3; BA: ні; AC: 2×1; CD: 3×2; DA: 1×3; DC: ні; BAᵀ: 3×2; CᵀC: 1×1 (число); CCᵀ: 3×3.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.6</span></div>
+<article class="p" id="p2-6" data-l="1"><div class="ph"><span class="n">2.6</span></div>
 <div>A = <span class="M">1 2; 3 4</span>, B = <span class="M">0 1; 1 0</span>. Знайдіть AB і BA. Що робить множення на B справа і зліва?</div>
 <details><summary>Відповідь</summary><div>AB = <span class="M">2 1; 4 3</span> (переставлено <b>стовпці</b> A), BA = <span class="M">3 4; 1 2</span> (переставлено <b>рядки</b> A). AB ≠ BA.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.7</span></div>
+<article class="p" id="p2-7" data-l="1"><div class="ph"><span class="n">2.7</span></div>
 <div>Обчисліть <span class="M">2 -1 0; 1 3 2</span>·<span class="M">3; 1; -2</span> двома способами: «рядок на стовпець» і як лінійну комбінацію стовпців.</div>
 <details><summary>Відповідь</summary><div>3·(2, 1) + 1·(−1, 3) − 2·(0, 2) = (5, 2).</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.8</span></div>
+<article class="p" id="p2-8" data-l="1"><div class="ph"><span class="n">2.8</span></div>
 <div>D = diag(2, −1, 3), A = <span class="M">1 1; 2 0; 0 4</span>. Знайдіть DA і A·diag(1, 5), не множачи «в лоб».</div>
 <details><summary>Відповідь</summary><div>DA масштабує рядки: <span class="M">2 2; -2 0; 0 12</span>. A·diag(1, 5) масштабує стовпці: <span class="M">1 5; 2 0; 0 20</span>.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.9</span></div>
+<article class="p" id="p2-9" data-l="1"><div class="ph"><span class="n">2.9</span></div>
 <div>Знайдіть x, y, z, w: <span class="M">2x+y x−y; x+z 3w−z</span> = <span class="M">5 1; 4 4</span>.</div>
 <details><summary>Відповідь</summary><div>x = 2, y = 1, z = 2, w = 2.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.10</span></div>
+<article class="p" id="p2-10" data-l="2"><div class="ph"><span class="n">2.10</span></div>
 <div>Два магазини за день продали товари (рядки — магазини, стовпці — хліб, сир, кава): Q = <span class="M">10 4 6; 8 5 2</span>. Ціни p = (12, 20, 15) грн. Яким добутком виражається виторг кожного магазину? Обчисліть.</div>
 <details><summary>Відповідь</summary><div>Q·p = (290, 226) грн.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.11</span></div>
+<article class="p" id="p2-11" data-l="2"><div class="ph"><span class="n">2.11</span></div>
 <div>A = <span class="M">1 -1; 2 0</span>, B = <span class="M">1 0; 3 1</span>. Обчисліть (A + B)² і A² + 2AB + B². Чому вони різні? Знайдіть AB і BA.</div>
 <details><summary>Відповідь</summary><div>(A + B)² = <span class="M">-1 -3; 15 -4</span>, A² + 2AB + B² = <span class="M">-4 -3; 12 -1</span>. AB = <span class="M">-2 -1; 2 0</span>, BA = <span class="M">1 -1; 5 -3</span>. Правильно: (A + B)² = A² + AB + BA + B², а AB ≠ BA.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.12</span></div>
+<article class="p" id="p2-12" data-l="2"><div class="ph"><span class="n">2.12</span></div>
 <div>Наведіть приклад ненульових матриць 2×2 A і B, для яких AB = O.</div>
 <details><summary>Відповідь</summary><div>Наприклад, A = <span class="M">1 1; 1 1</span>, B = <span class="M">1 -1; -1 1</span>. Обидві вироджені; так буває завжди, коли AB = O при ненульових A, B.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.13</span></div>
+<article class="p" id="p2-13" data-l="2"><div class="ph"><span class="n">2.13</span></div>
 <div>Для A = <span class="M">1 2 0; 0 1 -1; 2 0 1</span> обчисліть AᵀA. Доведіть, що AᵀA симетрична для будь-якої A.</div>
 <details><summary>Відповідь</summary><div>AᵀA = <span class="M">5 2 2; 2 5 -1; 2 -1 2</span>. (AᵀA)ᵀ = Aᵀ(Aᵀ)ᵀ = AᵀA.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.14</span></div>
+<article class="p" id="p2-14" data-l="2"><div class="ph"><span class="n">2.14</span></div>
 <div>Подайте A = <span class="M">1 4 -2; 0 3 5; 6 1 2</span> як суму симетричної та кососиметричної матриць.</div>
 <details><summary>Відповідь</summary><div>S = (A + Aᵀ)/2 = <span class="M">1 2 2; 2 3 3; 2 3 2</span>, K = (A − Aᵀ)/2 = <span class="M">0 2 -4; -2 0 2; 4 -2 0</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.15</span></div>
+<article class="p" id="p2-15" data-l="2"><div class="ph"><span class="n">2.15</span></div>
 <div>Місто і передмістя: щороку 10 % жителів міста переїжджають у передмістя, а 20 % жителів передмістя — у місто. Зараз (у тисячах) x₀ = (600, 400). Запишіть матрицю переходу P і знайдіть розподіл через 1 і 2 роки.</div>
 <details><summary>Відповідь</summary><div>P = <span class="M">0.9 0.2; 0.1 0.8</span>, x₁ = Px₀ = (620, 380), x₂ = Px₁ = (634, 366).</div></details></article>
 
 <h3 class="grp">Степені й многочлени</h3>
-<article class="p" data-l="2"><div class="ph"><span class="n">2.16</span></div>
+<article class="p" id="p2-16" data-l="2"><div class="ph"><span class="n">2.16</span></div>
 <div>Знайдіть Aⁿ для A = <span class="M">2 1; 0 2</span>. Доведіть формулу індукцією.</div>
 <details><summary>Відповідь</summary><div>Aⁿ = <span class="M">2ⁿ n·2ⁿ⁻¹; 0 2ⁿ</span>. Перевірка: A³ = <span class="M">8 12; 0 8</span>, A⁴ = <span class="M">16 32; 0 16</span>.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.17</span></div>
+<article class="p" id="p2-17" data-l="1"><div class="ph"><span class="n">2.17</span></div>
 <div>A = <span class="M">0 1 2; 0 0 3; 0 0 0</span>. Знайдіть A², A³, A¹⁰⁰.</div>
 <details><summary>Відповідь</summary><div>A² = <span class="M">0 0 3; 0 0 0; 0 0 0</span>, A³ = O, отже A¹⁰⁰ = O.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.18</span></div>
+<article class="p" id="p2-18" data-l="2"><div class="ph"><span class="n">2.18</span></div>
 <div>Обчисліть f(A) = A² − 5A − 2I для A = <span class="M">1 2; 3 4</span>.</div>
 <details><summary>Відповідь</summary><div>f(A) = O. (Цей факт знадобиться в задачі 3.17.)</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">2.19</span></div>
+<article class="p" id="p2-19" data-l="3"><div class="ph"><span class="n">2.19</span></div>
 <div>Знайдіть усі матриці X, що комутують з N = <span class="M">1 1; 0 1</span> (XN = NX).</div>
 <details><summary>Відповідь</summary><div>X = <span class="M">p q; 0 p</span>, p, q — будь-які.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">2.20</span></div>
+<article class="p" id="p2-20" data-l="3"><div class="ph"><span class="n">2.20</span></div>
 <div>Доведіть: якщо A і B симетричні, то AB симетрична ⇔ AB = BA.</div>
 <details><summary>Відповідь</summary><div>(AB)ᵀ = BᵀAᵀ = BA. Отже (AB)ᵀ = AB ⇔ BA = AB.</div></details></article>
 
 
 <h3 class="grp">Ще практика: матриці</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">2.21</span></div>
+<article class="p" id="p2-21" data-l="1"><div class="ph"><span class="n">2.21</span></div>
 <div>Знайдіть α, β, γ: α(1, 0, 1) + β(0, 1, 1) + γ(1, 1, 0) = (3, 5, 4).</div>
 <details><summary>Відповідь</summary><div>Додавши всі рівняння, отримаємо α + β + γ = 6. Звідси α = 1, β = 3, γ = 2.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.22</span></div>
+<article class="p" id="p2-22" data-l="1"><div class="ph"><span class="n">2.22</span></div>
 <div>При яких x, y, z матриця <span class="M">1 x 2; 3 4 y; z 5 6</span> симетрична?</div>
 <details><summary>Відповідь</summary><div>x = 3, y = 5, z = 2.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">2.23</span></div>
+<article class="p" id="p2-23" data-l="1"><div class="ph"><span class="n">2.23</span></div>
 <div>x = (1, 2, 3)ᵀ, y = (4, −1, 2)ᵀ. Обчисліть xᵀy і xyᵀ. Яких вони розмірів?</div>
 <details><summary>Відповідь</summary><div>xᵀy = 4 − 2 + 6 = 8 (1×1). xyᵀ = <span class="M">4 -1 2; 8 -2 4; 12 -3 6</span> (3×3, усі рядки пропорційні).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.24</span></div>
+<article class="p" id="p2-24" data-l="2"><div class="ph"><span class="n">2.24</span></div>
 <div>Чи лінійно залежні матриці <span class="M">1 0; 0 1</span>, <span class="M">0 1; 1 0</span>, <span class="M">1 1; 1 1</span>? А якщо третю замінити на <span class="M">1 1; 0 1</span>?</div>
 <details><summary>Відповідь</summary><div>Перша трійка залежна: третя дорівнює сумі перших двох. Друга незалежна: з αI + βJ + γM = O елемент (2, 1) дає β = 0, (1, 2) дає γ = 0, тоді α = 0.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.25</span></div>
+<article class="p" id="p2-25" data-l="2"><div class="ph"><span class="n">2.25</span></div>
 <div>Підсумкова оцінка: тести мають ваги 0,2, 0,3 і 0,5. Бали студентів (рядки) за тести (стовпці): <span class="M">80 70 90; 60 90 85; 95 80 70</span>. Запишіть підсумки як добуток матриці на вектор і обчисліть.</div>
 <details><summary>Відповідь</summary><div>S·w = (82, 81,5, 78).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.26</span></div>
+<article class="p" id="p2-26" data-l="2"><div class="ph"><span class="n">2.26</span></div>
 <div>A = <span class="M">1 2; 0 3</span>, B = <span class="M">2 0; 1 1</span>. Обчисліть комутатор AB − BA.</div>
 <details><summary>Відповідь</summary><div>AB = <span class="M">4 2; 3 3</span>, BA = <span class="M">2 4; 1 5</span>, AB − BA = <span class="M">2 -2; 2 -2</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.27</span></div>
+<article class="p" id="p2-27" data-l="2"><div class="ph"><span class="n">2.27</span></div>
 <div>Знайдіть Aⁿ для A = <span class="M">1 1; 1 1</span>.</div>
 <details><summary>Відповідь</summary><div>A² = 2A, тому Aⁿ = 2ⁿ⁻¹A = <span class="M">2ⁿ⁻¹ 2ⁿ⁻¹; 2ⁿ⁻¹ 2ⁿ⁻¹</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.28</span></div>
+<article class="p" id="p2-28" data-l="2"><div class="ph"><span class="n">2.28</span></div>
 <div>Перевірте, що A = <span class="M">3 -2; 1 0</span> задовольняє A² − 3A + 2I = O. Виразіть A³ через A та I і перевірте прямим обчисленням.</div>
 <details><summary>Відповідь</summary><div>A³ = 3A² − 2A = 3(3A − 2I) − 2A = 7A − 6I = <span class="M">15 -14; 7 -6</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">2.29</span></div>
+<article class="p" id="p2-29" data-l="2"><div class="ph"><span class="n">2.29</span></div>
 <div>Покажіть на прикладі 3×3 і поясніть, чому добуток двох верхньотрикутних матриць верхньотрикутний.</div>
 <details><summary>Відповідь</summary><div>(AB)ᵢⱼ = Σₖ aᵢₖbₖⱼ. При i &gt; j у кожному доданку або k &lt; i (тоді aᵢₖ = 0), або k ≥ i &gt; j (тоді bₖⱼ = 0). Тож нижче діагоналі нулі, а на діагоналі aᵢᵢbᵢᵢ.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">2.30</span></div>
+<article class="p" id="p2-30" data-l="3"><div class="ph"><span class="n">2.30</span></div>
 <div>Знайдіть усі матриці 2×2, для яких A² = O. Наведіть ненульовий приклад.</div>
 <details><summary>Відповідь</summary><div>A = <span class="M">a b; c -a</span> з a² + bc = 0, наприклад <span class="M">0 1; 0 0</span> або <span class="M">2 4; -1 -2</span>.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">2.31</span></div>
+<article class="p" id="p2-31" data-l="3"><div class="ph"><span class="n">2.31</span></div>
 <div>Нехай A — фіксована матриця n×n. Доведіть, що множина всіх X, для яких AX = XA, є підпростором Mat(n, ℝ).</div>
 <details><summary>Відповідь</summary><div>O належить множині. Якщо AX = XA і AY = YA, то A(X + Y) = AX + AY = XA + YA = (X + Y)A, і A(λX) = λAX = (λX)A.</div></details></article>
 
 <h2 id="b3">Блок 3. Визначники й обернена матриця <span class="bp" data-b="3"></span></h2>
 
 <h3 class="grp">Обчислення визначників</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">3.1</span></div>
+<article class="p" id="p3-1" data-l="1"><div class="ph"><span class="n">3.1</span></div>
 <div>Обчисліть: (а) <span class="M">3 5; 2 4</span>; (б) <span class="M">-2 7; 1 -3</span>; (в) <span class="M">6 9; 4 6</span>.</div>
 <details><summary>Відповідь</summary><div>(а) 2; (б) −1; (в) 0 (рядки пропорційні).</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.2</span></div>
+<article class="p" id="p3-2" data-l="1"><div class="ph"><span class="n">3.2</span></div>
 <div>Обчисліть за правилом Саррюса: <span class="M">2 -1 3; 1 4 -2; 5 0 1</span></div>
 <details><summary>Відповідь</summary><div>−41.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.3</span></div>
+<article class="p" id="p3-3" data-l="1"><div class="ph"><span class="n">3.3</span></div>
 <div>Обчисліть розкладом за найзручнішим рядком або стовпцем: <span class="M">3 0 2; 1 0 -4; 5 7 1</span></div>
 <details><summary>Відповідь</summary><div>За другим стовпцем: 7·(−1)³⁺²·(3·(−4) − 2·1) = −7·(−14) = 98.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.4</span></div>
+<article class="p" id="p3-4" data-l="2"><div class="ph"><span class="n">3.4</span></div>
 <div>Обчисліть зведенням до трикутного вигляду: <span class="M">1 2 0 1; 2 5 1 3; -1 0 4 2; 3 6 1 5</span></div>
 <details><summary>Відповідь</summary><div>3.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.5</span></div>
+<article class="p" id="p3-5" data-l="2"><div class="ph"><span class="n">3.5</span></div>
 <div>Обчисліть: <span class="M">1 1 1 1; 1 2 2 2; 1 2 3 3; 1 2 3 4</span></div>
 <details><summary>Відповідь</summary><div>Віднімайте кожен рядок від наступного (знизу вгору): виходить верхньотрикутна з одиницями на діагоналі, det = 1.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.6</span></div>
+<article class="p" id="p3-6" data-l="2"><div class="ph"><span class="n">3.6</span></div>
 <div>Розв'яжіть рівняння: (а) <span class="M">x−1 2; 3 x−2</span> = 0; (б) <span class="M">x 2 1; 1 x 0; 0 1 1</span> = 0.</div>
 <details><summary>Відповідь</summary><div>(а) x² − 3x − 4 = 0, x = 4 або x = −1. (б) x² − 1 = 0, x = ±1.</div></details></article>
 
 <h3 class="grp">Властивості</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">3.7</span></div>
+<article class="p" id="p3-7" data-l="1"><div class="ph"><span class="n">3.7</span></div>
 <div>A, B — матриці 3×3, det A = 3, det B = −2. Знайдіть det(2A), det(Aᵀ), det(A⁻¹), det(A²Bᵀ), det(−A), det(AB⁻¹).</div>
 <details><summary>Відповідь</summary><div>24; 3; 1/3; 9·(−2) = −18; (−1)³·3 = −3; 3/(−2) = −3/2.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.8</span></div>
+<article class="p" id="p3-8" data-l="2"><div class="ph"><span class="n">3.8</span></div>
 <div>Нехай det <span class="M">a b c; d e f; g h i</span> = 5. Знайдіть визначники матриць, отриманих так: (а) обмін рядків 1 і 3; (б) рядок 1 помножено на 3; (в) до рядка 2 додано 4·(рядок 1); (г) уся матриця помножена на 2; (ґ) рядки записано у порядку 2, 3, 1.</div>
 <details><summary>Відповідь</summary><div>(а) −5; (б) 15; (в) 5; (г) 2³·5 = 40; (ґ) циклічна перестановка — це два обміни, тож 5.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.9</span></div>
+<article class="p" id="p3-9" data-l="2"><div class="ph"><span class="n">3.9</span></div>
 <div>Знайдіть площу паралелограма на векторах (3, 2) і (1, 4) та площу трикутника з вершинами (1, 2), (3, 4), (5, 1).</div>
 <details><summary>Відповідь</summary><div>Паралелограм: |det <span class="M">3 1; 2 4</span>| = 10. Трикутник: вектори (2, 2) і (4, −1), |det| = 10, площа 10/2 = 5.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.10</span></div>
+<article class="p" id="p3-10" data-l="2"><div class="ph"><span class="n">3.10</span></div>
 <div>Правда чи ні? Коротко обґрунтуйте.
 <ol class="sub" type="a"><li>det(A + B) = det A + det B.</li><li>Якщо det A = 0, то Ax = 0 має нетривіальний розв'язок.</li><li>(AB)⁻¹ = A⁻¹B⁻¹.</li><li>Якщо A має два однакові стовпці, det A = 0.</li><li>Для A 2×2: det(3A) = 3 det A.</li><li>Якщо для квадратних A, B маємо AB = I, то BA = I.</li></ol></div>
 <details><summary>Відповідь</summary><div>a) ні (I + I: 4 ≠ 2); b) так; c) ні, (AB)⁻¹ = B⁻¹A⁻¹; d) так; e) ні, 9 det A; f) так (det A·det B = 1, тож A оборотна, B = A⁻¹).</div></details></article>
 
 <h3 class="grp">Обернена матриця</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">3.11</span></div>
+<article class="p" id="p3-11" data-l="1"><div class="ph"><span class="n">3.11</span></div>
 <div>За формулою для 2×2 знайдіть обернені до <span class="M">4 7; 2 4</span> і <span class="M">3 -2; 5 -4</span>. Перевірте добутком.</div>
 <details><summary>Відповідь</summary><div><span class="M">2 -7/2; -1 2</span> (det = 2) і <span class="M">2 -1; 5/2 -3/2</span> (det = −2).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.12</span></div>
+<article class="p" id="p3-12" data-l="2"><div class="ph"><span class="n">3.12</span></div>
 <div>Методом Жордана–Гаусса [A | I] → [I | A⁻¹] знайдіть A⁻¹ для A = <span class="M">1 2 0; 2 5 1; 0 1 3</span>.</div>
 <details><summary>Відповідь</summary><div>det A = 2. A⁻¹ = <span class="M">7 -3 1; -3 3/2 -1/2; 1 -1/2 1/2</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.13</span></div>
+<article class="p" id="p3-13" data-l="2"><div class="ph"><span class="n">3.13</span></div>
 <div>Знайдіть A⁻¹ для A = <span class="M">2 1 1; 1 3 2; 1 0 0</span>.</div>
 <details><summary>Відповідь</summary><div>det A = −1. A⁻¹ = <span class="M">0 0 1; -2 1 3; 3 -1 -5</span>. Порада: почніть з R₁ ↔ R₃.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.14</span></div>
+<article class="p" id="p3-14" data-l="1"><div class="ph"><span class="n">3.14</span></div>
 <div>Спробуйте знайти обернену до <span class="M">1 2 3; 2 4 7; 3 6 10</span>. Що відбувається і чому?</div>
 <details><summary>Відповідь</summary><div>Зліва з'являється нульовий рядок (стовпець 2 = 2·стовпець 1), det = 0, оберненої немає.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.15</span></div>
+<article class="p" id="p3-15" data-l="2"><div class="ph"><span class="n">3.15</span></div>
 <div>При яких a матриця <span class="M">1 a 0; 0 1 a; a 0 1</span> оборотна?</div>
 <details><summary>Відповідь</summary><div>det = 1 + a³ ≠ 0 ⇔ a ≠ −1.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.16</span></div>
+<article class="p" id="p3-16" data-l="1"><div class="ph"><span class="n">3.16</span></div>
 <div>Знайдіть обернені без Гаусса: diag(2, −1, 4) і <span class="M">1 2 3; 0 1 4; 0 0 1</span>.</div>
 <details><summary>Відповідь</summary><div>diag(1/2, −1, 1/4); <span class="M">1 -2 5; 0 1 -4; 0 0 1</span>.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.17</span></div>
+<article class="p" id="p3-17" data-l="3"><div class="ph"><span class="n">3.17</span></div>
 <div>Використайте рівність A² − 5A − 2I = O для A = <span class="M">1 2; 3 4</span> (задача 2.18), щоб знайти A⁻¹ без обчислення визначника.</div>
 <details><summary>Відповідь</summary><div>A(A − 5I) = 2I ⇒ A⁻¹ = (A − 5I)/2 = <span class="M">-2 1; 3/2 -1/2</span>.</div></details></article>
 
 <h3 class="grp">СЛАР і матричні рівняння через обернену</h3>
-<article class="p" data-l="2"><div class="ph"><span class="n">3.18</span></div>
+<article class="p" id="p3-18" data-l="2"><div class="ph"><span class="n">3.18</span></div>
 <div>Розв'яжіть Ax = b за допомогою A⁻¹ із задачі 3.12, де b = (5, 11, −1).</div>
 <details><summary>Відповідь</summary><div>x = A⁻¹b = (1, 2, −1).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.19</span></div>
+<article class="p" id="p3-19" data-l="2"><div class="ph"><span class="n">3.19</span></div>
 <div>Розв'яжіть AX = B: A = <span class="M">2 1; 5 3</span>, B = <span class="M">1 0 2; 3 1 4</span>.</div>
 <details><summary>Відповідь</summary><div>X = A⁻¹B, A⁻¹ = <span class="M">3 -1; -5 2</span>, X = <span class="M">0 -1 2; 1 2 -2</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.20</span></div>
+<article class="p" id="p3-20" data-l="2"><div class="ph"><span class="n">3.20</span></div>
 <div>Розв'яжіть XA = B: A = <span class="M">1 1; 2 3</span>, B = <span class="M">4 5; 1 0</span>.</div>
 <details><summary>Відповідь</summary><div>X = BA⁻¹, A⁻¹ = <span class="M">3 -1; -2 1</span>, X = <span class="M">2 1; 3 -1</span>.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.21</span></div>
+<article class="p" id="p3-21" data-l="3"><div class="ph"><span class="n">3.21</span></div>
 <div>Розв'яжіть AXB = I: A = <span class="M">1 2; 0 1</span>, B = <span class="M">2 1; 1 1</span>.</div>
 <details><summary>Відповідь</summary><div>X = A⁻¹B⁻¹ = <span class="M">1 -2; 0 1</span>·<span class="M">1 -1; -1 2</span> = <span class="M">3 -5; -1 2</span>.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.22</span><span class="pts">додатково</span></div>
+<article class="p" id="p3-22" data-l="3"><div class="ph"><span class="n">3.22</span><span class="pts">додатково</span></div>
 <div>Обчисліть визначник Вандермонда <span class="M">1 1 1; 2 3 5; 4 9 25</span> двома способами: напряму і за формулою ∏(xᵢ − xⱼ).</div>
 <details><summary>Відповідь</summary><div>(3 − 2)(5 − 2)(5 − 3) = 6.</div></details></article>
 
 
 <h3 class="grp">Ще практика: визначники й обернена</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">3.23</span></div>
+<article class="p" id="p3-23" data-l="1"><div class="ph"><span class="n">3.23</span></div>
 <div>Обчисліть: <span class="M">2 0 0 0; 1 3 0 0; 4 5 -1 0; 7 8 9 2</span></div>
 <details><summary>Відповідь</summary><div>Нижньотрикутна: 2·3·(−1)·2 = −12.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.24</span></div>
+<article class="p" id="p3-24" data-l="1"><div class="ph"><span class="n">3.24</span></div>
 <div>A = <span class="M">1 2; 3 4</span>, B = <span class="M">2 0; 1 5</span>. Знайдіть det(AB), det(BA), det(A + B).</div>
 <details><summary>Відповідь</summary><div>det A = −2, det B = 10, тож det(AB) = det(BA) = −20. A + B = <span class="M">3 2; 4 9</span>, det = 19 ≠ 8.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.25</span></div>
+<article class="p" id="p3-25" data-l="2"><div class="ph"><span class="n">3.25</span></div>
 <div>Обчисліть: <span class="M">1 -1 2 0; 3 1 0 2; 0 2 1 -1; 2 0 1 3</span></div>
 <details><summary>Відповідь</summary><div>32.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.26</span></div>
+<article class="p" id="p3-26" data-l="2"><div class="ph"><span class="n">3.26</span></div>
 <div>При яких x вироджена матриця <span class="M">1 x x; x 1 x; x x 1</span>?</div>
 <details><summary>Відповідь</summary><div>det = (1 − x)²(1 + 2x) ⇒ x = 1 або x = −1/2. Підказка: додайте всі стовпці до першого.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.27</span></div>
+<article class="p" id="p3-27" data-l="2"><div class="ph"><span class="n">3.27</span></div>
 <div>Знайдіть площу трикутника з вершинами (0, 0), (4, 1), (1, 3). Чи лежать точки (1, 2), (3, 6), (5, 10) на одній прямій?</div>
 <details><summary>Відповідь</summary><div>|4·3 − 1·1|/2 = 11/2. Вектори (2, 4) і (4, 8) дають det = 0, тож точки колінеарні.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.28</span></div>
+<article class="p" id="p3-28" data-l="2"><div class="ph"><span class="n">3.28</span></div>
 <div>Чому для будь-яких u, v ∈ ℝ³ матриця uvᵀ має визначник 0?</div>
 <details><summary>Відповідь</summary><div>Кожен рядок uvᵀ дорівнює uᵢ·vᵀ, тобто всі рядки пропорційні (ранг ≤ 1).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.29</span></div>
+<article class="p" id="p3-29" data-l="2"><div class="ph"><span class="n">3.29</span></div>
 <div>Знайдіть A⁻¹ для A = <span class="M">1 0 2; 2 -1 3; 4 1 8</span>.</div>
 <details><summary>Відповідь</summary><div>det = 1, A⁻¹ = <span class="M">-11 2 2; -4 0 1; 6 -1 -1</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">3.30</span></div>
+<article class="p" id="p3-30" data-l="2"><div class="ph"><span class="n">3.30</span></div>
 <div>Знайдіть A⁻¹ через приєднану матрицю (adj A = транспонована матриця алгебраїчних доповнень): A = <span class="M">2 0 1; 1 1 0; 0 1 1</span>.</div>
 <details><summary>Відповідь</summary><div>det = 3, adj A = <span class="M">1 1 -1; -1 2 1; 1 -2 2</span>, A⁻¹ = ⅓·adj A.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">3.31</span></div>
+<article class="p" id="p3-31" data-l="1"><div class="ph"><span class="n">3.31</span></div>
 <div>Розв'яжіть через обернену: <span class="sys">3x + 2y = 1<br>5x + 4y = 3</span></div>
 <details><summary>Відповідь</summary><div>A⁻¹ = ½·<span class="M">4 -2; -5 3</span>, (x, y) = (−1, 2).</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.32</span></div>
+<article class="p" id="p3-32" data-l="3"><div class="ph"><span class="n">3.32</span></div>
 <div>Розв'яжіть AX = X + B, де A = <span class="M">3 1; 1 2</span>, B = <span class="M">1 2; 0 1</span>.</div>
 <details><summary>Відповідь</summary><div>(A − I)X = B. A − I = <span class="M">2 1; 1 1</span>, (A − I)⁻¹ = <span class="M">1 -1; -1 2</span>, X = <span class="M">1 1; -1 0</span>. Не пишіть «A − 1»: віднімають I.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.33</span></div>
+<article class="p" id="p3-33" data-l="3"><div class="ph"><span class="n">3.33</span></div>
 <div>Обчисліть det матриці n×n з двійками на діагоналі й одиницями поза нею для n = 2, 3, 4. Вгадайте й доведіть загальну формулу.</div>
 <details><summary>Відповідь</summary><div>3, 4, 5, тобто n + 1. Доведення: додайте всі стовпці до першого (там стане n + 1), винесіть, відніміть перший рядок від решти, отримаєте трикутну з одиницями.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">3.34</span></div>
+<article class="p" id="p3-34" data-l="3"><div class="ph"><span class="n">3.34</span></div>
 <div>Нехай A³ = O. Доведіть, що I − A оборотна і (I − A)⁻¹ = I + A + A².</div>
 <details><summary>Відповідь</summary><div>(I − A)(I + A + A²) = I + A + A² − A − A² − A³ = I − A³ = I.</div></details></article>
 
 <h2 id="b4">Блок 4. Геометричні перетворення площини <span class="bp" data-b="4"></span></h2>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.1</span></div>
+<article class="p" id="p4-1" data-l="1"><div class="ph"><span class="n">4.1</span></div>
 <div>Запишіть матрицю повороту на 60° проти годинникової стрілки. Куди переходять точки (2, 0) і (1, 1)?</div>
 <details><summary>Відповідь</summary><div>R = <span class="M">1/2 -√3/2; √3/2 1/2</span>. (2, 0) → (1, √3); (1, 1) → ((1 − √3)/2, (1 + √3)/2).</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.2</span></div>
+<article class="p" id="p4-2" data-l="1"><div class="ph"><span class="n">4.2</span></div>
 <div>Трикутник з вершинами (1, 0), (3, 1), (2, 4) повернули на 90° проти годинникової. Знайдіть нові вершини.</div>
 <details><summary>Відповідь</summary><div>(x, y) → (−y, x): (0, 1), (−1, 3), (−4, 2).</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.3</span></div>
+<article class="p" id="p4-3" data-l="1"><div class="ph"><span class="n">4.3</span></div>
 <div>Що робить кожна матриця? <span class="M">0 -1; 1 0</span>, <span class="M">-1 0; 0 -1</span>, <span class="M">0 1; 1 0</span>, <span class="M">√2/2 √2/2; -√2/2 √2/2</span>, <span class="M">3 0; 0 3</span>, <span class="M">1 0; 0 0</span>.</div>
 <details><summary>Відповідь</summary><div>Поворот на 90°; поворот на 180° (центральна симетрія); симетрія відносно y = x; поворот на −45° (45° за годинниковою); гомотетія ×3; проєкція на Ox.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.4</span></div>
+<article class="p" id="p4-4" data-l="1"><div class="ph"><span class="n">4.4</span></div>
 <div>Лінійне перетворення переводить e₁ у (2, 1), e₂ у (−1, 3). Запишіть його матрицю, знайдіть образ (1, 1) і у скільки разів змінюються площі.</div>
 <details><summary>Відповідь</summary><div>A = <span class="M">2 -1; 1 3</span>, A(1, 1) = (1, 4), det = 7, площі збільшуються в 7 разів.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.5</span></div>
+<article class="p" id="p4-5" data-l="2"><div class="ph"><span class="n">4.5</span></div>
 <div>Лінійне перетворення A переводить (1, 1) у (3, 1), а (1, −1) у (1, −1). Знайдіть A.</div>
 <details><summary>Відповідь</summary><div>A·<span class="M">1 1; 1 -1</span> = <span class="M">3 1; 1 -1</span> ⇒ A = <span class="M">2 1; 0 1</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.6</span></div>
+<article class="p" id="p4-6" data-l="2"><div class="ph"><span class="n">4.6</span></div>
 <div>Знайдіть матрицю перетворення «спочатку поворот на 90°, потім симетрія відносно y = x». А в зворотному порядку? Що це за перетворення?</div>
 <details><summary>Відповідь</summary><div>S·R = <span class="M">1 0; 0 -1</span>, симетрія відносно Ox. R·S = <span class="M">-1 0; 0 1</span>, симетрія відносно Oy. Порядок важливий.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.7</span></div>
+<article class="p" id="p4-7" data-l="2"><div class="ph"><span class="n">4.7</span></div>
 <div>Доведіть, що «спочатку симетрія відносно Ox, потім симетрія відносно y = x» є поворотом. На який кут?</div>
 <details><summary>Відповідь</summary><div><span class="M">0 1; 1 0</span>·<span class="M">1 0; 0 -1</span> = <span class="M">0 -1; 1 0</span> = R(90°). det = (−1)(−1) = 1.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.8</span></div>
+<article class="p" id="p4-8" data-l="1"><div class="ph"><span class="n">4.8</span></div>
 <div>Перемножте матриці R(30°) і R(60°). Що отримали?</div>
 <details><summary>Відповідь</summary><div>R(90°) = <span class="M">0 -1; 1 0</span>. Повороти додають кути: R(α)R(β) = R(α + β).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.9</span></div>
+<article class="p" id="p4-9" data-l="2"><div class="ph"><span class="n">4.9</span></div>
 <div>Знайдіть R(45°)⁸ і R(90°)³ без множення матриць.</div>
 <details><summary>Відповідь</summary><div>R(360°) = I; R(270°) = <span class="M">0 1; -1 0</span>.</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.10</span></div>
+<article class="p" id="p4-10" data-l="1"><div class="ph"><span class="n">4.10</span></div>
 <div>Запишіть матрицю, обернену до повороту на 45°, двома способами: як R(−45°) і як транспоновану.</div>
 <details><summary>Відповідь</summary><div><span class="M">√2/2 √2/2; -√2/2 √2/2</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.11</span></div>
+<article class="p" id="p4-11" data-l="2"><div class="ph"><span class="n">4.11</span></div>
 <div>Трикутник площею 6 перетворили матрицею <span class="M">3 1; 2 4</span>. Яка площа образу? Одиничний квадрат перетворили матрицею <span class="M">1 1; 2 -1</span>. Яка площа і чи збереглася орієнтація?</div>
 <details><summary>Відповідь</summary><div>det = 10, площа 60. det = −3: площа 3, орієнтація змінилась.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.12</span></div>
+<article class="p" id="p4-12" data-l="2"><div class="ph"><span class="n">4.12</span></div>
 <div>Зсув <span class="M">1 2; 0 1</span>. Знайдіть образ квадрата з вершинами (0,0), (1,0), (1,1), (0,1). Яка площа образу?</div>
 <details><summary>Відповідь</summary><div>(0,0), (1,0), (3,1), (2,1) — паралелограм площею |det| = 1.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.13</span></div>
+<article class="p" id="p4-13" data-l="2"><div class="ph"><span class="n">4.13</span></div>
 <div>Проєкція на Ox: які точки переходять у (3, 0)? Поясніть, чому оберненого перетворення немає.</div>
 <details><summary>Відповідь</summary><div>Усі (3, t), t ∈ ℝ. Відображення не ін'єктивне, det = 0.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.14</span></div>
+<article class="p" id="p4-14" data-l="2"><div class="ph"><span class="n">4.14</span></div>
 <div>Знайдіть образ прямої y = x + 1 під симетрією відносно Ox.</div>
 <details><summary>Відповідь</summary><div>(t, t + 1) → (t, −t − 1), тобто y = −x − 1.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">4.15</span><span class="pts">додатково</span></div>
+<article class="p" id="p4-15" data-l="3"><div class="ph"><span class="n">4.15</span><span class="pts">додатково</span></div>
 <div>Запишіть матрицю симетрії відносно прямої y = √3·x і знайдіть образ точки (2, 0).</div>
 <details><summary>Відповідь</summary><div>θ = 60°: <span class="M">cos120° sin120°; sin120° −cos120°</span> = <span class="M">-1/2 √3/2; √3/2 1/2</span>. (2, 0) → (−1, √3); довжина зберігається.</div></details></article>
 
 <h3 class="grp">Ще практика: перетворення</h3>
-<article class="p" data-l="1"><div class="ph"><span class="n">4.16</span></div>
+<article class="p" id="p4-16" data-l="1"><div class="ph"><span class="n">4.16</span></div>
 <div>Запишіть матрицю повороту на 120° і знайдіть образ точки (0, 2).</div>
 <details><summary>Відповідь</summary><div><span class="M">-1/2 -√3/2; √3/2 -1/2</span>, (0, 2) → (−√3, −1).</div></details></article>
 
-<article class="p" data-l="1"><div class="ph"><span class="n">4.17</span></div>
+<article class="p" id="p4-17" data-l="1"><div class="ph"><span class="n">4.17</span></div>
 <div>Чи є лінійним перетворення (x, y) ↦ (x + 1, y)? А (x, y) ↦ (2x − y, 3y)?</div>
 <details><summary>Відповідь</summary><div>Перше ні: 0 ↦ (1, 0), а лінійне перетворення завжди залишає 0 на місці (паралельне перенесення). Друге так, його матриця <span class="M">2 -1; 0 3</span>.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.18</span></div>
+<article class="p" id="p4-18" data-l="2"><div class="ph"><span class="n">4.18</span></div>
 <div>Яка точка після повороту на 90° проти годинникової перейде в (2, 3)?</div>
 <details><summary>Відповідь</summary><div>Застосуйте обернене перетворення R(−90°): (3, −2). Перевірка: R(90°)(3, −2) = (2, 3).</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.19</span></div>
+<article class="p" id="p4-19" data-l="2"><div class="ph"><span class="n">4.19</span></div>
 <div>«Спочатку розтяг удвічі вздовж Ox, потім поворот на 90°». Знайдіть матрицю, образ одиничного квадрата і його площу.</div>
 <details><summary>Відповідь</summary><div>R·D = <span class="M">0 -1; 1 0</span>·<span class="M">2 0; 0 1</span> = <span class="M">0 -1; 2 0</span>. Вершини (0,0), (0,2), (−1,2), (−1,0). Площа 2 = det.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.20</span></div>
+<article class="p" id="p4-20" data-l="2"><div class="ph"><span class="n">4.20</span></div>
 <div>Що дає композиція симетрій відносно Oy і Ox? Чи важливий порядок?</div>
 <details><summary>Відповідь</summary><div><span class="M">-1 0; 0 -1</span>, поворот на 180°. Порядок тут неважливий: діагональні матриці комутують.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.21</span></div>
+<article class="p" id="p4-21" data-l="2"><div class="ph"><span class="n">4.21</span></div>
 <div>Доведіть, що <span class="M">3/5 -4/5; 4/5 3/5</span> — матриця повороту. Куди переходить (5, 0)? Який кут (приблизно)?</div>
 <details><summary>Відповідь</summary><div>cos φ = 3/5, sin φ = 4/5, cos² + sin² = 1. (5, 0) → (3, 4). φ ≈ 53,13°.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.22</span></div>
+<article class="p" id="p4-22" data-l="2"><div class="ph"><span class="n">4.22</span></div>
 <div>Куди переходить одиничне коло x² + y² = 1 під дією diag(3, 2)? Яка площа образу?</div>
 <details><summary>Відповідь</summary><div>Еліпс x²/9 + y²/4 = 1, площа 6π = π·det.</div></details></article>
 
-<article class="p" data-l="2"><div class="ph"><span class="n">4.23</span></div>
+<article class="p" id="p4-23" data-l="2"><div class="ph"><span class="n">4.23</span></div>
 <div>Знайдіть матрицю, обернену до зсуву <span class="M">1 0; k 1</span>, і поясніть результат геометрично.</div>
 <details><summary>Відповідь</summary><div><span class="M">1 0; -k 1</span>, тобто зсув у протилежний бік.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">4.24</span></div>
+<article class="p" id="p4-24" data-l="3"><div class="ph"><span class="n">4.24</span></div>
 <div>Знайдіть лінійне перетворення, яке переводить трикутник (0,0), (1,0), (0,1) у трикутник (0,0), (2,1), (1,3). Яка площа образу?</div>
 <details><summary>Відповідь</summary><div>A = <span class="M">2 1; 1 3</span>, det = 5, площа 5·½ = 5/2.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">4.25</span></div>
+<article class="p" id="p4-25" data-l="3"><div class="ph"><span class="n">4.25</span></div>
 <div>Знайдіть образ прямої y = 2x під поворотом на 90°.</div>
 <details><summary>Відповідь</summary><div>(t, 2t) → (−2t, t), тобто y = −x/2: перпендикулярна пряма, як і має бути.</div></details></article>
 
-<article class="p" data-l="3"><div class="ph"><span class="n">4.26</span></div>
+<article class="p" id="p4-26" data-l="3"><div class="ph"><span class="n">4.26</span></div>
 <div>Доведіть: якщо S — матриця будь-якої симетрії відносно прямої через 0, то S² = I. Для якого найменшого n маємо R(72°)ⁿ = I?</div>
 <details><summary>Відповідь</summary><div>Двічі відобразити — повернутися на місце (або перевірте добуток <span class="M">cos2θ sin2θ; sin2θ −cos2θ</span>² = I). R(72°)ⁿ = R(72n°) = I ⇔ 72n кратне 360, тобто n = 5.</div></details></article>
 
@@ -547,5 +547,5 @@
 <div class="next"><span>Готові перевірити себе в умовах тесту?</span><a href="tests.html">Пробні контрольні →</a></div>
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=10"></script>
+<script src="assets/app.js?v=13"></script><script src="assets/search.js?v=13"></script>
 </body></html>

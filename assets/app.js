@@ -224,6 +224,75 @@
     });
   }
 
+  /* ---------- activity days (for the streak) ---------- */
+  function today(off) { var d = new Date(); d.setDate(d.getDate() + (off || 0)); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function markActive() {
+    var days = []; try { days = JSON.parse(localStorage.getItem('linal-days') || '[]'); } catch (e) {}
+    if (days[days.length - 1] !== today()) { days.push(today()); if (days.length > 400) days = days.slice(-400); try { localStorage.setItem('linal-days', JSON.stringify(days)); } catch (e) {} }
+  }
+  var mainEl = document.querySelector('main');
+  if (mainEl) mainEl.addEventListener('click', function (e) {
+    if (e.target.closest('#drill button, #frow button, .p input[type=checkbox], #rapply, .test input, [data-act="go"]')) markActive();
+  });
+
+  /* ---------- read marks (conspect) ---------- */
+  var READ = load('linal-read');
+  $$('[data-read]').forEach(function (cb) {
+    var b = cb.dataset.read; cb.checked = !!READ[b];
+    function sync() { $$('.toc a[href="#' + b + '"]').forEach(function (a) { a.classList.toggle('rd', cb.checked); }); }
+    cb.addEventListener('change', function () { if (cb.checked) READ[b] = 1; else delete READ[b]; save('linal-read', READ); sync(); markActive(); });
+    sync();
+  });
+
+  /* ---------- home dashboard ---------- */
+  var dash = document.getElementById('dash');
+  if (dash) {
+    var days = []; try { days = JSON.parse(localStorage.getItem('linal-days') || '[]'); } catch (e) {}
+    var set = {}; days.forEach(function (d) { set[d] = 1; });
+    var streak = 0, off = set[today()] ? 0 : -1; while (set[today(off - streak)]) streak++;
+    var week = []; for (var i = -6; i <= 0; i++) week.push(set[today(i)] ? 1 : 0);
+    var wd = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    document.getElementById('d-streak').innerHTML = '<b>' + streak + '</b><span>' + (streak === 1 ? 'день' : streak >= 2 && streak <= 4 ? 'дні' : 'днів') + ' поспіль</span>' +
+      '<div class="week">' + week.map(function (v, i) { var d = new Date(); d.setDate(d.getDate() - 6 + i); return '<i class="' + (v ? 'on' : '') + '" title="' + today(i - 6) + '">' + wd[d.getDay()] + '</i>'; }).join('') + '</div>';
+
+    var ex = document.getElementById('d-exam'), exIn = document.getElementById('exam-date');
+    var totalP = 0; $$('[data-meter]').forEach(function (m) { totalP += +m.dataset.total; });
+    function examView() {
+      var v = ''; try { v = localStorage.getItem('linal-exam') || ''; } catch (e) {}
+      exIn.value = v;
+      if (!v) { ex.innerHTML = '<span class="mut">Вкажіть дату тесту чи екзамену, і тут з\'явиться відлік та денна норма.</span>'; return; }
+      var ms = new Date(v + 'T00:00:00') - new Date(today() + 'T00:00:00'), n = Math.round(ms / 864e5);
+      var left = totalP - Object.keys(done).length;
+      if (n < 0) { ex.innerHTML = '<b>Дата минула</b><span>Вкажіть нову дату.</span>'; return; }
+      if (n === 0) { ex.innerHTML = '<b>Сьогодні</b><span>Успіху! Перегляньте шпаргалку й картки «не знаю».</span>'; return; }
+      ex.innerHTML = '<b>' + n + '</b><span>' + (n === 1 ? 'день' : n >= 2 && n <= 4 ? 'дні' : 'днів') + ' до тесту</span>' +
+        '<span class="mut">Норма: ≈ ' + Math.max(1, Math.ceil(left / n)) + ' задач на день, щоб закрити решту (' + left + ').</span>';
+    }
+    exIn.addEventListener('change', function () { try { if (exIn.value) localStorage.setItem('linal-exam', exIn.value); else localStorage.removeItem('linal-exam'); } catch (e) {} examView(); });
+    examView();
+
+    /* recommendations */
+    var rec = [], tr = load('linal-trainer'), unkC = load('linal-cards-unknown');
+    var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння' };
+    var weak = Object.keys(tr.t || {}).map(function (k) { var t = tr.t[k]; return { k: k, all: t.all, acc: t.all ? t.ok / t.all : 1 }; })
+      .filter(function (x) { return x.all >= 3 && x.acc < .7; }).sort(function (a, b) { return a.acc - b.acc; });
+    weak.slice(0, 2).forEach(function (w) { rec.push('Тренажер «' + (NAMES[w.k] || w.k) + '»: лише ' + Math.round(w.acc * 100) + ' % правильних. <a href="trainer.html">Потренуватися</a>'); });
+    var nUnk = Object.keys(unkC).length;
+    if (nUnk) rec.push('Картки «не знаю»: ' + nUnk + '. <a href="trainer.html#cards">Повторити</a>');
+    var blocks = $$('[data-meter]').map(function (m) {
+      var b = m.dataset.meter, d = Object.keys(done).filter(function (k) { return k.split('.')[0] === b; }).length;
+      return { b: b, share: d / +m.dataset.total, name: m.closest('li').querySelector('h3').textContent };
+    }).sort(function (a, b) { return a.share - b.share; });
+    var R = load('linal-read');
+    var unread = blocks.filter(function (x) { return !R['b' + x.b]; });
+    if (unread.length) rec.push('Конспект: блок «' + unread[0].name + '» ще не позначено як прочитаний. <a href="material.html#b' + unread[0].b + '">Читати</a>');
+    if (blocks[0].share < 1) rec.push('Найменше розв\'язано в темі «' + blocks[0].name + '» (' + Math.round(blocks[0].share * 100) + ' %). <a href="problems.html#b' + blocks[0].b + '">До задач</a>');
+    var tsc = load(KEY_T), anyTest = Object.keys(tsc).length;
+    if (!anyTest && Object.keys(done).length >= 20) rec.push('Ви вже розв\'язали ' + Object.keys(done).length + ' задач, час для пробної контрольної. <a href="tests.html">Почати</a>');
+    if (!tr.exam) rec.push('Спробуйте міні-тест: 10 задач за 15 хвилин. <a href="trainer.html">Почати</a>');
+    document.getElementById('d-rec').innerHTML = rec.slice(0, 4).map(function (r) { return '<li>' + r + '</li>'; }).join('');
+  }
+
   /* print button (cheatsheet) */
   $$('[data-act="print"]').forEach(function (b) { b.addEventListener('click', function () { window.print(); }); });
 })();

@@ -101,6 +101,38 @@
       else if (kind === 2) { q = 'det(' + k + 'Aᵀ)'; ans = new F(pk * d); sol = 'det Aᵀ = det A, далі kⁿ: ' + ans; }
       else { q = 'det(A²)'; ans = new F(d * d); sol = 'det(A²) = (det A)² = ' + ans; }
       return { q: 'A — матриця ' + n + '×' + n + ', det A = ' + cell(d) + '. Знайдіть ' + q + '.', ans: [[ans]], sol: sol };
+    } },
+    det4: { name: 'det 4×4', make: function () {
+      /* A = L·U with unit lower L and upper U: det A = product of U's diagonal, entries stay small */
+      var L = [[1, 0, 0, 0], [ri(-2, 2), 1, 0, 0], [ri(-2, 2), ri(-1, 1), 1, 0], [ri(-1, 1), ri(-1, 1), ri(-1, 1), 1]];
+      var U = [[nz(-2, 2), ri(-2, 2), ri(-1, 2), ri(-2, 2)], [0, nz(-2, 2), ri(-2, 2), ri(-1, 1)], [0, 0, nz(-2, 2), ri(-2, 2)], [0, 0, 0, nz(-3, 3)]];
+      var A = F.matmul(L, U).map(function (r) { return r.map(function (x) { return x.n; }); });
+      var d = U[0][0] * U[1][1] * U[2][2] * U[3][3];
+      return { q: 'Обчисліть визначник ' + M(A) + ' (зручно звести до трикутного вигляду).', ans: [[new F(d)]],
+        sol: 'Віднімаючи від нижніх рядків кратні верхніх (det не змінюється), отримаємо трикутну матрицю з діагоналлю ' +
+          [U[0][0], U[1][1], U[2][2], U[3][3]].map(cell).join(', ') + '. det = добуток діагоналі = <b>' + d + '</b>.' };
+    } },
+    param: { name: 'параметр', make: function () {
+      var a = [1, -1, 2, -2, 3][ri(0, 4)], b = nz(-6, 6), c = nz(-6, 6), k = new F(b * c, a), kind = ri(0, 1), q;
+      if (kind === 0) q = 'При якому k матриця ' + M([[a, b], [c, 'k']]) + ' вироджена?';
+      else q = 'При якому k вектори (' + cell(a) + ', ' + cell(c) + ') і (' + cell(b) + ', k) лінійно залежні?';
+      return { q: q, ans: [[k]], labels: ['k'],
+        sol: 'det = ' + cell(a) + '·k − (' + cell(b) + ')·(' + cell(c) + ') = 0 ⇒ k = ' + (b * c) + '/' + cell(a) + ' = <b>' + k + '</b>.' };
+    } },
+    area: { name: 'площа трикутника', make: function () {
+      var P, d;
+      do { P = [[ri(-4, 4), ri(-4, 4)], [ri(-4, 4), ri(-4, 4)], [ri(-4, 4), ri(-4, 4)]];
+        d = (P[1][0] - P[0][0]) * (P[2][1] - P[0][1]) - (P[2][0] - P[0][0]) * (P[1][1] - P[0][1]); } while (d === 0);
+      var u = [P[1][0] - P[0][0], P[1][1] - P[0][1]], v = [P[2][0] - P[0][0], P[2][1] - P[0][1]];
+      return { q: 'Знайдіть площу трикутника з вершинами ' + P.map(V).join(', ') + '.', ans: [[new F(Math.abs(d), 2)]],
+        sol: 'Вектори сторін u = ' + V(u) + ', v = ' + V(v) + '. det = ' + d + ', S = |det|/2 = <b>' + new F(Math.abs(d), 2) + '</b>.' };
+    } },
+    mateq: { name: 'матричне рівняння', make: function () {
+      var A, d; do { A = mat(2, 2, -3, 3); d = A[0][0] * A[1][1] - A[0][1] * A[1][0]; } while (d !== 1 && d !== -1);
+      var B = mat(2, 2, -4, 4), I = [[A[1][1] * d, -A[0][1] * d], [-A[1][0] * d, A[0][0] * d]], left = ri(0, 1);
+      var X = left ? F.matmul(I, B) : F.matmul(B, I);
+      return { q: 'Розв\'яжіть ' + (left ? 'AX = B' : 'XA = B') + ', де A = ' + M(A) + ', B = ' + M(B) + '.', ans: X,
+        sol: 'det A = ' + d + ', A⁻¹ = ' + M(I) + '. ' + (left ? 'X = A⁻¹B' : 'X = BA⁻¹ (обернена справа!)') + ' = ' + M(X) };
     } }
   };
 
