@@ -33,7 +33,9 @@
   /* ---------- problems ---------- */
   var LV = { 1: ['lv1', '● базова'], 2: ['lv2', '◆ основна'], 3: ['lv3', '▲ складна'] };
   /* ---------- study mode: 'normal' = syllabus only, 'super' = everything ---------- */
-  var MODE = document.documentElement.getAttribute('data-mode') === 'normal' ? 'normal' : 'super', NORMAL = MODE === 'normal';
+  var MODE0 = document.documentElement.getAttribute('data-mode'), MODE = MODE0 === 'normal' || MODE0 === 'deep' ? MODE0 : 'super', NORMAL = MODE === 'normal', DEEP = MODE === 'deep';
+  /* outside the deep mode, the block-5 material does not exist at all (so every count stays honest) */
+  if (!DEEP) $$('[data-d]').forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
   var EXTRA_P = ['1.19', '2.30', '2.31', '3.22', '3.30', '3.33', '3.34', '4.15', '4.26'];
   window.LINAL_MODE = MODE;
   function setMode(m) { try { localStorage.setItem('linal-mode', m); } catch (e) {} location.reload(); }
@@ -41,7 +43,7 @@
     b.setAttribute('aria-pressed', b.dataset.setmode === MODE ? 'true' : 'false');
     b.addEventListener('click', function () { if (b.dataset.setmode !== MODE) setMode(b.dataset.setmode); });
   });
-  $$('.n-total').forEach(function (e) { e.textContent = NORMAL ? (121 - EXTRA_P.length) + ' задач' : '121 задача'; });
+  $$('.n-total').forEach(function (e) { e.textContent = NORMAL ? (121 - EXTRA_P.length) + ' задач' : DEEP ? '143 задачі' : '121 задача'; });
   var done = load(KEY_P);
   var doneVis = {}; Object.keys(done).forEach(function (k) { if (!(NORMAL && EXTRA_P.indexOf(k) >= 0)) doneVis[k] = 1; });
   if (NORMAL) $$('[data-meter]').forEach(function (m) {
@@ -241,10 +243,12 @@
   /* ---------- mode chip in the header ---------- */
   if (tw) {
     var mc = document.createElement('button'); mc.type = 'button'; mc.className = 'mode-btn ' + MODE; mc.id = 'mode-btn';
-    mc.innerHTML = NORMAL ? '<span class="md"></span>Силабус' : '<span class="md"></span>Супер';
-    mc.title = NORMAL ? 'Режим «За силабусом»: лише матеріал курсу. Натисніть, щоб увімкнути «Супер».' : 'Режим «Супер»: усе, разом з додатковими темами. Натисніть, щоб перейти до «За силабусом».';
+    var ML = { normal: ['Силабус', 'Режим «За силабусом»: лише матеріал курсу.'], super: ['Супер', 'Режим «Супер»: курс разом з додатковими темами.'], deep: ['Поглиблений', 'Режим «Поглиблений»: усе разом із блоком 5.'] };
+    var NEXT = { normal: 'super', super: 'deep', deep: 'normal' };
+    mc.innerHTML = '<span class="md"></span>' + ML[MODE][0];
+    mc.title = ML[MODE][1] + ' Натисніть, щоб перейти до «' + ML[NEXT[MODE]][0] + '».';
     mc.setAttribute('aria-label', mc.title);
-    mc.addEventListener('click', function () { setMode(NORMAL ? 'super' : 'normal'); });
+    mc.addEventListener('click', function () { setMode(NEXT[MODE]); });
     var sb = document.getElementById('search-btn'); tw.insertBefore(mc, sb || document.getElementById('theme-btn') || null);
   }
 
@@ -322,7 +326,7 @@
 
     /* recommendations */
     var rec = [], tr = load('linal-trainer'), unkC = load('linal-cards-unknown');
-    var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння' };
+    var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння', eig: 'власні значення', rank: 'ранг', proj: 'проєкція' };
     var weak = Object.keys(tr.t || {}).map(function (k) { var t = tr.t[k]; return { k: k, all: t.all, acc: t.all ? t.ok / t.all : 1 }; })
       .filter(function (x) { return x.all >= 3 && x.acc < .7; }).sort(function (a, b) { return a.acc - b.acc; });
     weak.slice(0, 2).forEach(function (w) { rec.push('Тренажер «' + (NAMES[w.k] || w.k) + '»: лише ' + Math.round(w.acc * 100) + ' % правильних. <a href="trainer.html">Потренуватися</a>'); });

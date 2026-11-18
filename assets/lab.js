@@ -66,6 +66,22 @@
         }
         ctx.font = '600 14px Inter, system-ui, sans-serif'; ctx.fillText(label, b[0] + 6, b[1] - 6);
       }
+      if (document.documentElement.getAttribute('data-mode') === 'deep') {
+        var ea = m[0], eb = m[1], ec = m[2], ed = m[3], etr = ea + ed, edet = ea * ed - eb * ec, disc = etr * etr - 4 * edet;
+        if (disc >= -1e-12) {
+          var esq = Math.sqrt(Math.max(0, disc)), lams = esq < 1e-9 ? [etr / 2] : [(etr + esq) / 2, (etr - esq) / 2];
+          ctx.setLineDash([3, 5]); ctx.lineWidth = 2; ctx.strokeStyle = css('--l2'); ctx.fillStyle = css('--l2'); ctx.font = '600 13px Inter, system-ui, sans-serif';
+          lams.forEach(function (lam, idx) {
+            var vx, vy;
+            if (Math.abs(eb) > 1e-9) { vx = eb; vy = lam - ea; } else if (Math.abs(ec) > 1e-9) { vx = lam - ed; vy = ec; } else { vx = idx ? 0 : 1; vy = idx ? 1 : 0; if (Math.abs(ea - ed) > 1e-9 && Math.abs(lam - ea) > 1e-9) { vx = 0; vy = 1; } else if (Math.abs(ea - ed) > 1e-9) { vx = 1; vy = 0; } }
+            var L = Math.hypot(vx, vy); if (L < 1e-9) return; vx /= L; vy /= L;
+            var q1 = P(-vx * R * 1.5, -vy * R * 1.5), q2 = P(vx * R * 1.5, vy * R * 1.5);
+            ctx.beginPath(); ctx.moveTo(q1[0], q1[1]); ctx.lineTo(q2[0], q2[1]); ctx.stroke();
+            var lp = P(vx * R * 0.82, vy * R * 0.82); ctx.fillText('λ = ' + fmt(lam), lp[0] + 4, lp[1] - 4);
+          });
+          ctx.setLineDash([]);
+        }
+      }
       arrow([m[0], m[2]], l3, 'Ae₁'); arrow([m[1], m[3]], l1, 'Ae₂');
     }
     function setA(v, animate) {
@@ -100,7 +116,11 @@
         '<div><span class="mut">площі</span><b>× ' + fmt(Math.abs(det)) + '</b></div>' +
         '<div><span class="mut">орієнтація</span><b>' + (Math.abs(det) < eps ? '—' : det > 0 ? 'зберігається' : 'змінюється') + '</b></div>' +
         '<div class="wide-cell"><span class="mut">що це</span><b>' + kind + '</b></div>' +
-        '<div class="wide-cell"><span class="mut">A⁻¹</span><b>' + inv + '</b></div>';
+        '<div class="wide-cell"><span class="mut">A⁻¹</span><b>' + inv + '</b></div>' +
+        (document.documentElement.getAttribute('data-mode') === 'deep' ? (function () {
+          var tr = a + d, ds = tr * tr - 4 * det;
+          return '<div class="wide-cell"><span class="mut">власні значення</span><b>' + (ds < -1e-12 ? 'дійсних немає (λ² − ' + fmt(tr) + 'λ + ' + fmt(det) + ' = 0 не має дійсних коренів)' : 'λ = ' + fmt((tr + Math.sqrt(Math.max(0, ds))) / 2) + ', ' + fmt((tr - Math.sqrt(Math.max(0, ds))) / 2) + ' (пунктирні жовті прямі — власні напрями)') + '</b></div>';
+        })() : '');
       checkGame();
     }
     inp.forEach(function (e) {

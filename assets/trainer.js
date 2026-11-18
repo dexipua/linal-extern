@@ -116,6 +116,28 @@
       else { q = 'det(A²)'; ans = new F(d * d); sol = 'det(A²) = (det A)² = ' + ans; }
       return { q: 'A — матриця ' + n + '×' + n + ', det A = ' + cell(d) + '. Знайдіть ' + q + '.', ans: [[ans]], sol: sol };
     } },
+    eig: { name: 'власні значення', deep: true, make: function () {
+      var l1, l2, P, dP; do { l1 = ri(-4, 5); l2 = ri(-4, 5); } while (l1 === l2);
+      do { P = mat(2, 2, -2, 2); dP = P[0][0] * P[1][1] - P[0][1] * P[1][0]; } while (dP !== 1 && dP !== -1);
+      var Pi = [[P[1][1] * dP, -P[0][1] * dP], [-P[1][0] * dP, P[0][0] * dP]];
+      var A = F.matmul(F.matmul(P, [[l1, 0], [0, l2]]), Pi).map(function (r) { return r.map(function (x) { return x.n; }); });
+      var lo = Math.min(l1, l2), hi = Math.max(l1, l2), tr = A[0][0] + A[1][1], det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
+      return { q: 'Знайдіть власні значення матриці ' + M(A) + ' (у порядку зростання).', ans: [[new F(lo), new F(hi)]], labels: ['λ₁', 'λ₂'],
+        sol: 'tr A = ' + tr + ', det A = ' + det + '. Характеристичне рівняння λ² − (' + tr + ')λ + (' + det + ') = 0 ⇒ λ = <b>' + lo + '</b> і <b>' + hi + '</b>. Перевірка: λ₁ + λ₂ = ' + (lo + hi) + ' = tr A, λ₁·λ₂ = ' + (lo * hi) + ' = det A.' };
+    } },
+    rank: { name: 'ранг', deep: true, make: function () {
+      var A, res;
+      do { var r = ri(1, 3), B = mat(3, r, -2, 2), C = mat(r, 4, -2, 2); A = F.matmul(B, C).map(function (rw) { return rw.map(function (x) { return x.n; }); }); res = F.rref(A, 4); } while (res.rank === 0);
+      return { q: 'Знайдіть ранг матриці ' + M(A) + '.', ans: [[new F(res.rank)]],
+        sol: 'Зводимо до ступінчастого вигляду:' + F.stepsHTML(A, res.steps) + 'Ненульових рядків (ведучих елементів): <b>' + res.rank + '</b>.' };
+    } },
+    proj: { name: 'проєкція', deep: true, make: function () {
+      var u; do { u = [ri(-3, 3), ri(-3, 3)]; } while (!u[0] && !u[1]);
+      var v = [ri(-5, 5), ri(-5, 5)], uv = u[0] * v[0] + u[1] * v[1], uu = u[0] * u[0] + u[1] * u[1], c = new F(uv, uu);
+      var p = [c.mul(u[0]), c.mul(u[1])];
+      return { q: 'Знайдіть проєкцію вектора v = ' + V(v) + ' на напрям u = ' + V(u) + '.', ans: [p], labels: ['x', 'y'],
+        sol: 'proj = (u·v / u·u)·u = (' + uv + '/' + uu + ')·' + V(u) + ' = <b>(' + p.map(function (x) { return x.toString(); }).join(', ') + ')</b>.' };
+    } },
     det4: { name: 'det 4×4', make: function () {
       /* A = L·U with unit lower L and upper U: det A = product of U's diagonal, entries stay small */
       var L = [[1, 0, 0, 0], [ri(-2, 2), 1, 0, 0], [ri(-2, 2), ri(-1, 1), 1, 0], [ri(-1, 1), ri(-1, 1), ri(-1, 1), 1]];
@@ -155,7 +177,8 @@
     fb = document.getElementById('fb'), solEl = document.getElementById('sol'), statEl = document.getElementById('tstat'),
     bCheck = document.getElementById('btn-check'), bSol = document.getElementById('btn-sol'), bNext = document.getElementById('btn-next'),
     exBar = document.getElementById('exbar'), exRes = document.getElementById('exres'), bExam = document.getElementById('btn-exam');
-  var keys = Object.keys(GEN), on = {}, cur = null, curKey = null, streak = 0, tried = false, exam = null;
+  var DEEPM = document.documentElement.getAttribute('data-mode') === 'deep';
+  var keys = Object.keys(GEN).filter(function (k) { return DEEPM || !GEN[k].deep; }), on = {}, cur = null, curKey = null, streak = 0, tried = false, exam = null;
   keys.forEach(function (k) {
     on[k] = true;
     var b = document.createElement('button'); b.type = 'button'; b.id = 'tp-' + k; b.textContent = GEN[k].name; b.setAttribute('aria-pressed', 'true');
@@ -320,7 +343,8 @@
   /* ---------- flashcards ---------- */
   var CARDS = window.CARDS || [], TOP = window.CARD_TOPICS || {}, UKEY = 'linal-cards-unknown', SKEY = 'linal-cards-session';
   CARDS.forEach(function (c, i) { c.id = i; });
-  var CARDS_ALL = CARDS; if (document.documentElement.getAttribute('data-mode') === 'normal') CARDS = CARDS.filter(function (c) { return !c.x; });
+  var CARDS_ALL = CARDS, CMODE = document.documentElement.getAttribute('data-mode');
+  CARDS = CARDS.filter(function (c) { return (CMODE !== 'normal' || !c.x) && (CMODE === 'deep' || !c.d); });
   function lsGet(k, d) { try { return JSON.parse(localStorage.getItem(k) || 'null') || d; } catch (e) { return d; } }
   function lsSet(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   var unk = lsGet(UKEY, {});
@@ -334,7 +358,7 @@
   function persist() { lsSet(SKEY, S); lsSet(UKEY, unk); }
   function unkCount() { return CARDS.filter(function (c) { return unk[c.id]; }).length; }
   function renderChips() {
-    var tb = [['all', 'Усі', CARDS.length]].concat(Object.keys(TOP).map(function (k) { return [k, TOP[k], CARDS.filter(function (c) { return c.t === k; }).length]; }));
+    var tb = [['all', 'Усі', CARDS.length]].concat(Object.keys(TOP).map(function (k) { return [k, TOP[k], CARDS.filter(function (c) { return c.t === k; }).length]; }).filter(function (t) { return t[2] > 0; }));
     tb.push(['unk', 'Мої «не знаю»', unkCount()]);
     ftopics.innerHTML = tb.map(function (t) {
       return '<button type="button" id="ft-' + t[0] + '" data-t="' + t[0] + '" aria-pressed="' + (t[0] === S.top) + '"' + (t[0] === 'unk' && !t[2] ? ' disabled' : '') + '>' + t[1] + ' <span class="mut">' + t[2] + '</span></button>';

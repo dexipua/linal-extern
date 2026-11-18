@@ -427,3 +427,11 @@ details.more summary{cursor:pointer;font-weight:600;color:var(--acc2);font-size:
 
 .nf{padding-block:8vh 6vh;max-width:60ch}
 .nf h1{font-size:clamp(2rem,6vw,3.2rem)}
+
+/* ===================== deep mode ===================== */
+html:not([data-mode="deep"]) [data-d]{display:none!important}
+.mode-btn.deep .md{background:var(--acc2)}
+.mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.mode-grid{grid-template-columns:1fr}}
+html[data-mode="deep"] .p[data-x] .ph .n::after{content:"поза силабусом";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
+html[data-mode="deep"] .p[data-d] .ph .n::after{content:"поглиблено";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--acc2);border:1px dashed var(--acc2);vertical-align:2px}

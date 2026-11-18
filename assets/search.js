@@ -28,27 +28,28 @@
     loading = Promise.all([get('material.html'), get('problems.html'), get('tests.html'), loadCards()]).then(function (d) {
       var m = d[0], p = d[1], t = d[2];
       /* conspect: one entry per h3 section with its following text */
-      var cur = null, block = '';
+      var cur = null, block = '', blockD = false;
       [].forEach.call(m.querySelectorAll('article > *'), function (el) {
-        if (el.tagName === 'H2') { block = text(el); if (el.id) { cur = { k: 'm', x: el.hasAttribute('data-x'), title: block, sub: 'Конспект', url: 'material.html#' + el.id, body: '' }; out.push(cur); } return; }
-        if (el.tagName === 'H3' && el.id) { cur = { k: 'm', title: text(el), sub: 'Конспект · ' + block, url: 'material.html#' + el.id, body: '' }; out.push(cur); return; }
+        if (el.tagName === 'H2') { block = text(el); if (el.id) { blockD = el.hasAttribute('data-d'); cur = { k: 'm', x: el.hasAttribute('data-x'), d: blockD, title: block, sub: 'Конспект', url: 'material.html#' + el.id, body: '' }; out.push(cur); } return; }
+        if (el.tagName === 'H3' && el.id) { cur = { k: 'm', d: blockD || el.hasAttribute('data-d'), title: text(el), sub: 'Конспект · ' + block, url: 'material.html#' + el.id, body: '' }; out.push(cur); return; }
         var hideX = document.documentElement.getAttribute('data-mode') === 'normal' && (el.classList.contains('ext') || el.hasAttribute('data-x'));
         if (cur && !el.classList.contains('next') && !hideX) cur.body += ' ' + text(el);
       });
       [].forEach.call(p.querySelectorAll('article.p'), function (a) {
         var q = a.querySelector(':scope > div:not(.ph)'), n = text(a.querySelector('.n'));
         var blk = a.closest('.problems') ? '' : '';
-        out.push({ k: 'p', x: a.hasAttribute('data-x'), title: 'Задача ' + n, sub: 'Задачі · блок ' + n.split('.')[0], url: 'problems.html#' + a.id, body: q ? text(q) : '' , ans: text(a.querySelector('details > div') || {}) });
+        out.push({ k: 'p', x: a.hasAttribute('data-x'), d: a.hasAttribute('data-d'), title: 'Задача ' + n, sub: 'Задачі · блок ' + n.split('.')[0], url: 'problems.html#' + a.id, body: q ? text(q) : '' , ans: text(a.querySelector('details > div') || {}) });
       });
       [].forEach.call(t.querySelectorAll('article.p'), function (a) {
         var q = a.querySelector(':scope > div:not(.ph)'), n = text(a.querySelector('.n'));
-        out.push({ k: 't', title: n, sub: 'Пробна контрольна ' + n.charAt(1), url: 'tests.html#' + a.id, body: q ? text(q) : '' });
+        out.push({ k: 't', d: !!a.closest('[data-d]'), title: n, sub: 'Пробна контрольна ' + n.charAt(1), url: 'tests.html#' + a.id, body: q ? text(q) : '' });
       });
       (window.CARDS || []).forEach(function (c) {
         var tmp = document.createElement('div'); tmp.innerHTML = c.q + ' — ' + c.a + ' ' + (c.e || '');
-        out.push({ k: 'c', x: !!c.x, title: text((function () { var x = document.createElement('div'); x.innerHTML = c.q; return x; })()), sub: 'Картка · ' + ((window.CARD_TOPICS || {})[c.t] || ''), url: 'trainer.html#cards', body: text(tmp) });
+        out.push({ k: 'c', x: !!c.x, d: !!c.d, title: text((function () { var x = document.createElement('div'); x.innerHTML = c.q; return x; })()), sub: 'Картка · ' + ((window.CARD_TOPICS || {})[c.t] || ''), url: 'trainer.html#cards', body: text(tmp) });
       });
-      if (document.documentElement.getAttribute('data-mode') === 'normal') out = out.filter(function (o) { return !o.x; });
+      var md = document.documentElement.getAttribute('data-mode');
+      out = out.filter(function (o) { return (md !== 'normal' || !o.x) && (md === 'deep' || !o.d); });
       out.forEach(function (o) { o.nt = norm(o.title); o.nb = norm(o.body + ' ' + (o.ans || '')); });
       idx = out; return out;
     }).catch(function () { idx = out; return out; });
@@ -56,7 +57,7 @@
   }
   function loadCards() {
     if (window.CARDS) return Promise.resolve();
-    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=19'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
+    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=20'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
   }
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function snippet(body, words) {
