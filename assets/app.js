@@ -8,7 +8,7 @@
   /* matrices: "a b; c d", "¦" = augmented bar, "p/q" = fraction */
   $$('.M').forEach(function (e) {
     if (e.children.length) return; /* already structured (inputs, generated markup) */
-    var rows = e.textContent.split(';').map(function (r) { return r.trim().split(/\s+/); });
+    var rows = e.textContent.split(';').map(function (r) { return r.trim().split(/[ \t\r\n]+/); }); /* a no-break space keeps "cos φ" in one cell */
     var n = Math.max.apply(null, rows.map(function (r) { return r.length; }));
     e.style.gridTemplateColumns = 'repeat(' + n + ',auto)';
     e.innerHTML = rows.map(function (r) {
@@ -30,22 +30,41 @@
   }
   setTop(); window.addEventListener('resize', setTop);
 
+  /* ---------- progress format v2 (19.11.2026): the old deep block 5 became blocks 6–8, block 5 is now «Супер» ---------- */
+  var MIG5 = {'1':'6.11', '2':'6.12', '3':'6.14', '4':'6.15', '5':'6.5', '6':'8.5', '7':'8.8', '8':'8.9', '9':'8.10', '10':'8.17', '11':'8.18', '12':'8.11', '13':'8.12', '14':'7.2', '15':'7.10', '16':'7.6', '17':'7.16', '18':'7.9', '19':'7.11', '20':'8.7', '21':'8.15', '22':'8.22'};
+  function migrateDone(d) { var o = {}; Object.keys(d || {}).forEach(function (k) { var m = /^5\.(\d+)$/.exec(k), nk = m ? MIG5[m[1]] : k; if (nk) o[nk] = 1; }); return o; }
+  function migrateOnce() {
+    try {
+      if (localStorage.getItem('linal-v') === '2') return;
+      if (localStorage.getItem(KEY_P)) save(KEY_P, migrateDone(load(KEY_P)));
+      var r0 = load('linal-read'); if (r0.b5) { delete r0.b5; save('linal-read', r0); }
+      localStorage.setItem('linal-v', '2');
+    } catch (e) {}
+  }
+
   /* ---------- problems ---------- */
   var LV = { 1: ['lv1', '● базова'], 2: ['lv2', '◆ основна'], 3: ['lv3', '▲ складна'] };
   /* ---------- study mode: 'normal' = syllabus only, 'super' = everything ---------- */
   var MODE0 = document.documentElement.getAttribute('data-mode'), MODE = MODE0 === 'normal' || MODE0 === 'deep' ? MODE0 : 'super', NORMAL = MODE === 'normal', DEEP = MODE === 'deep';
   /* outside the deep mode, the block-5 material does not exist at all (so every count stays honest) */
   if (!DEEP) $$('[data-d]').forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
+  /* outside «Супер»/«Поглиблений», the extras do not exist either (honest counts on every page) */
+  if (NORMAL) $$('[data-x]').forEach(function (e) { if (e.parentNode) e.parentNode.removeChild(e); });
   var EXTRA_P = ['1.19', '2.30', '2.31', '3.22', '3.30', '3.33', '3.34', '4.15', '4.26'];
+  /* blocks 1–4 = syllabus, 5 = «Супер», 6–8 = «Поглиблений» */
+  function visKey(k) { var b = +k.split('.')[0]; return NORMAL ? b <= 4 && EXTRA_P.indexOf(k) < 0 : b <= (DEEP ? 8 : 5); }
+  var TOTALS = { normal: 112, super: 143, deep: 203 };
+  function plural(n, one, few, many) { var d = n % 10, h = n % 100; return n + ' ' + (d === 1 && h !== 11 ? one : d >= 2 && d <= 4 && (h < 12 || h > 14) ? few : many); }
   window.LINAL_MODE = MODE;
   function setMode(m) { try { localStorage.setItem('linal-mode', m); } catch (e) {} location.reload(); }
   $$('[data-setmode]').forEach(function (b) {
     b.setAttribute('aria-pressed', b.dataset.setmode === MODE ? 'true' : 'false');
     b.addEventListener('click', function () { if (b.dataset.setmode !== MODE) setMode(b.dataset.setmode); });
   });
-  $$('.n-total').forEach(function (e) { e.textContent = NORMAL ? (121 - EXTRA_P.length) + ' задач' : DEEP ? '143 задачі' : '121 задача'; });
+  $$('.n-total').forEach(function (e) { e.textContent = plural(TOTALS[MODE], 'задача', 'задачі', 'задач'); });
+  migrateOnce();
   var done = load(KEY_P);
-  var doneVis = {}; Object.keys(done).forEach(function (k) { if (!(NORMAL && EXTRA_P.indexOf(k) >= 0)) doneVis[k] = 1; });
+  var doneVis = {}; Object.keys(done).forEach(function (k) { if (visKey(k)) doneVis[k] = 1; });
   if (NORMAL) $$('[data-meter]').forEach(function (m) {
     m.dataset.total = +m.dataset.total - EXTRA_P.filter(function (k) { return k.split('.')[0] === m.dataset.meter; }).length;
   });
@@ -74,13 +93,13 @@
         b.textContent = d + ' / ' + all.length;
       });
     };
-    var lvl = '0', srch = document.getElementById('psearch'), unsolved = document.getElementById('punsolved'), empty = document.getElementById('pempty');
+    var lvl = '0', org = 'all', srch = document.getElementById('psearch'), unsolved = document.getElementById('punsolved'), empty = document.getElementById('pempty');
     function norm(s) { return s.toLowerCase().replace(/[’']/g, '\''); }
     ps.forEach(function (p) { p._txt = norm(p.textContent.replace(/Відповідь[\s\S]*$/, '')); });
     function filt() {
       var q = srch ? norm(srch.value.trim()) : '', un = unsolved && unsolved.checked, shown = 0;
       ps.forEach(function (p) {
-        var vis = (lvl === '0' || p.dataset.l === lvl) && (!un || !p.classList.contains('done')) && (!q || p._txt.indexOf(q) >= 0);
+        var vis = (lvl === '0' || p.dataset.l === lvl) && (org === 'all' || org === (p.hasAttribute('data-d') ? 'd' : p.hasAttribute('data-x') ? 'x' : 's')) && (!un || !p.classList.contains('done')) && (!q || p._txt.indexOf(q) >= 0);
         p.classList.toggle('hidden-lv', !vis); if (vis) shown++;
       });
       $$('.problems h3.grp').forEach(function (h) {
@@ -88,10 +107,22 @@
         while (n && n.tagName === 'ARTICLE') { if (!n.classList.contains('hidden-lv')) any = true; n = n.nextElementSibling; }
         h.classList.toggle('hidden-lv', !any);
       });
+      $$('.problems h2').forEach(function (h) {
+        var n = h.nextElementSibling, any = false;
+        while (n && n.tagName !== 'H2') { if (n.tagName === 'ARTICLE' && !n.classList.contains('hidden-lv')) any = true; n = n.nextElementSibling; }
+        h.classList.toggle('hidden-lv', !any);
+      });
       if (empty) empty.hidden = shown > 0;
     }
     upd();
-    var bs = $$('.filt button');
+    var bs = $$('.filt:not(.ofilt) button'), bo = $$('.ofilt button');
+    bo.forEach(function (b) {
+      b.addEventListener('click', function () {
+        org = b.dataset.o;
+        bo.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        filt();
+      });
+    });
     bs.forEach(function (b) {
       b.addEventListener('click', function () {
         lvl = b.dataset.f;
@@ -227,8 +258,8 @@
         if (!v || typeof v !== 'object' || Array.isArray(v)) return null;
         var r = {}; Object.keys(v).forEach(function (k) { if (re.test(k) && v[k]) r[k] = 1; }); return JSON.stringify(r);
       }
-      if (typeof o['linal-done'] === 'string') { var a1 = flags(o['linal-done'], /^[1-5]\.\d{1,2}$/); if (a1) out['linal-done'] = a1; }
-      if (typeof o['linal-read'] === 'string') { var a2 = flags(o['linal-read'], /^b[1-5]$/); if (a2) out['linal-read'] = a2; }
+      if (typeof o['linal-done'] === 'string') { var a1 = flags(o['linal-done'], /^[1-8]\.\d{1,2}$/); if (a1) out['linal-done'] = a1; }
+      if (typeof o['linal-read'] === 'string') { var a2 = flags(o['linal-read'], /^b[1-8]$/); if (a2) out['linal-read'] = a2; }
       if (typeof o['linal-cards-unknown'] === 'string') { var a3 = flags(o['linal-cards-unknown'], /^\d{1,3}$/); if (a3) out['linal-cards-unknown'] = a3; }
       if (typeof o['linal-tests'] === 'string') {
         try { var t = JSON.parse(o['linal-tests']), rt = {};
@@ -250,7 +281,13 @@
       if (typeof o['linal-exam'] === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(o['linal-exam'])) out['linal-exam'] = o['linal-exam'];
       if (['normal', 'super', 'deep'].indexOf(o['linal-mode']) >= 0) out['linal-mode'] = o['linal-mode'];
       if (int(o['linal-lab-won'], 1e6) !== null) out['linal-lab-won'] = String(int(o['linal-lab-won'], 1e6));
-      return Object.keys(out).length ? out : null;
+      if (!Object.keys(out).length) return null;
+      if (o['linal-v'] !== '2') { /* a code saved before the v2 layout */
+        if (out['linal-done']) out['linal-done'] = JSON.stringify(migrateDone(JSON.parse(out['linal-done'])));
+        if (out['linal-read']) { var rr = JSON.parse(out['linal-read']); delete rr.b5; out['linal-read'] = JSON.stringify(rr); }
+      }
+      out['linal-v'] = '2';
+      return out;
     }
     function enc(o) { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }
     function dec(s) { return JSON.parse(decodeURIComponent(escape(atob(s.trim())))); }
@@ -280,7 +317,7 @@
   /* ---------- mode chip in the header ---------- */
   if (tw) {
     var mc = document.createElement('button'); mc.type = 'button'; mc.className = 'mode-btn ' + MODE; mc.id = 'mode-btn';
-    var ML = { normal: ['Силабус', 'Режим «За силабусом»: лише матеріал курсу.'], super: ['Супер', 'Режим «Супер»: курс разом з додатковими темами.'], deep: ['Поглиблений', 'Режим «Поглиблений»: усе разом із блоком 5.'] };
+    var ML = { normal: ['Силабус', 'Режим «За силабусом»: блоки 1–4, лише матеріал курсу.'], super: ['Супер', 'Режим «Супер»: силабус і блок 5 «Інструменти глибше».'], deep: ['Поглиблений', 'Режим «Поглиблений»: усе разом із блоками 6–8 (простори, евклідові простори, перетворення).'] };
     var NEXT = { normal: 'super', super: 'deep', deep: 'normal' };
     mc.innerHTML = '<span class="md"></span>' + ML[MODE][0];
     mc.title = ML[MODE][1] + ' Натисніть, щоб перейти до «' + ML[NEXT[MODE]][0] + '».';
@@ -363,7 +400,7 @@
 
     /* recommendations */
     var rec = [], tr = load('linal-trainer'), unkC = load('linal-cards-unknown');
-    var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння', eig: 'власні значення', rank: 'ранг', proj: 'проєкція' };
+    var NAMES = { det2: 'det 2×2', det3: 'det 3×3', det4: 'det 4×4', inv2: 'обернена 2×2', sle2: 'СЛАР 2×2', sle3: 'СЛАР 3×3', mul: 'добуток матриць', geom: 'образ точки', comp: 'композиція', prop: 'властивості det', param: 'параметр', area: 'площа трикутника', mateq: 'матричне рівняння', eig: 'власні значення', rank: 'ранг', proj: 'проєкція', perm: 'інверсії', cross: 'векторний добуток', vol: 'об\'єм', coord: 'координати', simil: 'матриця в базисі' };
     var weak = Object.keys(tr.t || {}).filter(function (k) { return NAMES[k]; }).map(function (k) { var t = tr.t[k], al = +t.all || 0, ok0 = +t.ok || 0; return { k: k, all: al, acc: al ? ok0 / al : 1 }; })
       .filter(function (x) { return x.all >= 3 && x.acc < .7; }).sort(function (a, b) { return a.acc - b.acc; });
     weak.slice(0, 2).forEach(function (w) { rec.push('Тренажер «' + (NAMES[w.k] || w.k) + '»: лише ' + Math.round(w.acc * 100) + ' % правильних. <a href="trainer.html">Потренуватися</a>'); });

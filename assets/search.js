@@ -28,10 +28,10 @@
     loading = Promise.all([get('material.html'), get('problems.html'), get('tests.html'), loadCards()]).then(function (d) {
       var m = d[0], p = d[1], t = d[2];
       /* conspect: one entry per h3 section with its following text */
-      var cur = null, block = '', blockD = false;
+      var cur = null, block = '', blockD = false, blockX = false;
       [].forEach.call(m.querySelectorAll('article > *'), function (el) {
-        if (el.tagName === 'H2') { block = text(el); if (el.id) { blockD = el.hasAttribute('data-d'); cur = { k: 'm', x: el.hasAttribute('data-x'), d: blockD, title: block, sub: 'Конспект', url: 'material.html#' + el.id, body: '' }; out.push(cur); } return; }
-        if (el.tagName === 'H3' && el.id) { cur = { k: 'm', d: blockD || el.hasAttribute('data-d'), title: text(el), sub: 'Конспект · ' + block, url: 'material.html#' + el.id, body: '' }; out.push(cur); return; }
+        if (el.tagName === 'H2') { block = text(el); if (el.id) { blockD = el.hasAttribute('data-d'); blockX = el.hasAttribute('data-x'); cur = { k: 'm', x: blockX, d: blockD, title: block, sub: 'Конспект', url: 'material.html#' + el.id, body: '' }; out.push(cur); } return; }
+        if (el.tagName === 'H3' && el.id) { cur = { k: 'm', x: blockX || el.hasAttribute('data-x'), d: blockD || el.hasAttribute('data-d'), title: text(el), sub: 'Конспект · ' + block, url: 'material.html#' + el.id, body: '' }; out.push(cur); return; }
         var hideX = document.documentElement.getAttribute('data-mode') === 'normal' && (el.classList.contains('ext') || el.hasAttribute('data-x'));
         if (cur && !el.classList.contains('next') && !hideX) cur.body += ' ' + text(el);
       });
@@ -57,7 +57,7 @@
   }
   function loadCards() {
     if (window.CARDS) return Promise.resolve();
-    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=21'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
+    return new Promise(function (ok) { var s = document.createElement('script'); s.src = 'assets/cards.js?v=22'; s.onload = ok; s.onerror = ok; document.head.appendChild(s); });
   }
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function snippet(body, words) {

@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<link rel="stylesheet" href="assets/style.css?v=22">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Лінал · екстерн">
@@ -29,13 +29,19 @@
 <main><div class="wrap">
 <p class="eyebrow">Тренування</p>
 <h1>Задачі</h1>
-<p class="mut"><span class="n-total">121 задача</span> за чотирма темами силабуса. Розв'яжіть на папері з повним ходом, потім розкрийте «Відповідь» і позначте задачу. Прогрес зберігається у вашому браузері й показується на головній.</p>
+<p class="mut"><span class="n-total">143 задачі</span> у поточному режимі: блоки 1–4 — силабус, блок 5 — «Супер», блоки 6–8 — «Поглиблений». Розв'яжіть на папері з повним ходом, потім розкрийте «Відповідь» і позначте задачу. Прогрес зберігається у вашому браузері й показується на головній.</p>
 <div class="bar">
   <div class="filt" role="group" aria-label="Рівень складності">
     <button type="button" id="f0" data-f="0" aria-pressed="true">Усі</button>
     <button type="button" id="f1" data-f="1" aria-pressed="false">● базові</button>
     <button type="button" id="f2" data-f="2" aria-pressed="false">◆ основні</button>
     <button type="button" id="f3" data-f="3" aria-pressed="false">▲ складні</button>
+  </div>
+  <div class="filt ofilt" role="group" aria-label="Звідки задача" data-x="1">
+    <button type="button" data-o="all" aria-pressed="true">Усі блоки</button>
+    <button type="button" data-o="s" aria-pressed="false">Силабус</button>
+    <button type="button" data-o="x" aria-pressed="false">Супер</button>
+    <button type="button" data-o="d" aria-pressed="false" data-d="1">Поглиблено</button>
   </div>
   <input type="search" id="psearch" class="psearch" placeholder="Пошук: det, параметр, поворот…" aria-label="Пошук задач">
   <label class="chkl"><input type="checkbox" id="punsolved"> лише нерозв'язані</label>
@@ -559,103 +565,360 @@
 <div>Доведіть: якщо S — матриця будь-якої симетрії відносно прямої через 0, то S² = I. Для якого найменшого n маємо R(72°)ⁿ = I?</div>
 <details><summary>Відповідь</summary><div>Двічі відобразити — повернутися на місце (або перевірте добуток <span class="M">cos2θ sin2θ; sin2θ −cos2θ</span>² = I). R(72°)ⁿ = R(72n°) = I ⇔ 72n кратне 360, тобто n = 5.</div></details></article>
 
+<h2 id="b5" data-x="1">Блок 5. Супер: інструменти глибше <span class="bp" data-b="5"></span></h2>
+<h3 class="grp" data-x="1">Матриці й підстановки</h3>
+<article class="p" id="p5-1" data-x="1" data-l="1"><div class="ph"><span class="n">5.1</span></div>
+<div>Обчисліть добуток <span class="M">1 2 4; -1 3 -4</span>·<span class="M">0 1; 1 1; 0 1</span> двома способами: «рядок на стовпець» і «стовпчиками» (кожен стовпець добутку — комбінація стовпців першої матриці).</div>
+<details><summary>Відповідь</summary><div><span class="M">2 7; 3 -2</span>. Стовпчиками: перший стовпець = 0·(1, −1) + 1·(2, 3) + 0·(4, −4) = (2, 3), другий = 1·(1, −1) + 1·(2, 3) + 1·(4, −4) = (7, −2).</div></details></article>
 
-<h2 id="b5" data-d="1">Блок 5. Поглиблено <span class="bp" data-b="5"></span></h2>
-<h3 class="grp" data-d="1">Ранг, ядро, образ</h3>
-<article class="p" id="p5-1" data-d="1" data-l="1"><div class="ph"><span class="n">5.1</span></div>
-<div>Знайдіть ранг матриці <span class="M">1 2 3; 2 4 6; 1 0 1</span>. Які рядки лінійно залежні?</div>
-<details><summary>Відповідь</summary><div>rank = 2: другий рядок дорівнює подвоєному першому, а перший і третій незалежні.</div></details></article>
+<article class="p" id="p5-2" data-x="1" data-l="2"><div class="ph"><span class="n">5.2</span></div>
+<div>A = <span class="M">1 -1; 2 1</span>. Обчисліть −A³ + 3A + I.</div>
+<details><summary>Відповідь</summary><div>A² = <span class="M">-1 -2; 4 -1</span>, A³ = <span class="M">-5 -1; 2 -5</span>, тож −A³ + 3A + I = <span class="M">9 -2; 4 9</span>.</div></details></article>
 
-<article class="p" id="p5-2" data-d="1" data-l="2"><div class="ph"><span class="n">5.2</span></div>
-<div>Як залежить від k ранг матриці <span class="M">1 2 1; 2 k 2; 1 2 k</span>?</div>
-<details><summary>Відповідь</summary><div>det = (k − 1)(k − 4). При k ≠ 1, 4 rank = 3; при k = 1 і при k = 4 rank = 2.</div></details></article>
+<article class="p" id="p5-3" data-x="1" data-l="2"><div class="ph"><span class="n">5.3</span></div>
+<div>A — матриця 2×3. Розглянемо блочну матрицю K = <span class="M">I Aᵀ; A O</span>. Чи квадратна K? Чи симетрична? Які розміри мають I та O?</div>
+<details><summary>Відповідь</summary><div>Aᵀ має розмір 3×2, тож I — 3×3, а O — 2×2. K квадратна порядку 5 і симетрична: Kᵀ = <span class="M">Iᵀ Aᵀ; (Aᵀ)ᵀ Oᵀ</span> = K.</div></details></article>
 
-<article class="p" id="p5-3" data-d="1" data-l="2"><div class="ph"><span class="n">5.3</span></div>
-<div>Для A = <span class="M">1 2 1 0; 2 4 0 2; 3 6 1 2</span> знайдіть базис ядра, базис образу і перевірте теорему про ранг.</div>
-<details><summary>Відповідь</summary><div>Зведена форма: <span class="M">1 2 0 1; 0 0 1 -1; 0 0 0 0</span>, rank = 2.<br>Ker A: x = s·(−2, 1, 0, 0) + t·(−1, 0, 1, 1), dim = 2.<br>Im A: ведучі стовпці 1 і 3 початкової матриці: (1, 2, 3), (1, 0, 1).<br>dim Ker + rank = 2 + 2 = 4 = n.</div></details></article>
+<article class="p" id="p5-4" data-x="1" data-l="1"><div class="ph"><span class="n">5.4</span></div>
+<div>σ = (4 1 5 2 3), τ = (3 4 1 5 2) (записано нижні рядки підстановок). Знайдіть στ, τσ і σ⁻¹. Пам'ятайте: στ означає «спочатку τ, потім σ».</div>
+<details><summary>Відповідь</summary><div>στ = (5 2 4 3 1), τσ = (5 3 2 4 1) — добуток некомутативний. σ⁻¹ = (2 4 5 1 3). Перевірка: σσ⁻¹ = id.</div></details></article>
 
-<article class="p" id="p5-4" data-d="1" data-l="1"><div class="ph"><span class="n">5.4</span></div>
-<div>Поясніть несумісність системи із задачі 1.4 через теорему Кронекера–Капеллі.</div>
-<details><summary>Відповідь</summary><div>rank A = 2, а rank [A | b] = 3. Ранги різні, отже, b не лежить в образі A, і розв'язків немає.</div></details></article>
+<article class="p" id="p5-5" data-x="1" data-l="2"><div class="ph"><span class="n">5.5</span></div>
+<div>Розкладіть σ = (4 1 5 2 3) у добуток незалежних циклів, знайдіть її порядок і обчисліть σ²⁰⁰.</div>
+<details><summary>Відповідь</summary><div>σ = (1 4 2)(3 5). Порядок НСК(3, 2) = 6, а 200 = 6·33 + 2, тож σ²⁰⁰ = σ² = (2 4 3 1 5).</div></details></article>
 
-<h3 class="grp" data-d="1">Базис і зміна базису</h3>
-<article class="p" id="p5-5" data-d="1" data-l="1"><div class="ph"><span class="n">5.5</span></div>
+<article class="p" id="p5-6" data-x="1" data-l="1"><div class="ph"><span class="n">5.6</span></div>
+<div>Визначте парність підстановки (6 1 8 2 3 4 5 7) двома способами: через інверсії та через цикли.</div>
+<details><summary>Відповідь</summary><div>Інверсій 10 (5 пар з шісткою, 5 пар з вісімкою), отже, парна. Цикли: (1 6 4 2)(3 8 7 5), sgn = (−1)<sup>8 − 2</sup> = +1.</div></details></article>
+
+<article class="p" id="p5-7" data-x="1" data-l="3"><div class="ph"><span class="n">5.7</span></div>
+<div>Визначте парність підстановки, яка переставляє 1, 2, …, 2n у зворотному порядку: 2n, 2n − 1, …, 1.</div>
+<details><summary>Відповідь</summary><div>Інверсію утворює кожна пара, тож їх C(2n, 2) = n(2n − 1). Число 2n − 1 непарне, тому підстановка парна ⇔ n парне.</div></details></article>
+
+<h3 class="grp" data-x="1">Спеціальні визначники</h3>
+<article class="p" id="p5-8" data-x="1" data-l="2"><div class="ph"><span class="n">5.8</span></div>
+<div>Знайдіть визначник n×n з 5 на діагоналі, 3 над нею, 2 під нею і нулями деінде.</div>
+<details><summary>Відповідь</summary><div>Розклад за першим рядком: Dₙ = 5Dₙ₋₁ − 6Dₙ₋₂, D₁ = 5, D₂ = 19. Корені t² − 5t + 6 = 0: 2 і 3, тож <b>Dₙ = 3ⁿ⁺¹ − 2ⁿ⁺¹</b>. Перевірка: n = 2 дає 27 − 8 = 19.</div></details></article>
+
+<article class="p" id="p5-9" data-x="1" data-l="1"><div class="ph"><span class="n">5.9</span></div>
+<div>Обчисліть визначник <span class="M">1 2 4 8; 1 -1 1 -1; 1 -3 9 -27; 1 5 25 125</span>, не розкриваючи його.</div>
+<details><summary>Відповідь</summary><div>Це Вандермонд з x = 2, −1, −3, 5: ∏(xᵢ − xⱼ) = (−3)(−5)(3)(−2)(6)(8) = <b>−4320</b>.</div></details></article>
+
+<article class="p" id="p5-10" data-x="1" data-l="3"><div class="ph"><span class="n">5.10</span></div>
+<div>Обчисліть визначник n×n, у якого на діагоналі нулі, а всі інші елементи дорівнюють 1.</div>
+<details><summary>Відповідь</summary><div>Додайте всі рядки до першого: він стає (n − 1, …, n − 1). Винесіть n − 1 і відніміть перший рядок від інших: отримаєте трикутну матрицю з −1 на діагоналі. det = <b>(−1)ⁿ⁻¹(n − 1)</b>.</div></details></article>
+
+<h3 class="grp" data-x="1">Геометрія через визначник</h3>
+<article class="p" id="p5-11" data-x="1" data-l="1"><div class="ph"><span class="n">5.11</span></div>
+<div>Використовуючи визначник, запишіть рівняння прямої через A(1; 4) і B(5; 7).</div>
+<details><summary>Відповідь</summary><div><span class="M">x y 1; 1 4 1; 5 7 1</span> = −3x + 4y − 13 = 0, тобто <b>3x − 4y + 13 = 0</b>. Перевірка: 3 − 16 + 13 = 0.</div></details></article>
+
+<article class="p" id="p5-12" data-x="1" data-l="2"><div class="ph"><span class="n">5.12</span></div>
+<div>Запишіть рівняння площини через A(1; 1; 1), B(2; 3; −1), C(3; −1; −1).</div>
+<details><summary>Відповідь</summary><div>Визначник 4×4 з рядками (x, y, z, 1) і точками дає −8x − 2y − 6z + 16 = 0, тобто <b>4x + y + 3z = 8</b>. Усі три точки задовольняють рівняння.</div></details></article>
+
+<article class="p" id="p5-13" data-x="1" data-l="2"><div class="ph"><span class="n">5.13</span></div>
+<div>При якому α точки A(1; 2; 4), B(0; 3; 2), C(2; 4; 1), D(1; 5; α) лежать в одній площині?</div>
+<details><summary>Відповідь</summary><div>det(B − A, C − A, D − A) = 0 дає <b>α = −1</b>.</div></details></article>
+
+<article class="p" id="p5-14" data-x="1" data-l="3"><div class="ph"><span class="n">5.14</span></div>
+<div>Запишіть рівняння кола через A(1; 1), B(0; 2), C(8; 8). Знайдіть центр і радіус.</div>
+<details><summary>Відповідь</summary><div>Визначник з рядками (x² + y², x, y, 1) дає x² + y² − 8x − 10y + 16 = 0, тобто (x − 4)² + (y − 5)² = 25. Центр (4; 5), r = 5.</div></details></article>
+
+<h3 class="grp" data-x="1">Векторний і мішаний добутки</h3>
+<article class="p" id="p5-15" data-x="1" data-l="1"><div class="ph"><span class="n">5.15</span></div>
+<div>Обчисліть векторний добуток a × b для a = (1; 2; −1), b = (0; 4; 3). Перевірте перпендикулярність.</div>
+<details><summary>Відповідь</summary><div>a × b = (2·3 − (−1)·4, (−1)·0 − 1·3, 1·4 − 2·0) = <b>(10; −3; 4)</b>. Скалярні добутки з a і b: 10 − 6 − 4 = 0 і 0 − 12 + 12 = 0.</div></details></article>
+
+<article class="p" id="p5-16" data-x="1" data-l="2"><div class="ph"><span class="n">5.16</span></div>
+<div>Знайдіть площу трикутника з вершинами A(1; 4; 6), B(−2; 1; 3), C(1; 1; 1).</div>
+<details><summary>Відповідь</summary><div>(B − A) × (C − A) = (−3, −3, −3) × (0, −3, −5) = (6, −15, 9), довжина √342 = 3√38. S = <b>3√38/2</b> ≈ 9,25.</div></details></article>
+
+<article class="p" id="p5-17" data-x="1" data-l="2"><div class="ph"><span class="n">5.17</span></div>
+<div>Знайдіть об'єм тетраедра з вершинами A(1; 7; 3), B(2; 5; 1), C(4; 6; 8), D(7; 3; 5).</div>
+<details><summary>Відповідь</summary><div>det(B − A, C − A, D − A) = −18, V = ⅙·18 = <b>3</b>.</div></details></article>
+
+<article class="p" id="p5-18" data-x="1" data-l="1"><div class="ph"><span class="n">5.18</span></div>
+<div>Знайдіть об'єм паралелепіпеда, натягнутого на a = (1; −2; 5), b = (2; 0; 0), c = (3; −4; 2). Чи права трійка a, b, c?</div>
+<details><summary>Відповідь</summary><div>(a, b, c) = <span class="M">1 -2 5; 2 0 0; 3 -4 2</span> = −32. V = <b>32</b>; знак «−» означає ліву трійку.</div></details></article>
+
+<article class="p" id="p5-19" data-x="1" data-l="3"><div class="ph"><span class="n">5.19</span></div>
+<div>Доведіть тотожність Лагранжа |a × b|² = |a|²|b|² − (a·b)².</div>
+<details><summary>Відповідь</summary><div>|a × b|² = |a|²|b|² sin²φ = |a|²|b|²(1 − cos²φ) = |a|²|b|² − (|a||b| cos φ)² = |a|²|b|² − (a·b)².</div></details></article>
+
+<h3 class="grp" data-x="1">Алгебраїчні структури</h3>
+<article class="p" id="p5-20" data-x="1" data-l="2"><div class="ph"><span class="n">5.20</span></div>
+<div>Які з відображень є гомоморфізмами груп: det: GL(n, ℝ) → ℝ*; φ: ℤ₁₂ → ℤ₄, [k] ↦ [k]; exp: (ℝ, +) → (ℝ₊*, ·); z ↦ |z| з ℂ* у ℝ₊*?</div>
+<details><summary>Відповідь</summary><div>Усі чотири: det(AB) = det A·det B; φ коректне, бо 4 ділить 12, і [k + l] ↦ [k] + [l]; e<sup>x+y</sup> = eˣeʸ; |zw| = |z||w|. Ядро det — матриці з det = 1, ядро φ — {[0], [4], [8]}.</div></details></article>
+
+<article class="p" id="p5-21" data-x="1" data-l="2"><div class="ph"><span class="n">5.21</span></div>
+<div>Розв'яжіть над полем ℤ₅: <span class="sys">2x + y = 1<br>x + 4y = 3</span></div>
+<details><summary>Відповідь</summary><div>det = 8 − 1 = 7 ≡ 2, 2⁻¹ = 3 у ℤ₅. x = (1·4 − 1·3)·3 = 3, y = (2·3 − 1·1)·3 = 15 ≡ 0. <b>x = 3, y = 0</b>. Перевірка: 6 ≡ 1, 3 = 3.</div></details></article>
+
+<article class="p" id="p5-22" data-x="1" data-l="3"><div class="ph"><span class="n">5.22</span></div>
+<div>Матриця підстановки P<sub>σ</sub> має одиницю на місці (σ(j), j). Побудуйте P<sub>σ</sub> для σ = (2 3 1), обчисліть P<sub>σ</sub>³ і det P<sub>σ</sub>.</div>
+<details><summary>Відповідь</summary><div>P<sub>σ</sub> = <span class="M">0 0 1; 1 0 0; 0 1 0</span>. σ — 3-цикл, тож σ³ = id і P<sub>σ</sub>³ = I (бо P<sub>σ</sub>P<sub>τ</sub> = P<sub>στ</sub>). det P<sub>σ</sub> = sgn σ = +1.</div></details></article>
+
+
+<h2 id="b6" data-d="1">Блок 6. Поглиблено: лінійні простори <span class="bp" data-b="6"></span></h2>
+<h3 class="grp" data-d="1">Простори й підпростори</h3>
+<article class="p" id="p6-1" data-d="1" data-l="1"><div class="ph"><span class="n">6.1</span></div>
+<div>Які множини є підпросторами: 1) {(0, y)} ⊂ ℝ²; 2) вектори ℝⁿ з цілими координатами; 3) вектори першої чверті; 4) вектори ℝⁿ із сумою координат 1; 5) многочлени з коренем α?</div>
+<details><summary>Відповідь</summary><div>1) так; 2) ні: ½·(1, 0, …) не цілий; 3) ні: (−1)·(1, 1) поза чвертю; 4) ні: немає нуля; 5) так: (p + q)(α) = 0 і (λp)(α) = 0.</div></details></article>
+
+<article class="p" id="p6-2" data-d="1" data-l="2"><div class="ph"><span class="n">6.2</span></div>
+<div>Знайдіть розмірність і базис простору симетричних матриць 3×3. Чому дорівнює розмірність кососиметричних?</div>
+<details><summary>Відповідь</summary><div>Базис: E₁₁, E₂₂, E₃₃, E₁₂ + E₂₁, E₁₃ + E₃₁, E₂₃ + E₃₂, отже, dim = 6 = n(n + 1)/2. Кососиметричні: E₁₂ − E₂₁, E₁₃ − E₃₁, E₂₃ − E₃₂, dim = 3. Разом 9 = dim Mat(3), бо Mat = Sym ⊕ Skew.</div></details></article>
+
+<h3 class="grp" data-d="1">Незалежність, базис, координати</h3>
+<article class="p" id="p6-3" data-d="1" data-l="1"><div class="ph"><span class="n">6.3</span></div>
+<div>Чи лінійно незалежні системи: 1) (5, 2, −3), (4, 1, −2), (1, 1, −1); 2) (2, −3, 1), (3, −1, 5), (1, −4, 3)?</div>
+<details><summary>Відповідь</summary><div>1) det = 0, залежні: (5, 2, −3) = (4, 1, −2) + (1, 1, −1). 2) det = 35 ≠ 0, незалежні.</div></details></article>
+
+<article class="p" id="p6-4" data-d="1" data-l="2"><div class="ph"><span class="n">6.4</span></div>
+<div>При яких λ вектор b = (7, −2, λ) є лінійною комбінацією a₁ = (2, 3, 5), a₂ = (3, 7, 8), a₃ = (1, −6, 1)?</div>
+<details><summary>Відповідь</summary><div>Ранг [a₁ a₂ a₃] = 2, а останній рядок ступінчастої форми [a₁ a₂ a₃ | b] дорівнює 0 0 0 | 10λ − 150. Отже, <b>λ = 15</b>.</div></details></article>
+
+<article class="p" id="p6-5" data-d="1" data-l="1"><div class="ph"><span class="n">6.5</span></div>
 <div>Чи утворюють (1, 1, 0), (0, 1, 1), (1, 0, 1) базис ℝ³? Знайдіть координати вектора (2, 3, 1) у цьому базисі.</div>
 <details><summary>Відповідь</summary><div>det = 2 ≠ 0, тож так. Розв'язок Pc = v: c = (2, 1, 0), тобто (2, 3, 1) = 2·(1, 1, 0) + 1·(0, 1, 1).</div></details></article>
 
-<article class="p" id="p5-6" data-d="1" data-l="2"><div class="ph"><span class="n">5.6</span></div>
-<div>Знайдіть матрицю симетрії відносно y = x у базисі (1, 1), (1, −1), обчисливши P⁻¹SP. Поясніть результат.</div>
-<details><summary>Відповідь</summary><div>P⁻¹SP = <span class="M">1 0; 0 -1</span>. (1, 1) лежить на осі й не змінюється, (1, −1) перпендикулярний і перевертається.</div></details></article>
+<article class="p" id="p6-6" data-d="1" data-l="1"><div class="ph"><span class="n">6.6</span></div>
+<div>Знайдіть координати x = (6, 9, 14) у базисі (1, 1, 1), (1, 1, 2), (1, 2, 3).</div>
+<details><summary>Відповідь</summary><div>(1, 2, 3): 1·(1, 1, 1) + 2·(1, 1, 2) + 3·(1, 2, 3) = (6, 9, 14).</div></details></article>
 
-<h3 class="grp" data-d="1">Власні значення й діагоналізація</h3>
-<article class="p" id="p5-7" data-d="1" data-l="1"><div class="ph"><span class="n">5.7</span></div>
-<div>Знайдіть власні значення та власні вектори <span class="M">2 1; 1 2</span>.</div>
-<details><summary>Відповідь</summary><div>λ² − 4λ + 3 = 0: λ = 1 з вектором (1, −1), λ = 3 з вектором (1, 1).</div></details></article>
+<article class="p" id="p6-7" data-d="1" data-l="2"><div class="ph"><span class="n">6.7</span></div>
+<div>Знайдіть координати многочленів t³ − 3t² + t + 1 і 2t³ − 4t² + t − 3 у базисі 1, (t − 1), (t − 1)², (t − 1)³ простору ℝ₃[t].</div>
+<details><summary>Відповідь</summary><div>Коефіцієнти дає формула Тейлора в точці 1: p⁽ᵏ⁾(1)/k!. Перший: (0, −2, 0, 1), тобто −2(t − 1) + (t − 1)³. Другий: (−4, −1, 2, 2).</div></details></article>
 
-<article class="p" id="p5-8" data-d="1" data-l="2"><div class="ph"><span class="n">5.8</span></div>
-<div>Знайдіть власні значення та власні вектори <span class="M">4 1; 2 3</span>.</div>
-<details><summary>Відповідь</summary><div>λ² − 7λ + 10 = 0: λ = 2 з вектором (1, −2), λ = 5 з вектором (1, 1).</div></details></article>
+<article class="p" id="p6-8" data-d="1" data-l="2"><div class="ph"><span class="n">6.8</span></div>
+<div>Знайдіть розмірність і базис простору розв'язків системи x₁ + x₂ + x₃ = 0, x₁ + 2x₂ = 0.</div>
+<details><summary>Відповідь</summary><div>Ранг 2, невідомих 3, тож dim = 1. Базис: (−2, 1, 1).</div></details></article>
 
-<article class="p" id="p5-9" data-d="1" data-l="1"><div class="ph"><span class="n">5.9</span></div>
-<div>Доведіть, що поворот на 90° не має дійсних власних значень. Знайдіть власні значення і вектори симетрії відносно Ox.</div>
-<details><summary>Відповідь</summary><div>det(R − λI) = λ² + 1 = 0 не має дійсних коренів. Симетрія: λ = 1 з вектором (1, 0), λ = −1 з вектором (0, 1).</div></details></article>
+<h3 class="grp" data-d="1">Матриця переходу</h3>
+<article class="p" id="p6-9" data-d="1" data-l="2"><div class="ph"><span class="n">6.9</span></div>
+<div>Знайдіть матрицю переходу від базису e₁ = (1; −2), e₂ = (3; −5) до базису u₁ = (3; −2), u₂ = (1; 0) і назад.</div>
+<details><summary>Відповідь</summary><div>T<sub>e→u</sub> = E⁻¹U = <span class="M">-9 -5; 4 2</span> (стовпці — координати uⱼ у базисі e). T<sub>u→e</sub> = T⁻¹ = <span class="M">1 5/2; -2 -9/2</span>.</div></details></article>
 
-<article class="p" id="p5-10" data-d="1" data-l="3"><div class="ph"><span class="n">5.10</span></div>
-<div>Діагоналізуйте A = <span class="M">2 1; 1 2</span> і знайдіть формулу для Aⁿ. Перевірте для n = 4.</div>
-<details><summary>Відповідь</summary><div>P = <span class="M">1 1; -1 1</span>, D = diag(1, 3). Aⁿ = PDⁿP⁻¹ = ½·<span class="M">3ⁿ+1 3ⁿ−1; 3ⁿ−1 3ⁿ+1</span>. A⁴ = <span class="M">41 40; 40 41</span>.</div></details></article>
+<article class="p" id="p6-10" data-d="1" data-l="3"><div class="ph"><span class="n">6.10</span></div>
+<div>Вектор має координати (4, −2) у базисі a₁ = (1; 1), a₂ = (4; 3). Знайдіть його координати в базисі b₁ = (7; 3), b₂ = (5; 2).</div>
+<details><summary>Відповідь</summary><div>T<sub>a→b</sub> = A⁻¹B = <span class="M">-9 -7; 4 3</span>, x<sub>b</sub> = T⁻¹x<sub>a</sub> = <b>(−2, 2)</b>. Перевірка: 4a₁ − 2a₂ = (−4, −2) = −2b₁ + 2b₂.</div></details></article>
 
-<article class="p" id="p5-11" data-d="1" data-l="3"><div class="ph"><span class="n">5.11</span></div>
-<div>Доведіть, що <span class="M">1 1; 1 0</span>ⁿ = <span class="M">Fₙ₊₁ Fₙ; Fₙ Fₙ₋₁</span> (числа Фібоначчі). Знайдіть 10-й степінь і власні значення матриці.</div>
-<details><summary>Відповідь</summary><div>Індукція: множення на матрицю справа дає Fₙ₊₁ + Fₙ = Fₙ₊₂. A¹⁰ = <span class="M">89 55; 55 34</span>. λ = (1 ± √5)/2 — звідси формула Біне.</div></details></article>
+<h3 class="grp" data-d="1">Ранг і основні простори</h3>
+<article class="p" id="p6-11" data-d="1" data-l="1"><div class="ph"><span class="n">6.11</span></div>
+<div>Знайдіть ранг матриці <span class="M">1 2 3; 2 4 6; 1 0 1</span>. Які рядки лінійно залежні?</div>
+<details><summary>Відповідь</summary><div>rank = 2: другий рядок дорівнює подвоєному першому, а перший і третій незалежні.</div></details></article>
 
-<article class="p" id="p5-12" data-d="1" data-l="3"><div class="ph"><span class="n">5.12</span></div>
-<div>Знайдіть власні значення та власні вектори <span class="M">2 0 0; 0 3 4; 0 4 -3</span>.</div>
-<details><summary>Відповідь</summary><div>(2 − λ)(λ² − 25) = 0: λ = 2 з вектором (1, 0, 0), λ = 5 з вектором (0, 2, 1), λ = −5 з вектором (0, −1, 2). Вектори попарно ортогональні, бо матриця симетрична.</div></details></article>
+<article class="p" id="p6-12" data-d="1" data-l="2"><div class="ph"><span class="n">6.12</span></div>
+<div>Як залежить від k ранг матриці <span class="M">1 2 1; 2 k 2; 1 2 k</span>?</div>
+<details><summary>Відповідь</summary><div>det = (k − 1)(k − 4). При k ≠ 1, 4 rank = 3; при k = 1 і при k = 4 rank = 2.</div></details></article>
 
-<article class="p" id="p5-13" data-d="1" data-l="1"><div class="ph"><span class="n">5.13</span></div>
-<div>Власні значення матриці A 2×2 дорівнюють 2 і −3. Знайдіть tr A, det A, det(A²) і власні значення A⁻¹.</div>
-<details><summary>Відповідь</summary><div>tr A = −1, det A = −6, det(A²) = 36, власні значення A⁻¹: 1/2 і −1/3.</div></details></article>
+<article class="p" id="p6-13" data-d="1" data-l="2"><div class="ph"><span class="n">6.13</span></div>
+<div>Як залежить від λ ранг матриці <span class="M">1 λ -1 2; 2 -1 λ 5; 1 10 -6 1</span>?</div>
+<details><summary>Відповідь</summary><div>Мінори 3×3 дорівнюють (λ − 3)(λ + 5), 3(λ − 3), 3 − λ, (λ − 3)(λ + 13). Усі зануляються лише при λ = 3. Отже, <b>rank = 2 при λ = 3</b>, інакше rank = 3.</div></details></article>
 
-<h3 class="grp" data-d="1">Ортогональність і найменші квадрати</h3>
-<article class="p" id="p5-14" data-d="1" data-l="1"><div class="ph"><span class="n">5.14</span></div>
+<article class="p" id="p6-14" data-d="1" data-l="2"><div class="ph"><span class="n">6.14</span></div>
+<div>Для A = <span class="M">1 2 1 0; 2 4 0 2; 3 6 1 2</span> знайдіть базис ядра, базис образу і перевірте теорему про ранг.</div>
+<details><summary>Відповідь</summary><div>Зведена форма: <span class="M">1 2 0 1; 0 0 1 -1; 0 0 0 0</span>, rank = 2.<br>Ker A: x = s·(−2, 1, 0, 0) + t·(−1, 0, 1, 1), dim = 2.<br>Im A: ведучі стовпці 1 і 3 початкової матриці: (1, 2, 3), (1, 0, 1).<br>dim Ker + rank = 2 + 2 = 4 = n.</div></details></article>
+
+<article class="p" id="p6-15" data-d="1" data-l="1"><div class="ph"><span class="n">6.15</span></div>
+<div>Поясніть несумісність системи із задачі 1.4 через теорему Кронекера–Капеллі.</div>
+<details><summary>Відповідь</summary><div>rank A = 2, а rank [A | b] = 3. Ранги різні, отже, b не лежить в образі A, і розв'язків немає.</div></details></article>
+
+<article class="p" id="p6-16" data-d="1" data-l="1"><div class="ph"><span class="n">6.16</span></div>
+<div>Знайдіть чотири основні простори матриці <span class="M">1 2; 3 6</span> і переконайтеся, що R(A) ⟂ N(A), C(A) ⟂ N(Aᵀ).</div>
+<details><summary>Відповідь</summary><div>rank = 1. R(A) = Lin(1, 2), N(A) = Lin(−2, 1); C(A) = Lin(1, 3), N(Aᵀ) = Lin(−3, 1). Скалярні добутки: −2 + 2 = 0 і −3 + 3 = 0.</div></details></article>
+
+<article class="p" id="p6-17" data-d="1" data-l="2"><div class="ph"><span class="n">6.17</span></div>
+<div>Знайдіть розмірність і базис Lin(a₁, a₂, a₃, a₄), де a₁ = (0, 2, −1), a₂ = (3, 7, 1), a₃ = (2, 0, 3), a₄ = (5, 1, 8).</div>
+<details><summary>Відповідь</summary><div>Ведучі стовпці 1, 2, 4, тож dim = 3, базис a₁, a₂, a₄ (тобто весь ℝ³). Залежність: a₃ = −⁷⁄₃a₁ + ⅔a₂.</div></details></article>
+
+<h3 class="grp" data-d="1">Суми, перетини, скінченні поля</h3>
+<article class="p" id="p6-18" data-d="1" data-l="3"><div class="ph"><span class="n">6.18</span></div>
+<div>Знайдіть базиси суми й перетину V = Lin((1, 2, 0, 1), (1, 1, 1, 0)) і W = Lin((1, 0, 1, 0), (1, 3, 0, 1)).</div>
+<details><summary>Відповідь</summary><div>Ранг усіх чотирьох векторів 3, тож dim(V + W) = 3 (базис: a₁, a₂, b₁). За Грассманом dim(V ∩ W) = 2 + 2 − 3 = 1. Нуль-простір [a | b] дає a₁ + a₂ = b₁ + b₂, тож V ∩ W = Lin((2, 3, 1, 1)).</div></details></article>
+
+<article class="p" id="p6-19" data-d="1" data-l="2"><div class="ph"><span class="n">6.19</span></div>
+<div>Підпростори V₁, V₂ ⊂ ℝ¹⁰ мають розмірності 2 і 7. Якими можуть бути dim(V₁ ∩ V₂) і dim(V₁ + V₂)?</div>
+<details><summary>Відповідь</summary><div>dim(V₁ ∩ V₂) ∈ {0, 1, 2}, відповідно dim(V₁ + V₂) = 9, 8, 7 (сума розмірностей завжди 9). Усі варіанти досягаються координатними підпросторами.</div></details></article>
+
+<article class="p" id="p6-20" data-d="1" data-l="2"><div class="ph"><span class="n">6.20</span></div>
+<div>Розв'яжіть над ℤ₂ однорідну систему з матрицею <span class="M">1 1 0 1 0; 0 1 0 0 1; 1 1 1 1 1</span>. Скільки в неї розв'язків?</div>
+<details><summary>Відповідь</summary><div>R₃ + R₁, потім R₁ + R₂: x₁ = x₄ + x₅, x₂ = x₅, x₃ = x₅. Базис: (1, 0, 0, 1, 0), (1, 1, 1, 0, 1). Розв'язків 2² = 4: 0, ці два і їхня сума (0, 1, 1, 1, 1).</div></details></article>
+
+<article class="p" id="p6-21" data-d="1" data-l="3"><div class="ph"><span class="n">6.21</span></div>
+<div>F — поле з q елементів. Скільки елементів у Fⁿ? Скільки впорядкованих базисів? Обчисліть для q = 2, n = 2.</div>
+<details><summary>Відповідь</summary><div>|Fⁿ| = qⁿ. Перший вектор базису — будь-який ненульовий (qⁿ − 1 варіантів), другий — поза його оболонкою (qⁿ − q), …: (qⁿ − 1)(qⁿ − q)…(qⁿ − qⁿ⁻¹). Для q = n = 2: 3·2 = 6.</div></details></article>
+
+
+<h2 id="b7" data-d="1">Блок 7. Поглиблено: евклідові простори <span class="bp" data-b="7"></span></h2>
+<h3 class="grp" data-d="1">Скалярний добуток і Коші–Буняковський</h3>
+<article class="p" id="p7-1" data-d="1" data-l="1"><div class="ph"><span class="n">7.1</span></div>
+<div>Які з формул задають скалярний добуток: 1) 3x₁y₁ + 2x₂y₂ у ℝ²; 2) |x₁y₁| + |x₂y₂| у ℝ²; 3) x₁y₁ + x₃y₃ у ℝ³?</div>
+<details><summary>Відповідь</summary><div>1) так: симетрична, лінійна, 3x₁² + 2x₂² &gt; 0 при x ≠ 0. 2) ні: не лінійна (⟨−x, y⟩ ≠ −⟨x, y⟩). 3) ні: ⟨e₂, e₂⟩ = 0, хоча e₂ ≠ 0.</div></details></article>
+
+<article class="p" id="p7-2" data-d="1" data-l="1"><div class="ph"><span class="n">7.2</span></div>
 <div>Знайдіть кут між (1, 2, 2) і (2, −2, 1), а також між (1, 0) і (1, 1).</div>
 <details><summary>Відповідь</summary><div>Скалярний добуток 0, отже 90°. Для другої пари cos = 1/√2, тобто 45°.</div></details></article>
 
-<article class="p" id="p5-15" data-d="1" data-l="2"><div class="ph"><span class="n">5.15</span></div>
-<div>Знайдіть проєкцію v = (3, 4) на напрям u = (1, 2), ортогональну складову і відстань від точки (3, 4) до прямої y = 2x.</div>
-<details><summary>Відповідь</summary><div>proj = (11/5)·(1, 2) = (11/5, 22/5); v − proj = (4/5, −2/5); відстань |v − proj| = 2/√5 = 2√5/5.</div></details></article>
+<article class="p" id="p7-3" data-d="1" data-l="2"><div class="ph"><span class="n">7.3</span></div>
+<div>Знайдіть сторони й кути трикутника з вершинами a = (2, 4, 2, 4, 2), b = (6, 4, 4, 4, 6), c = (5, 7, 5, 7, 2) у ℝ⁵.</div>
+<details><summary>Відповідь</summary><div>b − a = (4, 0, 2, 0, 4), c − a = (3, 3, 3, 3, 0), c − b = (−1, 3, 1, 3, −4): усі довжини 6. Трикутник правильний, усі кути 60° (cos = 18/36 = ½).</div></details></article>
 
-<article class="p" id="p5-16" data-d="1" data-l="2"><div class="ph"><span class="n">5.16</span></div>
+<article class="p" id="p7-4" data-d="1" data-l="2"><div class="ph"><span class="n">7.4</span></div>
+<div>Знайдіть найбільше значення x + 2y + 3z за умови x² + y² + z² = 14.</div>
+<details><summary>Відповідь</summary><div>КБШ: x + 2y + 3z ≤ √14·√(1 + 4 + 9) = 14. Рівність при (x, y, z) ∥ (1, 2, 3), тобто в (1, 2, 3). Максимум <b>14</b>.</div></details></article>
+
+<article class="p" id="p7-5" data-d="1" data-l="1"><div class="ph"><span class="n">7.5</span></div>
+<div>Знайдіть матрицю Грама векторів (1, 1, 0), (0, 1, 1) і кут між ними.</div>
+<details><summary>Відповідь</summary><div>G = <span class="M">2 1; 1 2</span>. cos φ = 1/(√2·√2) = ½, φ = 60°.</div></details></article>
+
+<h3 class="grp" data-d="1">Ортогоналізація</h3>
+<article class="p" id="p7-6" data-d="1" data-l="2"><div class="ph"><span class="n">7.6</span></div>
 <div>Застосуйте процес Грама–Шмідта до (1, 1, 0) і (1, 0, 1).</div>
 <details><summary>Відповідь</summary><div>e₁ = (1, 1, 0)/√2. u₂ = (1, 0, 1) − ½(1, 1, 0) = (½, −½, 1), e₂ = u₂/|u₂| = (1, −1, 2)/√6. Перевірка: e₁·e₂ = 0.</div></details></article>
 
-<article class="p" id="p5-17" data-d="1" data-l="3"><div class="ph"><span class="n">5.17</span></div>
-<div>Методом найменших квадратів знайдіть пряму y = a + bx, найближчу до точок (0, 1), (1, 3), (2, 4), (3, 4).</div>
-<details><summary>Відповідь</summary><div>AᵀA = <span class="M">4 6; 6 14</span>, Aᵀb = (12, 23) ⇒ a = 3/2, b = 1: y = 1,5 + x.</div></details></article>
+<article class="p" id="p7-7" data-d="1" data-l="2"><div class="ph"><span class="n">7.7</span></div>
+<div>Ортогоналізуйте за Грамом–Шмідтом a₁ = (1, 1, −1, 0), a₂ = (1, 2, 0, −1), a₃ = (0, 0, 1, 0).</div>
+<details><summary>Відповідь</summary><div>u₁ = a₁; u₂ = a₂ − (3/3)u₁ = (0, 1, 1, −1); u₃ = a₃ + ⅓u₁ − ⅓u₂ = (⅓, 0, ⅓, ⅓) ∥ (1, 0, 1, 1). Попарні скалярні добутки нульові.</div></details></article>
 
-<article class="p" id="p5-18" data-d="1" data-l="2"><div class="ph"><span class="n">5.18</span></div>
+<article class="p" id="p7-8" data-d="1" data-l="3"><div class="ph"><span class="n">7.8</span></div>
+<div>Ортогоналізуйте 1, t, t² у ℝ₂[t] зі скалярним добутком ⟨f, g⟩ = ∫₋₁¹ f(t)g(t) dt.</div>
+<details><summary>Відповідь</summary><div>u₁ = 1; ⟨t, 1⟩ = 0, тож u₂ = t; u₃ = t² − (⟨t², 1⟩/⟨1, 1⟩)·1 = t² − (2/3)/2 = <b>t² − ⅓</b>. Це многочлени Лежандра з точністю до множника.</div></details></article>
+
+<article class="p" id="p7-9" data-d="1" data-l="2"><div class="ph"><span class="n">7.9</span></div>
 <div>Перевірте, що Q = <span class="M">3/5 4/5; -4/5 3/5</span> ортогональна. Знайдіть Q⁻¹ без обчислень і поясніть, що це за перетворення.</div>
 <details><summary>Відповідь</summary><div>QᵀQ = I, det Q = 1, тож це поворот (на ≈ −53,13°, тобто за годинниковою). Q⁻¹ = Qᵀ = <span class="M">3/5 -4/5; 4/5 3/5</span>.</div></details></article>
 
-<article class="p" id="p5-19" data-d="1" data-l="2"><div class="ph"><span class="n">5.19</span></div>
+<h3 class="grp" data-d="1">Проєкції, відстані, кути</h3>
+<article class="p" id="p7-10" data-d="1" data-l="2"><div class="ph"><span class="n">7.10</span></div>
+<div>Знайдіть проєкцію v = (3, 4) на напрям u = (1, 2), ортогональну складову і відстань від точки (3, 4) до прямої y = 2x.</div>
+<details><summary>Відповідь</summary><div>proj = (11/5)·(1, 2) = (11/5, 22/5); v − proj = (4/5, −2/5); відстань |v − proj| = 2/√5 = 2√5/5.</div></details></article>
+
+<article class="p" id="p7-11" data-d="1" data-l="2"><div class="ph"><span class="n">7.11</span></div>
 <div>Знайдіть матрицю проєкції на пряму y = 2x. Перевірте, що P² = P, і знайдіть її власні значення.</div>
 <details><summary>Відповідь</summary><div>P = uuᵀ/(uᵀu) з u = (1, 2): P = ⅕·<span class="M">1 2; 2 4</span>. P² = P, det P = 0, власні значення 1 (вздовж прямої) і 0 (перпендикулярно).</div></details></article>
 
-<h3 class="grp" data-d="1">Доведення</h3>
-<article class="p" id="p5-20" data-d="1" data-l="3"><div class="ph"><span class="n">5.20</span></div>
+<article class="p" id="p7-12" data-d="1" data-l="2"><div class="ph"><span class="n">7.12</span></div>
+<div>Знайдіть базис ортогонального доповнення U = Lin((1, 0, 2, 1), (2, 1, 2, 3), (0, 1, −2, 1)).</div>
+<details><summary>Відповідь</summary><div>U⟂ = N(Aᵀ): розв'язуємо систему з рядками aᵢ. Ранг 2, тож dim U⟂ = 2. Базис: (−2, 2, 1, 0), (−1, −1, 0, 1).</div></details></article>
+
+<article class="p" id="p7-13" data-d="1" data-l="3"><div class="ph"><span class="n">7.13</span></div>
+<div>Знайдіть ортогональну проєкцію й ортогональну складову x = (4, −1, −3, 4) щодо U = Lin((1, 1, 1, 1), (1, 2, 2, −1), (1, 0, 0, 3)).</div>
+<details><summary>Відповідь</summary><div>a₃ = 2a₁ − a₂, тож беремо базис a₁, a₂. Нормальні рівняння дають p = <b>(1, −1, −1, 5)</b>, h = x − p = <b>(3, 0, −2, −1)</b>. Перевірка: h·a₁ = h·a₂ = 0.</div></details></article>
+
+<article class="p" id="p7-14" data-d="1" data-l="2"><div class="ph"><span class="n">7.14</span></div>
+<div>Знайдіть відстань від x = (7, −3, −1) до підпростору Lin((1, 1, 1), (4, 0, 5)).</div>
+<details><summary>Відповідь</summary><div>Ортогональна складова h = (5, −1, −4) (вона перпендикулярна обом векторам), відстань ‖h‖ = <b>√42</b>.</div></details></article>
+
+<article class="p" id="p7-15" data-d="1" data-l="3"><div class="ph"><span class="n">7.15</span></div>
+<div>Знайдіть кут між x = (2, 2, 1, 1) і U = Lin((3, 4, −4, −1), (0, 1, −1, 2)).</div>
+<details><summary>Відповідь</summary><div>Проєкція p = (½, 1, −1, ½), x·p = 5/2, ‖x‖ = √10, ‖p‖ = √(5/2). cos φ = 2,5/(√10·√2,5) = 2,5/5 = ½, <b>φ = 60°</b>.</div></details></article>
+
+<article class="p" id="p7-16" data-d="1" data-l="3"><div class="ph"><span class="n">7.16</span></div>
+<div>Методом найменших квадратів знайдіть пряму y = a + bx, найближчу до точок (0, 1), (1, 3), (2, 4), (3, 4).</div>
+<details><summary>Відповідь</summary><div>AᵀA = <span class="M">4 6; 6 14</span>, Aᵀb = (12, 23) ⇒ a = 3/2, b = 1: y = 1,5 + x.</div></details></article>
+
+<article class="p" id="p7-17" data-d="1" data-l="3"><div class="ph"><span class="n">7.17</span></div>
+<div>Доведіть, що діагональ n-вимірного куба утворює однаковий кут з усіма ребрами. Знайдіть його та границю при n → ∞.</div>
+<details><summary>Відповідь</summary><div>Діагональ (1, …, 1), ребро eᵢ: cos φ = 1/√n для кожного i. φ = arccos(1/√n) → 90°: у великих розмірностях діагональ «майже перпендикулярна» всім осям.</div></details></article>
+
+
+<h2 id="b8" data-d="1">Блок 8. Поглиблено: лінійні перетворення <span class="bp" data-b="8"></span></h2>
+<h3 class="grp" data-d="1">Оператори та їх матриці</h3>
+<article class="p" id="p8-1" data-d="1" data-l="1"><div class="ph"><span class="n">8.1</span></div>
+<div>Чи лінійні перетворення ℝ³: 1) (x₂ + x₃, 2x₁ + x₃, 3x₁ − x₂ + x₃); 2) (x₁, x₂ + 1, x₃ + 2); 3) (2x₁ + x₂, x₁ + x₃, x₃²)? Для лінійного запишіть матрицю.</div>
+<details><summary>Відповідь</summary><div>1) так, матриця <span class="M">0 1 1; 2 0 1; 3 -1 1</span>; 2) ні: 0 ↦ (0, 1, 2); 3) ні: x₃² не лінійне.</div></details></article>
+
+<article class="p" id="p8-2" data-d="1" data-l="2"><div class="ph"><span class="n">8.2</span></div>
+<div>Запишіть матриці відображення й ортогональної проєкції ℝ³ щодо площини Lin((1, 1, 0), (0, 0, 1)).</div>
+<details><summary>Відповідь</summary><div>Одинична нормаль n = (1, −1, 0)/√2. Відображення I − 2nnᵀ = <span class="M">0 1 0; 1 0 0; 0 0 1</span>, проєкція I − nnᵀ = <span class="M">1/2 1/2 0; 1/2 1/2 0; 0 0 1</span>.</div></details></article>
+
+<article class="p" id="p8-3" data-d="1" data-l="2"><div class="ph"><span class="n">8.3</span></div>
+<div>Знайдіть композицію симетрій площини відносно Ox і Oy, а потім у загальному вигляді Σ<sub>α</sub>Σ<sub>β</sub>.</div>
+<details><summary>Відповідь</summary><div>σₓσᵧ = <span class="M">1 0; 0 -1</span><span class="M">-1 0; 0 1</span> = −I — поворот на 180°. Загалом Σ<sub>α</sub>Σ<sub>β</sub> = P<sub>2(α−β)</sub>: поворот на подвоєний кут між осями.</div></details></article>
+
+<article class="p" id="p8-4" data-d="1" data-l="2"><div class="ph"><span class="n">8.4</span></div>
+<div>Знайдіть ядро й образ оператора з матрицею <span class="M">4 -5 2; 5 -7 3; 6 -9 4</span>.</div>
+<details><summary>Відповідь</summary><div>rank = 2. Ker = Lin((1, 2, 3)), Im = Lin((4, 5, 6), (−5, −7, −9)). dim Ker + dim Im = 1 + 2 = 3.</div></details></article>
+
+<h3 class="grp" data-d="1">Заміна базису й подібність</h3>
+<article class="p" id="p8-5" data-d="1" data-l="2"><div class="ph"><span class="n">8.5</span></div>
+<div>Знайдіть матрицю симетрії відносно y = x у базисі (1, 1), (1, −1), обчисливши P⁻¹SP. Поясніть результат.</div>
+<details><summary>Відповідь</summary><div>P⁻¹SP = <span class="M">1 0; 0 -1</span>. (1, 1) лежить на осі й не змінюється, (1, −1) перпендикулярний і перевертається.</div></details></article>
+
+<article class="p" id="p8-6" data-d="1" data-l="3"><div class="ph"><span class="n">8.6</span></div>
+<div>Оператор має в базисі e матрицю <span class="M">1 1 1; -1 1 -1; 0 0 1</span>. Знайдіть його матрицю в базисі f₁ = e₁, f₂ = e₁ + e₂, f₃ = e₁ + e₂ + e₃.</div>
+<details><summary>Відповідь</summary><div>T = <span class="M">1 1 1; 0 1 1; 0 0 1</span>, A<sub>f</sub> = T⁻¹A<sub>e</sub>T = <span class="M">2 2 4; -1 0 -2; 0 0 1</span>. Контроль: слід 3 і det 2 в обох базисах.</div></details></article>
+
+<article class="p" id="p8-7" data-d="1" data-l="3"><div class="ph"><span class="n">8.7</span></div>
 <div>Доведіть, що подібні матриці A і B = P⁻¹AP мають однакові визначник і характеристичний многочлен.</div>
 <details><summary>Відповідь</summary><div>det B = det P⁻¹·det A·det P = det A. B − λI = P⁻¹(A − λI)P, тож det(B − λI) = det(A − λI).</div></details></article>
 
-<article class="p" id="p5-21" data-d="1" data-l="3"><div class="ph"><span class="n">5.21</span></div>
+<h3 class="grp" data-d="1">Власні значення й вектори</h3>
+<article class="p" id="p8-8" data-d="1" data-l="1"><div class="ph"><span class="n">8.8</span></div>
+<div>Знайдіть власні значення та власні вектори <span class="M">2 1; 1 2</span>.</div>
+<details><summary>Відповідь</summary><div>λ² − 4λ + 3 = 0: λ = 1 з вектором (1, −1), λ = 3 з вектором (1, 1).</div></details></article>
+
+<article class="p" id="p8-9" data-d="1" data-l="2"><div class="ph"><span class="n">8.9</span></div>
+<div>Знайдіть власні значення та власні вектори <span class="M">4 1; 2 3</span>.</div>
+<details><summary>Відповідь</summary><div>λ² − 7λ + 10 = 0: λ = 2 з вектором (1, −2), λ = 5 з вектором (1, 1).</div></details></article>
+
+<article class="p" id="p8-10" data-d="1" data-l="1"><div class="ph"><span class="n">8.10</span></div>
+<div>Доведіть, що поворот на 90° не має дійсних власних значень. Знайдіть власні значення і вектори симетрії відносно Ox.</div>
+<details><summary>Відповідь</summary><div>det(R − λI) = λ² + 1 = 0 не має дійсних коренів. Симетрія: λ = 1 з вектором (1, 0), λ = −1 з вектором (0, 1).</div></details></article>
+
+<article class="p" id="p8-11" data-d="1" data-l="3"><div class="ph"><span class="n">8.11</span></div>
+<div>Знайдіть власні значення та власні вектори <span class="M">2 0 0; 0 3 4; 0 4 -3</span>.</div>
+<details><summary>Відповідь</summary><div>(2 − λ)(λ² − 25) = 0: λ = 2 з вектором (1, 0, 0), λ = 5 з вектором (0, 2, 1), λ = −5 з вектором (0, −1, 2). Вектори попарно ортогональні, бо матриця симетрична.</div></details></article>
+
+<article class="p" id="p8-12" data-d="1" data-l="1"><div class="ph"><span class="n">8.12</span></div>
+<div>Власні значення матриці A 2×2 дорівнюють 2 і −3. Знайдіть tr A, det A, det(A²) і власні значення A⁻¹.</div>
+<details><summary>Відповідь</summary><div>tr A = −1, det A = −6, det(A²) = 36, власні значення A⁻¹: 1/2 і −1/3.</div></details></article>
+
+<article class="p" id="p8-13" data-d="1" data-l="2"><div class="ph"><span class="n">8.13</span></div>
+<div>Знайдіть власні значення та власні вектори <span class="M">-1 3 -1; -3 5 -1; -3 3 1</span>.</div>
+<details><summary>Відповідь</summary><div>χ(λ) = −(λ − 1)(λ − 2)². λ = 1: (1, 1, 1); λ = 2: двовимірний V₂ = Lin((1, 1, 0), (−1, 0, 3)). Геометрична кратність 2 збігається з алгебраїчною.</div></details></article>
+
+<article class="p" id="p8-14" data-d="1" data-l="2"><div class="ph"><span class="n">8.14</span></div>
+<div>З геометричних міркувань знайдіть власні значення й вектори: 1) поворот ℝ³ навколо Ox на кут α (0 &lt; α &lt; π); 2) проєкція ℝ³ на площину Lin((1, 1, 0), (0, 0, 1)).</div>
+<details><summary>Відповідь</summary><div>1) λ = 1 з (1, 0, 0) — вісь; інших дійсних немає. 2) λ = 1 з V₁ = сама площина, λ = 0 з нормаллю (1, −1, 0).</div></details></article>
+
+<article class="p" id="p8-15" data-d="1" data-l="3"><div class="ph"><span class="n">8.15</span></div>
 <div>Доведіть: якщо A² = A, то кожне власне значення A дорівнює 0 або 1.</div>
 <details><summary>Відповідь</summary><div>Av = λv ⇒ A²v = λ²v. Але A²v = Av = λv, тож (λ² − λ)v = 0, а v ≠ 0 ⇒ λ = 0 або 1.</div></details></article>
 
-<article class="p" id="p5-22" data-d="1" data-l="3"><div class="ph"><span class="n">5.22</span></div>
+<h3 class="grp" data-d="1">Діагоналізація</h3>
+<article class="p" id="p8-16" data-d="1" data-l="2"><div class="ph"><span class="n">8.16</span></div>
+<div>Діагоналізуйте <span class="M">4 -1; 2 1</span>.</div>
+<details><summary>Відповідь</summary><div>λ² − 5λ + 6 = 0: λ = 2 з (1, 2), λ = 3 з (1, 1). P = <span class="M">1 1; 2 1</span>, D = diag(2, 3), A = PDP⁻¹.</div></details></article>
+
+<article class="p" id="p8-17" data-d="1" data-l="3"><div class="ph"><span class="n">8.17</span></div>
+<div>Діагоналізуйте A = <span class="M">2 1; 1 2</span> і знайдіть формулу для Aⁿ. Перевірте для n = 4.</div>
+<details><summary>Відповідь</summary><div>P = <span class="M">1 1; -1 1</span>, D = diag(1, 3). Aⁿ = PDⁿP⁻¹ = ½·<span class="M">3ⁿ+1 3ⁿ−1; 3ⁿ−1 3ⁿ+1</span>. A⁴ = <span class="M">41 40; 40 41</span>.</div></details></article>
+
+<article class="p" id="p8-18" data-d="1" data-l="3"><div class="ph"><span class="n">8.18</span></div>
+<div>Доведіть, що <span class="M">1 1; 1 0</span>ⁿ = <span class="M">Fₙ₊₁ Fₙ; Fₙ Fₙ₋₁</span> (числа Фібоначчі). Знайдіть 10-й степінь і власні значення матриці.</div>
+<details><summary>Відповідь</summary><div>Індукція: множення на матрицю справа дає Fₙ₊₁ + Fₙ = Fₙ₊₂. A¹⁰ = <span class="M">89 55; 55 34</span>. λ = (1 ± √5)/2 — звідси формула Біне.</div></details></article>
+
+<article class="p" id="p8-19" data-d="1" data-l="2"><div class="ph"><span class="n">8.19</span></div>
+<div>Чи діагоналізовна <span class="M">4 -5 2; 5 -7 3; 6 -9 4</span>?</div>
+<details><summary>Відповідь</summary><div>χ(λ) = −λ²(λ − 1). λ = 0 має алгебраїчну кратність 2, але rank A = 2, тож dim V₀ = 1. <b>Ні</b>, не діагоналізовна.</div></details></article>
+
+<article class="p" id="p8-20" data-d="1" data-l="3"><div class="ph"><span class="n">8.20</span></div>
+<div>Діагоналізуйте <span class="M">-5 0 6; -3 1 3; -4 0 5</span> і знайдіть A¹⁰⁰.</div>
+<details><summary>Відповідь</summary><div>λ = 1 (кратність 2): (0, 1, 0), (1, 0, 1); λ = −1: (6, 3, 4). Обидві кратності збігаються, тож A = PDP⁻¹ з D = diag(1, 1, −1). D¹⁰⁰ = I, тому <b>A¹⁰⁰ = I</b> (і справді A² = I).</div></details></article>
+
+<article class="p" id="p8-21" data-d="1" data-l="3"><div class="ph"><span class="n">8.21</span></div>
+<div>Зведіть до головних осей <span class="M">0 2 2; 2 3 -1; 2 -1 3</span>.</div>
+<details><summary>Відповідь</summary><div>λ = 4 (кратність 2), λ = −2. Ортонормовані власні вектори: (1, 1, 1)/√3 і (0, 1, −1)/√2 для 4; (−2, 1, 1)/√6 для −2. S = QΛQᵀ, Λ = diag(4, 4, −2), Q — матриця з цих стовпців.</div></details></article>
+
+<article class="p" id="p8-22" data-d="1" data-l="3"><div class="ph"><span class="n">8.22</span></div>
 <div>Перевірте теорему Гамільтона–Келі A² − (tr A)A + (det A)I = O для A = <span class="M">1 2; 3 4</span> і виведіть з неї A⁻¹.</div>
 <details><summary>Відповідь</summary><div>tr A = 5, det A = −2: A² − 5A − 2I = O (це задача 2.18). A⁻¹ = (5I − A)/(−2) = (A − 5I)/2 = <span class="M">-2 1; 3/2 -1/2</span>.</div></details></article>
 </div>
 <div class="next"><span>Готові перевірити себе в умовах тесту?</span><a href="tests.html">Пробні контрольні →</a></div>
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=21"></script><script src="assets/search.js?v=21"></script>
+<script src="assets/app.js?v=22"></script><script src="assets/search.js?v=22"></script>
 </body></html>

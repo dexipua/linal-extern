@@ -139,6 +139,38 @@
       return { q: 'Знайдіть проєкцію вектора v = ' + V(v) + ' на напрям u = ' + V(u) + '.', ans: [p], labels: ['x', 'y'],
         sol: 'proj = (u·v / u·u)·u = (' + uv + '/' + uu + ')·' + V(u) + ' = <b>(' + p.map(function (x) { return x.toString(); }).join(', ') + ')</b>.' };
     } },
+    perm: { name: 'інверсії', sup: true, make: function () {
+      var n = ri(5, 6), p = [], i; for (i = 1; i <= n; i++) p.push(i);
+      do { for (i = n - 1; i > 0; i--) { var j = ri(0, i), t = p[i]; p[i] = p[j]; p[j] = t; } } while (p.every(function (x, k) { return x === k + 1; }));
+      var per = p.map(function (x, k) { var c = 0; for (var m = k + 1; m < n; m++) if (p[m] < x) c++; return c; }), inv = per.reduce(function (a, b) { return a + b; }, 0);
+      return { q: 'Скільки інверсій у підстановці (' + p.join(' ') + ')? (нижній рядок запису)', ans: [[new F(inv)]], labels: ['інверсій'],
+        sol: 'Для кожного числа рахуємо менші за нього праворуч: ' + p.map(function (x, k) { return x + ' → ' + per[k]; }).join(', ') + '. Разом <b>' + inv + '</b>, тож підстановка ' + (inv % 2 ? 'непарна' : 'парна') + '.' };
+    } },
+    cross: { name: 'векторний добуток', sup: true, make: function () {
+      var a, b, c, pc = function (x) { return x < 0 ? '(' + cell(x) + ')' : cell(x); };
+      do { a = [ri(-3, 3), ri(-3, 3), ri(-3, 3)]; b = [ri(-3, 3), ri(-3, 3), ri(-3, 3)];
+        c = [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; } while (!c[0] && !c[1] && !c[2]);
+      return { q: 'Обчисліть векторний добуток a × b для a = ' + V(a) + ', b = ' + V(b) + '.', ans: [c.map(function (x) { return new F(x); })], labels: ['x', 'y', 'z'],
+        sol: 'Розклад «визначника» з рядками i j k / a / b: (' + pc(a[1]) + '·' + pc(b[2]) + ' − ' + pc(a[2]) + '·' + pc(b[1]) + ', ' + pc(a[2]) + '·' + pc(b[0]) + ' − ' + pc(a[0]) + '·' + pc(b[2]) + ', ' +
+          pc(a[0]) + '·' + pc(b[1]) + ' − ' + pc(a[1]) + '·' + pc(b[0]) + ') = <b>' + V(c) + '</b>. Перевірка: (a × b)·a = 0 і (a × b)·b = 0.' };
+    } },
+    vol: { name: 'об\'єм', sup: true, make: function () {
+      var A, d; do { A = mat(3, 3, -3, 3); d = F.det(A); } while (d.isZero() || Math.abs(d.n) > 40);
+      return { q: 'Знайдіть об\'єм паралелепіпеда, натягнутого на a = ' + V(A[0]) + ', b = ' + V(A[1]) + ', c = ' + V(A[2]) + '.', ans: [[new F(Math.abs(d.n))]],
+        sol: 'Мішаний добуток (a, b, c) = det ' + M(A) + ' = ' + d + ', об\'єм = |' + d + '| = <b>' + Math.abs(d.n) + '</b>.<details class="more"><summary>Обчислення визначника</summary>' + detSol(A) + '</details>' };
+    } },
+    coord: { name: 'координати', deep: true, make: function () {
+      var P, d; do { P = mat(2, 2, -3, 3); d = P[0][0] * P[1][1] - P[0][1] * P[1][0]; } while (d !== 1 && d !== -1);
+      var c = [nz(-4, 4), ri(-4, 4)], v = [P[0][0] * c[0] + P[0][1] * c[1], P[1][0] * c[0] + P[1][1] * c[1]];
+      return { q: 'Знайдіть координати вектора v = ' + V(v) + ' у базисі b₁ = ' + V([P[0][0], P[1][0]]) + ', b₂ = ' + V([P[0][1], P[1][1]]) + '.', ans: [[new F(c[0]), new F(c[1])]], labels: ['c₁', 'c₂'],
+        sol: 'Розв\'язуємо c₁b₁ + c₂b₂ = v, тобто систему з матрицею, стовпці якої — b₁ і b₂:' + gaussSol([[P[0][0], P[0][1], v[0]], [P[1][0], P[1][1], v[1]]], 2) + 'Координати <b>' + V(c) + '</b>.' };
+    } },
+    simil: { name: 'матриця в базисі', deep: true, make: function () {
+      var P, d; do { P = mat(2, 2, -2, 2); d = P[0][0] * P[1][1] - P[0][1] * P[1][0]; } while (d !== 1 && d !== -1);
+      var A = mat(2, 2, -3, 3), Pi = [[P[1][1] * d, -P[0][1] * d], [-P[1][0] * d, P[0][0] * d]], B = F.matmul(F.matmul(Pi, A), P);
+      return { q: 'Оператор має в стандартному базисі матрицю ' + M(A) + '. Знайдіть його матрицю в базисі f₁ = ' + V([P[0][0], P[1][0]]) + ', f₂ = ' + V([P[0][1], P[1][1]]) + '.', ans: B,
+        sol: 'T = ' + M(P) + ' (стовпці — нові базисні вектори), det T = ' + d + ', T⁻¹ = ' + M(Pi) + '. A<sub>f</sub> = T⁻¹AT = <b>' + M(B) + '</b>. Контроль: слід ' + (A[0][0] + A[1][1]) + ' і det ' + (A[0][0] * A[1][1] - A[0][1] * A[1][0]) + ' не змінюються.' };
+    } },
     det4: { name: 'det 4×4', make: function () {
       /* A = L·U with unit lower L and upper U: det A = product of U's diagonal, entries stay small */
       var L = [[1, 0, 0, 0], [ri(-2, 2), 1, 0, 0], [ri(-2, 2), ri(-1, 1), 1, 0], [ri(-1, 1), ri(-1, 1), ri(-1, 1), 1]];
@@ -179,7 +211,8 @@
     bCheck = document.getElementById('btn-check'), bSol = document.getElementById('btn-sol'), bNext = document.getElementById('btn-next'),
     exBar = document.getElementById('exbar'), exRes = document.getElementById('exres'), bExam = document.getElementById('btn-exam');
   var DEEPM = document.documentElement.getAttribute('data-mode') === 'deep';
-  var keys = Object.keys(GEN).filter(function (k) { return DEEPM || !GEN[k].deep; }), on = {}, cur = null, curKey = null, streak = 0, tried = false, exam = null;
+  var NORMM = document.documentElement.getAttribute('data-mode') === 'normal';
+  var keys = Object.keys(GEN).filter(function (k) { return (DEEPM || !GEN[k].deep) && (!NORMM || !GEN[k].sup); }), on = {}, cur = null, curKey = null, streak = 0, tried = false, exam = null;
   keys.forEach(function (k) {
     on[k] = true;
     var b = document.createElement('button'); b.type = 'button'; b.id = 'tp-' + k; b.textContent = GEN[k].name; b.setAttribute('aria-pressed', 'true');

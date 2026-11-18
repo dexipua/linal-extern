@@ -1,7 +1,7 @@
 /* Offline support: pages are network-first (so updates show up), assets are cache-first with background refresh. */
-var CACHE = 'linal-v21';
+var CACHE = 'linal-v22';
 var PAGES = ['./', 'index.html', 'material.html', 'problems.html', 'trainer.html', 'lab.html', 'tests.html', 'cheatsheet.html'];
-var ASSETS = ['style.css', 'app.js', 'search.js', 'frac.js', 'trainer.js', 'cards.js', 'lab.js'].map(function (f) { return 'assets/' + f + '?v=21'; })
+var ASSETS = ['style.css', 'app.js', 'search.js', 'frac.js', 'trainer.js', 'cards.js', 'lab.js'].map(function (f) { return 'assets/' + f + '?v=22'; })
   .concat(['assets/icons/icon-192.png', 'assets/icons/icon-512.png', 'manifest.webmanifest']);
 
 self.addEventListener('install', function (e) {

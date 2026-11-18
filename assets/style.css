@@ -396,8 +396,7 @@ html[data-mode="normal"] .ext{display:none!important}
 .mode-card:hover{border-color:var(--acc2)}
 @media (max-width:760px){.mode-btn{height:36px;padding:0 9px;font-size:.75rem}}
 @media (max-width:430px){.brand .bx{display:none}}
-html[data-mode="super"] .p[data-x] .ph .n::after{content:"поза силабусом";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
-html[data-mode="super"] h2[data-x]::after{content:" · поза силабусом";font:600 .8rem var(--fb);color:var(--hi)}
+html[data-mode="super"] .p[data-x] .ph .n::after{content:"супер";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
 
 /* ===================== max pass ===================== */
 .steps{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;margin:8px 0;overflow-x:auto;max-width:100%}
@@ -433,5 +432,21 @@ html:not([data-mode="deep"]) [data-d]{display:none!important}
 .mode-btn.deep .md{background:var(--acc2)}
 .mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.mode-grid{grid-template-columns:1fr}}
-html[data-mode="deep"] .p[data-x] .ph .n::after{content:"поза силабусом";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
+html[data-mode="deep"] .p[data-x] .ph .n::after{content:"супер";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--hi);border:1px dashed var(--hi);vertical-align:2px}
 html[data-mode="deep"] .p[data-d] .ph .n::after{content:"поглиблено";margin-left:8px;font:600 .7rem var(--fb);letter-spacing:.03em;padding:1px 7px;border-radius:999px;color:var(--acc2);border:1px dashed var(--acc2);vertical-align:2px}
+
+/* ===================== mode layout v2 ===================== */
+.ofilt button[data-o="x"][aria-pressed="true"]{border-color:var(--hi)}
+.ofilt button[data-o="d"][aria-pressed="true"]{border-color:var(--acc2)}
+.mmap-d{margin:10px 0 4px}
+.mmap td:not(:first-child),.mmap th:not(:first-child){text-align:center;white-space:nowrap}
+.mmap td:first-child{min-width:16em}
+html[data-mode="normal"] .mmap tr>*:nth-child(2),html[data-mode="super"] .mmap tr>*:nth-child(3),html[data-mode="deep"] .mmap tr>*:nth-child(4){background:var(--acc-soft);font-weight:700}
+.route li[data-x]>h3::after,.route li[data-d]>h3::after{margin-left:8px;font:600 .7rem var(--fb);padding:1px 7px;border-radius:999px;vertical-align:3px}
+.route li[data-x]>h3::after{content:"супер";color:var(--hi);border:1px dashed var(--hi)}
+.route li[data-d]>h3::after{content:"поглиблено";color:var(--acc2);border:1px dashed var(--acc2)}
+.toc a[data-x]::after,.toc a[data-d]::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:6px;vertical-align:1px}
+.toc a[data-x]:not(.sub)::after{background:var(--hi)}.toc a[data-d]:not(.sub)::after{background:var(--acc2)}
+.sheet2{margin-top:18px}
+.s2h{grid-column:1/-1;margin:0 0 4px;font-size:1.05rem}
+@media print{.sheet2{break-before:page}}

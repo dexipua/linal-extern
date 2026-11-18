@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<link rel="stylesheet" href="assets/style.css?v=22">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Лінал · екстерн">
@@ -56,21 +56,35 @@
   <div class="mode-grid">
     <button type="button" class="mode-card" data-setmode="normal" id="mode-normal">
       <span class="eyebrow">Звичайний</span><b>За силабусом</b>
-      <span>Тільки те, що є в силабусі курсу: СЛАР і Жордан–Гаусс, вектори й операції з матрицями, визначник і обернена матриця, СЛАР через обернену, повороти й симетрії площини. 112 задач, без «додаткових» тем.</span>
+      <span>Рівно курс «Linear algebra basics»: блоки 1–4 — СЛАР і Жордан–Гаусс, вектори й операції з матрицями, визначник і обернена, повороти й симетрії площини. 112 задач, 3 контрольні.</span>
       <span class="pick">Обрати цей режим</span><span class="now">Зараз увімкнено</span>
     </button>
     <button type="button" class="mode-card" data-setmode="super" id="mode-super">
-      <span class="eyebrow">Супер</span><b>Усе й більше</b>
-      <span>Усе із силабусу плюс додаткові теми з ваших файлів: поле Zₚ, групи й перестановки, LU-розклад, приєднана матриця, Вандермонд, визначник n×n, доведення. 121 задача.</span>
+      <span class="eyebrow">Супер</span><b>Техніка вище курсу</b>
+      <span>Силабус плюс «зірочки» в блоках 1–4 і блок 5 «Інструменти глибше» (розділ 1 другої частини курсу): підстановки, спеціальні визначники, геометрія через det, векторний і мішаний добутки, групи й поле ℤₚ. 143 задачі.</span>
       <span class="pick">Обрати цей режим</span><span class="now">Зараз увімкнено</span>
     </button>
     <button type="button" class="mode-card" data-setmode="deep" id="mode-deep">
-      <span class="eyebrow">Поглиблений</span><b>Розуміти, чому</b>
-      <span>Усе із «Супер» плюс блок 5: ранг і базис, ядро й образ, зміна базису, власні значення й діагоналізація, ортогональність і проєкції, найменші квадрати, доведення. 143 задачі, 4-та контрольна, нові типи задач у тренажері й власні напрями в лабораторії.</span>
+      <span class="eyebrow">Поглиблений</span><b>Наступний курс</b>
+      <span>Усе із «Супер» плюс блоки 6–8 за розділами 2–4 другої частини: лінійні простори, евклідові простори, лінійні перетворення та власні значення. 203 задачі, 4-та контрольна, ще 5 типів задач у тренажері.</span>
       <span class="pick">Обрати цей режим</span><span class="now">Зараз увімкнено</span>
     </button>
   </div>
-  <p class="mut" style="font-size:.88rem">Режим можна змінити будь-коли тут або кнопкою в шапці. Прогрес спільний для обох режимів.</p>
+  <details class="chk mmap-d"><summary>Що саме входить у кожен режим</summary>
+  <div class="sc"><table class="mmap">
+  <tr><th>Матеріал</th><th>Силабус</th><th>Супер</th><th>Поглиблений</th></tr>
+  <tr><td><b>Блоки 1–4.</b> СЛАР, матриці, визначники й обернена, перетворення площини</td><td>✓</td><td>✓</td><td>✓</td></tr>
+  <tr><td>«Зірочки» в блоках 1–4: приєднана матриця, Вандермонд, визначники n×n, доведення</td><td>—</td><td>✓</td><td>✓</td></tr>
+  <tr><td><b>Блок 5.</b> Підстановки й парність, спеціальні визначники, геометрія через det, векторний і мішаний добутки, групи, ℤₚ, LU</td><td>—</td><td>✓</td><td>✓</td></tr>
+  <tr><td><b>Блок 6.</b> Лінійні простори: базис і розмірність, матриця переходу, ранг, чотири основні простори, суми й перетини, простори над ℤ₂</td><td>—</td><td>—</td><td>✓</td></tr>
+  <tr><td><b>Блок 7.</b> Евклідові простори: скалярний добуток, Коші–Буняковський, Грам–Шмідт, ортогональне доповнення, відстані й кути, найменші квадрати</td><td>—</td><td>—</td><td>✓</td></tr>
+  <tr><td><b>Блок 8.</b> Лінійні перетворення: матриця оператора, подібність, ядро й образ, власні значення, діагоналізація, головні осі</td><td>—</td><td>—</td><td>✓</td></tr>
+  <tr><td>Задачі</td><td>112</td><td>143</td><td>203</td></tr>
+  <tr><td>Пробні контрольні</td><td>3</td><td>3</td><td>4</td></tr>
+  <tr><td>Типи задач у тренажері</td><td>13</td><td>16</td><td>21</td></tr>
+  <tr><td>Картки з теорії</td><td>52</td><td>63</td><td>92</td></tr>
+  </table></div></details>
+  <p class="mut" style="font-size:.88rem">Режим можна змінити будь-коли тут або кнопкою в шапці. Прогрес спільний для всіх режимів.</p>
 </section>
 
 <div class="dash" id="dash">
@@ -82,7 +96,7 @@
 <div class="tools-grid">
   <a href="trainer.html"><b>Тренажер</b><span>Випадкові det, A⁻¹, СЛАР, добутки й перетворення з автоперевіркою. Серії, рекорд, картки з теорії.</span></a>
   <a href="lab.html#viz"><b>Перетворення площини</b><span>Покрутіть матрицю 2×2 і подивіться, що вона робить з площиною, площею та орієнтацією.</span></a>
-  <a href="trainer.html#cards"><b>Картки з теорії</b><span>54 картки за 5 темами: питання, відповідь і пояснення з прикладом.</span></a>
+  <a href="trainer.html#cards"><b>Картки з теорії</b><span>Питання, відповідь і пояснення з прикладом; набір карток залежить від режиму. Кнопка «Не знаю» збирає власну колоду.</span></a>
   <a href="lab.html#rows-sec"><b>Пісочниця Гаусса</b><span>Робіть елементарні перетворення рядків без арифметичних помилок і з журналом кроків.</span></a>
 </div>
 
@@ -114,10 +128,22 @@
     <p>Тижні 6–7 · ● базова · ≈ 30 хв. Повороти, симетрії, композиції, площа і det.</p>
     <div><div class="meter" data-meter="4" data-total="26"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="4"></span></div>
     <div class="row"><a href="material.html#b4">Конспект</a><a href="problems.html#b4">Задачі</a></div></li>
-  <li data-d="1"><h3>Поглиблено: структура лінійної алгебри</h3>
-    <p>Режим «Поглиблений» · ▲ поза курсом · ≈ 90 хв. Ранг і базис, ядро й образ, власні значення, діагоналізація, ортогональність, найменші квадрати, доведення.</p>
+  <li data-x="1"><h3>Супер: інструменти глибше</h3>
+    <p>Режим «Супер» · ◆ понад силабус · ≈ 60 хв. Підстановки, спеціальні визначники, геометрія через det, векторний і мішаний добутки, алгебраїчні структури.</p>
     <div><div class="meter" data-meter="5" data-total="22"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="5"></span></div>
-    <div class="row"><a href="material.html#b5">Конспект</a><a href="problems.html#b5">Задачі</a><a href="tests.html#k4">Контрольна 4</a></div></li>
+    <div class="row"><a href="material.html#b5">Конспект</a><a href="problems.html#b5">Задачі</a></div></li>
+  <li data-d="1"><h3>Лінійні простори</h3>
+    <p>Режим «Поглиблений» · ▲ розділ 2 курсу · ≈ 80 хв. Базис, розмірність, матриця переходу, ранг, основні простори, суми й перетини.</p>
+    <div><div class="meter" data-meter="6" data-total="21"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="6"></span></div>
+    <div class="row"><a href="material.html#b6">Конспект</a><a href="problems.html#b6">Задачі</a></div></li>
+  <li data-d="1"><h3>Евклідові простори</h3>
+    <p>Режим «Поглиблений» · ▲ розділ 3 курсу · ≈ 60 хв. Скалярний добуток, Коші–Буняковський, Грам–Шмідт, проєкції, відстані, найменші квадрати.</p>
+    <div><div class="meter" data-meter="7" data-total="17"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="7"></span></div>
+    <div class="row"><a href="material.html#b7">Конспект</a><a href="problems.html#b7">Задачі</a></div></li>
+  <li data-d="1"><h3>Лінійні перетворення</h3>
+    <p>Режим «Поглиблений» · ▲ розділ 4 курсу · ≈ 80 хв. Матриця оператора, подібність, ядро й образ, власні значення, діагоналізація, головні осі.</p>
+    <div><div class="meter" data-meter="8" data-total="22"><b></b></div><span class="mut" style="font-size:.85rem" data-mlabel="8"></span></div>
+    <div class="row"><a href="material.html#b8">Конспект</a><a href="problems.html#b8">Задачі</a><a href="tests.html#k4">Контрольна 4</a></div></li>
   <li><h3>Пробні контрольні</h3>
     <p>3 тести по 60 хв і 20 балів, з таймером і самооцінюванням. Пишіть повний хід, як на справжньому тесті.</p>
     <div class="row"><a href="tests.html">До контрольних</a></div></li>
@@ -166,5 +192,5 @@
 
 </div></main>
 <footer><div class="wrap">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=21"></script><script src="assets/search.js?v=21"></script>
+<script src="assets/app.js?v=22"></script><script src="assets/search.js?v=22"></script>
 </body></html>

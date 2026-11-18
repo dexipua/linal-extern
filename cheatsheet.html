@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2323407a'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'%3EAx%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@700&family=Manrope:wght@600;800&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<link rel="stylesheet" href="assets/style.css?v=22">
 <script>try{var t=localStorage.getItem("linal-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}try{document.documentElement.setAttribute("data-mode",localStorage.getItem("linal-mode")||"super")}catch(e){document.documentElement.setAttribute("data-mode","super")}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Лінал · екстерн">
@@ -73,7 +73,7 @@
 <section><h3>Перетворення площини</h3>
 <p style="margin:0 0 4px">Стовпці матриці — образи e₁ = (1, 0), e₂ = (0, 1).</p>
 <table>
-<tr><td>Поворот на φ</td><td><span class="M">cosφ -sinφ; sinφ cosφ</span></td><td>det 1</td></tr>
+<tr><td>Поворот на φ</td><td><span class="M">cos φ -sin φ; sin φ cos φ</span></td><td>det 1</td></tr>
 <tr><td>Сим. Ox / Oy</td><td><span class="M">1 0; 0 -1</span> <span class="M">-1 0; 0 1</span></td><td>−1</td></tr>
 <tr><td>Сим. y = x / y = −x</td><td><span class="M">0 1; 1 0</span> <span class="M">0 -1; -1 0</span></td><td>−1</td></tr>
 <tr data-x="1"><td>Сим. прямої під θ</td><td><span class="M">cos2θ sin2θ; sin2θ -cos2θ</span></td><td>−1</td></tr>
@@ -83,8 +83,37 @@
 <li>R(α)R(β) = R(α+β); R(φ)⁻¹ = R(−φ) = R(φ)ᵀ.</li>
 <li>30°: (√3/2, 1/2); 45°: (√2/2, √2/2); 60°: (1/2, √3/2) — (cos, sin).</li></ul></section>
 </div>
+<div class="sheet sheet2" data-x="1">
+<h2 class="s2h">Аркуш 2 · понад силабус (не для тесту)</h2>
+<section data-x="1"><h3>Супер: підстановки й визначники</h3><ul>
+<li>στ: спочатку τ, потім σ. Порядок = НСК довжин циклів.</li>
+<li>sgn σ = (−1)<sup>інверсій</sup> = (−1)<sup>n − циклів</sup>; det = Σ sgn σ·a<sub>1σ(1)</sub>…a<sub>nσ(n)</sub>.</li>
+<li>Тридіагональний: Dₙ = aDₙ₋₁ − bcDₙ₋₂.</li>
+<li>Вандермонд: ∏<sub>i&gt;j</sub>(xᵢ − xⱼ).</li>
+<li>Колінеарність: det(xᵢ, yᵢ, 1) = 0; площина й коло — так само.</li></ul></section>
+<section data-x="1"><h3>Супер: векторна алгебра</h3><ul>
+<li>a × b = det(i j k; a; b), |a × b| = площа паралелограма.</li>
+<li>(a, b, c) = det(a; b; c) — об'єм паралелепіпеда; тетраедр — ⅙.</li>
+<li>|a × b|² = |a|²|b|² − (a·b)².</li>
+<li>Гомоморфізм: f(ab) = f(a)f(b); ℤₚ — поле ⇔ p просте.</li></ul></section>
+<section data-d="1"><h3>Поглиблено: простори</h3><ul>
+<li>dim N(A) + rank A = n; Ax = b сумісна ⇔ rank A = rank[A | b].</li>
+<li>x = c₀ + N(A). x<sub>e</sub> = T<sub>e→f</sub>x<sub>f</sub>; T<sub>a→b</sub> = A⁻¹B.</li>
+<li>Грассман: dim(V + W) + dim(V ∩ W) = dim V + dim W.</li>
+<li>|Fⁿ| = qⁿ; однорідна система рангу r має q<sup>n−r</sup> розв'язків.</li></ul></section>
+<section data-d="1"><h3>Поглиблено: евклідові простори</h3><ul>
+<li>|⟨u, v⟩| ≤ ‖u‖‖v‖; cos φ = ⟨u, v⟩/(‖u‖‖v‖).</li>
+<li>Ортонормований базис: xⱼ = ⟨x, eⱼ⟩. Грам–Шмідт: uₖ = aₖ − Σ proj.</li>
+<li>E = U ⊕ U⟂; проєкція: AᵀAc = Aᵀx, p = Ac.</li>
+<li>R(A)⟂ = N(A), C(A)⟂ = N(Aᵀ).</li></ul></section>
+<section data-d="1"><h3>Поглиблено: оператори</h3><ul>
+<li>Стовпці Φ — образи базисних векторів; Φ<sub>f</sub> = T⁻¹ΦₑT.</li>
+<li>dim Ker + dim Im = n. det(A − λI) = 0; Σλ = tr, ∏λ = det.</li>
+<li>Діагоналізовна ⇔ геом. кратність = алг. для кожного λ; Aⁿ = PDⁿP⁻¹.</li>
+<li>Симетрична: S = QΛQᵀ, Q ортогональна.</li></ul></section>
+</div>
 
 </div></main>
 <footer><div class="wrap wide">Неофіційні матеріали для самопідготовки до курсу «Linear algebra basics» (KSE, весна 2026). Задачі тренувальні; оцінювані роботи розв'язуйте самостійно згідно з політикою курсу щодо ШІ.</div></footer>
-<script src="assets/app.js?v=21"></script><script src="assets/search.js?v=21"></script>
+<script src="assets/app.js?v=22"></script><script src="assets/search.js?v=22"></script>
 </body></html>
